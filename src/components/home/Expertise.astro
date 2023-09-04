@@ -1,0 +1,83 @@
+---
+const features = [
+  {
+    id: '1',
+    name: 'Research and Discovery',
+    description:
+    `To create a kick-ass design, I need to understand the user's pain points and your business goals. So, I'll chat with users, do some surveys, and usability tests - basically, I'll be Sherlock Holmes-ing it. Then, I'll check out the competition, analyze the market, and steal some of their best ideas. With all that info, I'll define the problem and start brainstorming solutions like mad scientists.`    
+  },
+  {
+    id: '2',
+    name: 'Design and Prototyping',
+    description:
+    `I'll get my hands dirty with some low-fidelity sketches and wireframes to get those design ideas flowing. Then, I'll refine the concepts based on feedback from the entourage, users, and designer pals. Time to turn up the fancy and create high-fidelity mockups to make your designs pop and gather more feedback. After that, I'll prototype and test our ideas like a boss. Finally, I'll make a design system to keep everything looking slick and ensure your team is on the same page.`    
+  },
+  {
+    id: '3',
+    name: 'User Testing and Iteration',
+    description:
+    `I'll put our prototypes to the test with some usability testing and get some juicy feedback to improve our designs. Then, I'll dive into that feedback and spot any recurring issues that need fixing pronto. Time to iterate and incorporate that feedback into the designs like a boss. Next up, I'll work with your developer pals to make sure the designs become a reality. Finally, I'll keep a close eye on the product after launch and keep making it better and better.`
+  },
+
+];
+---
+
+<section class="py-16 sm:py-20">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="grid gap-12 lg:grid-cols-3 lg:gap-8">
+      <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">My Process</h2>
+      <div class="lg:col-span-2">
+        <dl
+          class="-mt-3"
+          x-data="{ selected: '1', toggle(value) { this.selected = (this.selected === value) ? null : value } }"
+        >
+          {
+            features.map((feature, index) => (
+              <div
+                class="rounded-3xl px-4 transition"
+                x-data={`{ id: ${index}, get isOpen() { return this.id === this.selected }, get isNextOpen() { return (this.id + 1) === this.selected } }`}
+                x-bind:class="{ 'bg-primary-500/10 dark:bg-primary-400/10': isOpen }"
+              >
+                <dt
+                  class="border-b text-lg transition"
+                  x-cloak
+                  x-bind:class="{ 'border-transparent': isOpen || isNextOpen, 'border-primary-900/10 dark:border-primary-300/10': !(isOpen || isNextOpen) }"
+                >
+                  <button
+                    type="button"
+                    class="group block w-full py-6 text-left transition focus-visible:outline-none"
+                    aria-controls={feature.id}
+                    x-on:click="toggle(id)"
+                    aria-expanded="true"
+                    x-bind:aria-expanded="isOpen.toString()"
+                  >
+                    <div class="group-focus-visible:outline-primary-950 dark:group-focus-visible:outline-primary-200 flex items-center justify-between rounded-3xl group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2">
+                      <span class="font-medium">{feature.name}</span>
+                      <span class="ml-6 flex h-7 items-center">
+                        <svg
+                          class="text-primary-600 dark:text-primary-400 h-6 w-6 rotate-0 transform transition duration-200 ease-in-out"
+                          x-bind:class="{ '-rotate-180': isOpen, 'rotate-0': !isOpen }"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path d="M11.9997 13.1714L16.9495 8.22168L18.3637 9.63589L11.9997 15.9999L5.63574 9.63589L7.04996 8.22168L11.9997 13.1714Z" />
+                        </svg>
+                      </span>
+                    </div>
+                  </button>
+                </dt>
+                <dd class="pb-6 pr-6" id={feature.id} x-show="isOpen" x-cloak x-collapse>
+                  <p class="text-primary-950/70 dark:text-primary-200/70 text-base">
+                    {feature.description}
+                  </p>
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,66 @@
+---
+const testimonials = [
+  {
+    name: 'Grigory Yusufov',
+    description: 'Mindful Magic - Businees Owner',
+    image: '/assets/testimonial-1.webp',
+    message:
+    `" Maher is one of the best designers and overall people I have collaborated with, We need more people like him in this space. I had the pleasure of hiring Maher on multiple occasions for various tasks a few times and now for my own project too. He honestly became my go-to for design services. "`  },
+  {
+    name: 'Joey Dakwerk',
+    description: 'Phonic - Business Owner',
+    image: '/assets/testimonial-2.webp',
+    message:
+      '“ I had the pleasure of working with Maher on a UX/UI design project, and I must say that he is a talented and intuitive designer. From the very beginning, Maher was focused on understanding my user needs and desires, and he incorporated them seamlessly into the design process. ”',
+  },
+  {
+    name: 'Salim Boudi',
+    description: 'Iteration X - Business Owner',
+    image: '/assets/testimonial-3.webp',
+    message:
+      '“ Maher did a wonderful job. Everything went smoothly, communication was fluent, delivered on time and as expected. I highly recommend working with Maher ”',
+  },
+];
+---
+
+<section class="py-12 sm:py-12">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="flex flex-col items-left gap-4 lg:gap-12">
+      <h2 class="max-w-lg text-3xl font-medium tracking-tight sm:text-4xl lg:py-8 py-2">Clients Testimonials That Will Make You Smile.</h2>
+      <div
+        class="divide-primary-900/10 dark:divide-primary-300/10 grid divide-y lg:grid-cols-3 lg:divide-x lg:divide-y-0"
+      >
+        {
+          testimonials.map((testimonial) => (
+            <figure class="mx-auto flex max-w-lg flex-col items-left gap-6 py-8 lg:px-8 lg:py-0">
+              <div class="flex flex-row gap-2">
+                {[...Array(3)].map(() => (
+                  <svg
+                    class="text-primary-600 dark:text-primary-400 h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z" />
+                  </svg>
+                ))}
+              </div>
+              <blockquote class="text-primary-950/70 dark:text-primary-200/70 lg:h-72 text-left text-lg italic leading-loose">
+                <p>{testimonial.message}</p>
+              </blockquote>
+              <figcaption class="flex flex-col gap-4">
+                <div class="text-left">
+                  <div class="text-base font-medium">{testimonial.name}</div>
+                  <div class="text-primary-950/70 dark:text-primary-200/70 text-sm">
+                    {testimonial.description}
+                  </div>
+                </div>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

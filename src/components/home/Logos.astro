@@ -1,0 +1,51 @@
+---
+// @ts-ignore
+// import { Icon } from "astro-icon";
+const logo = [
+  {
+    name: 'Theradome',
+    image: '/assets/Logos/theradome.png',
+    },
+    {
+    name: 'Mit-olins',
+    image: '/assets/Logos/Mit-olin.png',
+    },
+    {
+    name: 'Contact',
+    image: '/assets/Logos/Contact.png',
+    },
+    {
+    name: 'Konica',
+    image: '/assets/Logos/konica-minolta.png',
+    },
+    {
+    name: 'IterationX',
+    image: '/assets/Logos/iterationX.png',
+    },
+    {
+    name: 'Solidity Law',
+    image: '/assets/Logos/Solidity-Law.png',
+    }, 
+    {
+    name: 'GameIt',
+    image: '/assets/Logos/gameit-logo-large.png',
+    },     
+    {
+    name: 'Solidity Studios',
+    image: '/assets/Logos/Solidity-Studios.png',
+    }, 
+];
+---
+
+<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-8">
+  <h2 class="text-3xl font-medium tracking-tight sm:text-4xl py-8">Worked With These amazing brands</h2>
+  <div class="grid lg:gap-8 md:gap-8 lg:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-2 items-center align-middle">
+    {
+      logo.map((logo) => (
+        <div class="bg-primary-800 bg-opacity-20 dark:bg-opacity-100 flex flex-col gap-4 align-middle items-center rounded-md px-4 py-8">
+          <img class="items-center align-middle md:h-12 bg-cover h-8" src={logo.image} alt={logo.name} />
+        </div>
+      ))
+    }
+  </div>
+</div>

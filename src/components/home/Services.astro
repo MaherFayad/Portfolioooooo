@@ -1,0 +1,64 @@
+---
+const services = [
+  {
+    step: '01',
+    name: 'Research and Discovery',
+    image: '/assets/race.jpeg',
+    description:
+    `loreum ipslum 1234`  },
+  {
+    step: '02',
+    name: 'Research and Discovery',
+    image: '/assets/race.jpeg',
+    description:
+    `loreum ipslum 1234`  },
+  {
+    step: '03',
+    name: 'Research and Discovery',
+    image: '/assets/race.jpeg',
+    description:
+    `loreum ipslum 1234`  },
+    {
+    step: '03',
+    name: 'Research and Discovery',
+    image: '/assets/race.jpeg',
+    description:
+    `loreum ipslum 1234`  },
+    {
+    step: '03',
+    name: 'Research and Discovery',
+    image: '/assets/race.jpeg',
+    description:
+    `loreum ipslum 1234`  },
+    {
+    step: '03',
+    name: 'Research and Discovery',
+    image: '/assets/race.jpeg',
+    description:
+    `loreum ipslum 1234`  },    
+];
+---
+
+<section class="py-16 sm:py-20">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+    <h2 class="text-3xl font-medium tracking-tight sm:text-4xl py-8">Portfolio</h2>
+    <div class="flex flex-col gap-12">
+      <!-- <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">My work Steps</h2> -->
+      <div class="grid lg:grid-cols-3">
+        {
+          services.map((service) => (
+            <div class="hover:bg-primary-200 dark:hover:bg-primary-800 flex flex-col gap-4 rounded-3xl lg:px-8 md:px-8 px-4 lg:py-8 md:py-8 py-4">
+              <img class="mx-auto lg:h-96 md:h-96 h-48 rounded-lg" src={service.image} alt="" />
+              <div class="flex flex-col ">
+                <h3 class="text-2xl font-medium">{service.name}</h3>
+                <p class="text-primary-950/70 dark:text-primary-200/70 text-base sm:text-lg">
+                  {service.description}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
