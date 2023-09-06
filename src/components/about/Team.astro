@@ -1,42 +1,77 @@
 ---
-const team = [
+const stats = [
   {
-    name: 'Floyd Lowe',
-    image: '/assets/team-1.webp',
-    job: 'Senior Designer',
+    Position: 'Product Designer',
+    Company: 'Contact',
+    Time: 'Dec. 2022 - Present',
+    image: '/assets/Logos/Contact.png',
+    description1:`- I am responsible for creating user-centric and visually compelling designs that meet the company’s business and customer needs. I work on the whole the design process, from concept generation to implementation.`,
+    description2:`- My duties include developing user flows and wireframes, designing user interfaces, creating prototypes, and conducting user research.`,
+    description3:`- worked on assissting in the design of some apps like contact Now, brokerage and other apps that the company develops`,
+
   },
   {
-    name: 'Emma Dorsey',
-    image: '/assets/team-2.webp',
-    job: 'Principal Designer',
+    Position: 'UI/UX Designer',
+    Company: 'GameIT',
+    Time: 'Jun. 2022 - Dec. 2022',
+    image: '/assets/Logos/gameit-logo-large.png',
+    description1:`- Work on optimizing the Website experience usable, enjoyable, and accessible.`,
+    description2:`- work with the marketing team to create some visuals and video assets to be used across our platforms`,
+    description3:`- Work with the Game Dev. team to make the Game UI better and more accessible`,
   },
   {
-    name: 'Emily Mitchell',
-    image: '/assets/team-3.webp',
-    job: 'Senior Developer',
+    Position: 'Freelance UI/UX Designer',
+    Company: 'Upwork',
+    Time: 'Aug. 2022 - Present',
+    image: '/assets/Logos/upwork.png',
+    description1:`- Worked with great companies like Konica minolta, Mit olin foundation, Solidity studios, Brackets. iterationx, Phonic, and many others`,
+    description2:`- Worked on habit tracking app with octalysis gamification framework and hooks model`,
+    description3:`- Worked on an app to enhance remote team coherence using sound and other techniques with help of AI`,
+  },
+  {
+    Position: 'User Experience Intern Designer',
+    Company: 'Algoriza',
+    Time: "Mar. 2022 - Jun. 2022",
+    image: '/assets/Logos/Algoriza.png',
+    description1:`In this amazing internship I learnt basics of UX design Process and research in addition to learning the main concepts of UI design and accessibility`,  
+  },
+  {
+    Position: 'Intern',
+    Company: 'British Council',
+    Time: "Jun. 2018 - May 2019",
+    image: '/assets/Logos/british-council.png',
+    description1:`- Served as liaisons between the British council and My university.`,
+    description2:`- Managed a mega event every semester (over 200 attendees).`,
+    description3:`- Reported monthly about the events, deals and needs.`,
   },
 ];
 ---
 
 <section class="py-16 sm:py-20">
   <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-    <div class="sm:space-8 space-y-12">
-      <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Meet our team</h2>
-      <ul role="list" class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          team.map((item) => (
-            <li class="border-primary-900/10 dark:border-primary-300/10 rounded-3xl border px-6 py-8">
-              <div class="space-y-6">
-                <img class="mx-auto h-auto w-16 rounded-full" src={item.image} alt={item.name} />
-                <div class="text-center">
-                  <h3 class="text-lg font-medium">{item.name}</h3>
-                  <p class="text-primary-950/70 dark:text-primary-200/70 text-base">{item.job}</p>
+      <div class="flex lg:flex-row flex-col lg:gap-32 md:gap-8 sm:gap-8 w-full lg:flex-nowrap sm:flex-wrap md:flex-wrap">
+       <!-- Stats -->
+       <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Experience</h2>
+        <dl class="grid grid-row-1 gap-6 sm:grid-row-2 w-full">
+          {
+            stats.map((stat) => (
+              <div class="border-primary-900/10 dark:border-primary-300/10 rounded-3xl border p-6">
+                <dt class="text-sm">{stat.Position}</dt>
+                <div class="flex flex-row justify-between align-middle items-center">
+                  <div class="flex flex-row justify-between">
+                    <dd class="lg:text-2xl text-2xl font-bold tracking-tight w-fit">{stat.Company}</dd>
+                  </div>
+                  <dd class="lg:text-base text-xs font-regular text-right w-fit">{stat.Time}</dd>
                 </div>
+                <ul class="py-4">
+                <dd class="text-base font-regular text-left w-fit py-1">{stat.description1}</dd>
+                <dd class="text-base font-regular text-left w-fit py-1">{stat.description2}</dd>
+                <dd class="text-base font-regular text-left w-fit py-1">{stat.description3}</dd>        
+                </ul>
               </div>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+            ))
+          }
+        </dl>
+      </div>
   </div>
 </section>

@@ -3,29 +3,29 @@ const values = [
   [
     {
       ref: '01',
-      name: 'Excellence',
+      name: 'UI design',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+    `Do you want your users to click, tap, and swipe with a smile? That's where my UI design magic comes in! I turn dull buttons into delightful ones, making your app or website so intuitive that even your grandma can use it (well, almost). Get ready to level up your digital game with buttons that are as fun as a game of Whack-a-Mole, minus the mallet.`
     },
     {
       ref: '02',
-      name: 'Innovation',
+      name: 'UX research',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+        `Want to know what your users are thinking without having to resort to mind-reading tricks? Allow me to introduce you to the world of UX research. I dive into the minds of your users, figuratively of course, to understand their wants, needs, and desires. It's like being a psychic for digital products, minus the crystal ball.`,
     },
   ],
   [
     {
       ref: '03',
-      name: 'Teamwork',
+      name: 'Analytics',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+        `Ever felt like your data is a secret code, waiting to be cracked? Fear not! I'm your digital detective, armed with analytics tools sharper than Sherlock's magnifying glass. I'll unearth insights from your data that will make your competition jealous. We'll reveal more about your users than they reveal on their Tinder profiles.`
     },
     {
       ref: '04',
-      name: 'Respect',
+      name: 'Heuristic evaluation',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+    `If you've ever had the nagging feeling that something's off with your website or app, but you can't quite put your finger on it, that's where I come in. I'm the UX nitpicker extraordinaire! I'll scrutinize every pixel, button, and interaction to ensure your product follows the golden rules of usability. It's like having a digital perfectionist on your side, minus the snobby attitude.`
     },
   ],
 ];
@@ -33,8 +33,8 @@ const values = [
 
 <section class="py-16 sm:py-20">
   <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-    <div class="flex flex-col gap-8 lg:gap-12">
-      <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Our Values</h2>
+    <div class="flex lg:flex-row flex-col lg:gap-32 md:gap-8 sm:gap-8 w-full lg:flex-nowrap sm:flex-wrap md:flex-wrap">
+      <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Experties</h2>
       <div class="grid gap-8 lg:grid-cols-2">
         {
           values.map((column, index) => (
