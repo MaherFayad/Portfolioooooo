@@ -7,6 +7,8 @@ import { ViewTransitions } from 'astro:transitions';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import { SEO } from "astro-seo";
+// @astro/internal/no-reload
+
 
 interface Props {
   description: string;
@@ -55,6 +57,7 @@ const { description, title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
+    
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -71,6 +74,18 @@ const { description, title } = Astro.props;
 
         gtag('config', 'G-4FMQJ9VWF9');
       </script>
+       <script src="../index.js"></script>
+
+       <script
+         type="text/javascript"
+         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+       ></script>
+       <script type="text/javascript">
+         (function () {
+           emailjs.init("EX_A9-j_JtnnH7oPd");
+         })();
+       </script>
+
     <!-- <ViewTransitions /> -->
   </head>
   <body
