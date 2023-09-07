@@ -63,7 +63,7 @@
           </script>
           <script>
             function sendMail() {
-                var params = {
+              var params = {
               name: document.getElementById("full-name").value,
               email: document.getElementById("email").value,
               message: document.getElementById("message").value,
@@ -88,17 +88,12 @@
               event.preventDefault();
               sendMail(); // Call your sendMail function here
             });
-
-            document.querySelector('button[type="submit"]').addEventListener('click', function(event) {
-              event.preventDefault();
-              sendMail(); // Call your sendMail function here
-            });
           </script>
 
           <button
             class="text-center whitespace-nowrap px-4 bg-primary-600 dark:bg-primary-200 hover:bg-primary-700 dark:hover:bg-primary-300 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             type="submit"
-            onclick="sendMail()"
+            onclick="sendMail() reset()"
           >Submit
           </button>
           
