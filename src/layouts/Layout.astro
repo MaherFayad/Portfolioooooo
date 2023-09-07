@@ -89,6 +89,18 @@ const { description, title } = Astro.props;
       [x-cloak] {
         display: none !important;
       }
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .fade-up.fade-up-active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+
     </style>
     <script>
       import Alpine from 'alpinejs';
