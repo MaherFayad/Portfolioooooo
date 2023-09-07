@@ -3,8 +3,6 @@ import tailwind from '@astrojs/tailwind';
 import compress from 'astro-compress';
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
-
-import sanity from "@sanity/astro";
 import react from "@astrojs/react";
 
 // https://astro.build/config
@@ -13,5 +11,5 @@ export default defineConfig({
     // viewTransitions: true,
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), compress(), sitemap(), robotsTxt(), sanity(), react()]
+  integrations: [tailwind(), compress(), sitemap(), robotsTxt(), react()]
 });
