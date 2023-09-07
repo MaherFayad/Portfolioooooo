@@ -21,6 +21,16 @@ const { description, title } = Astro.props;
 <!DOCTYPE html>
 <html lang="en" x-cloak x-data :class="{ 'dark': $store.theme.isDark }">
   <head>
+    <script
+         type="text/javascript"
+         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+       ></script>
+       <script type="text/javascript">
+         (function () {
+           emailjs.init("EX_A9-j_JtnnH7oPd");
+         })();
+       </script>
+       
     <SEO
       title="Maher Fayad"
       description="maher fayad is an experienced UI/UX Designer with extensive knowledge and expertise in creating graphical user interfaces and user experiences.      "
@@ -76,15 +86,7 @@ const { description, title } = Astro.props;
       </script>
        <script src="../index.js"></script>
 
-       <script
-         type="text/javascript"
-         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
-       ></script>
-       <script type="text/javascript">
-         (function () {
-           emailjs.init("EX_A9-j_JtnnH7oPd");
-         })();
-       </script>
+       
 
     <!-- <ViewTransitions /> -->
   </head>
