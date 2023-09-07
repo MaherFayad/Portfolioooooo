@@ -12,14 +12,17 @@
   "dependencies": {
     "@alpinejs/collapse": "^3.13.0",
     "@astrojs/markdown-remark": "^3.0.0",
+    "@astrojs/sitemap": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
     "@fontsource/inter": "^5.0.8",
     "alpinejs": "^3.13.0",
     "astro": "^3.0.7",
-    "astro-compress": "^2.0.15",
+    "astro-robots-txt": "^0.5.0",
+    "astro-seo": "^0.8.0",
     "sharp": "^0.32.5"
   },
   "devDependencies": {
+    "astro-compress": "2.0.15",
     "tailwindcss": "^3.3.3"
   }
 }

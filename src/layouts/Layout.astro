@@ -2,9 +2,11 @@
 import tailwind from '@astrojs/tailwind';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
+import { ViewTransitions } from 'astro:transitions';
 // import { ViewTransitions } from 'astro:transitions';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
+import { SEO } from "astro-seo";
 
 interface Props {
   description: string;
@@ -17,6 +19,33 @@ const { description, title } = Astro.props;
 <!DOCTYPE html>
 <html lang="en" x-cloak x-data :class="{ 'dark': $store.theme.isDark }">
   <head>
+    <SEO
+      title="Maher Fayad"
+      description="maher fayad is an experienced UI/UX Designer with extensive knowledge and expertise in creating graphical user interfaces and user experiences.      "
+      openGraph={{
+        basic: {
+          title: "A Very Descriptive Title",
+          type: "A type.",
+          image: "https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png",
+        }
+      }}
+      twitter={{
+        creator: "@jonasmerlins1"
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: "icon", href: "/favicon.ico" }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: "twitter:image",
+            content: "https://user-images.githubusercontent.com/5182256/131216951-8f74f425-f775-463d-a11b-0e01ad9fce8d.png",
+          },
+          { name: "twitter:title", content: "Tinker Tailor Soldier Spy" },
+          { name: "twitter:description", content: "Agent" },
+        ],
+      }}
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -54,7 +83,7 @@ const { description, title } = Astro.props;
     <div class="bg-opacity-100 bg-primary-50 dark:bg-opacity-100 dark:bg-primary-900 sticky top-0 z-50  "><Header /></div>
     <main>
       <slot />
-    </main>
+    </main transition:animate="slide">
     <Footer />
     <style is:global>
       [x-cloak] {
