@@ -43,6 +43,24 @@ const { description, title } = Astro.props;
           image: "/assets/Maher.png",
         }
       }}
+      twitter={{
+        creator: "MaherFayad"
+      }}
+      extend={{
+        // extending the default link tags
+        link: [{ rel: "icon", href: "/assets/Maher.png" }],
+        // extending the default meta tags
+        meta: [
+          {
+            name: "twitter:image",
+            content:
+              "/assets/Maher.png",
+          },
+          { name: "twitter:title", content: "Maher Fayad" },
+          { name: "twitter:description", content: "Agent" },
+        ],
+      }}
+    
     />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
