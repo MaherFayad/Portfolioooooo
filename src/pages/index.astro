@@ -13,11 +13,11 @@ import Logos from '../components/home/Logos.astro'
   description="Maher Fayad Product Designer | Telekinesis Expert | Elevating User Experiences | Bridging the Gap with Your Product | Let's Boost Your UX!"
   title="Maher Fayad"
 >
-  <Hero />
-  <Services />
-  <Logos />
-  <About />
-  <Expertise />
-  <Testimonials />
-  <Cta />
+  <Hero client:load />
+  <Services client:load />
+  <Logos client:visible />
+  <About client:visible />
+  <Expertise client:visible />
+  <Testimonials client:visible />
+  <Cta client:visible />
 </Layout>
