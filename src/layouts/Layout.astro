@@ -147,7 +147,7 @@ const { description, title } = Astro.props;
       const observer = new IntersectionObserver(handleIntersection, {
         root: null,
         rootMargin: '8px',
-        threshold: 0.2, // Adjust this value for when you want the animation to start
+        threshold: 0.1, // Adjust this value for when you want the animation to start
       });
 
       // Find all elements with the "fade-up" class and observe them
