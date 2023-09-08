@@ -100,7 +100,7 @@ const { description, title } = Astro.props;
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8V75P2Q"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div class="bg-opacity-100 bg-primary-50 dark:bg-opacity-100 dark:bg-primary-900 sticky top-0 z-50  "><Header /></div>
+    <div class="bg-opacity-100 bg-primary-50 dark:bg-opacity-100 dark:bg-primary-900 top-0 z-50 sticky"><Header /></div>
     <main>
       <slot />
     </main transition:animate="slide">
@@ -173,15 +173,6 @@ const { description, title } = Astro.props;
       const fadeUpElements = document.querySelectorAll('.fade-up');
       fadeUpElements.forEach((element) => {
         observer.observe(element);
-      });
-      // Initialize Locomotive Scroll
-      const scroll = new LocomotiveScroll({
-        el: document.querySelector('.fade-up'), // Replace with the selector for your container
-        smooth: true, // Enable smooth scrolling
-        direction: "vertical", // Scroll direction (you can change to "horizontal" if needed)
-        mobile: {
-          smooth: true, // Enable smooth scrolling on mobile devices
-        },
       });
 
       // Add event listener to reinitialize on window resize (optional)
