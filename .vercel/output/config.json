@@ -12,24 +12,8 @@
 			"handle": "filesystem"
 		},
 		{
-			"src": "^\\/_image$",
-			"dest": "_image.astro"
-		},
-		{
-			"src": "^\\/$",
-			"dest": "index.astro"
-		},
-		{
-			"src": "^\\/contact\\/?$",
-			"dest": "contact.astro"
-		},
-		{
-			"src": "^\\/about\\/?$",
-			"dest": "about.astro"
-		},
-		{
-			"src": "^\\/404\\/?$",
-			"dest": "404.astro"
+			"src": "/.*",
+			"dest": "render"
 		}
 	]
 }

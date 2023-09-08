@@ -4,7 +4,7 @@ import compress from 'astro-compress';
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import react from "@astrojs/react";
-import vercel from '@astrojs/vercel/serverless';
+import vercel from 'astro-vercel-edge';
 
 // import { astroImageTools } from "astro-imagetools";
 
