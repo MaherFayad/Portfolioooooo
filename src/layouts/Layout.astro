@@ -5,6 +5,7 @@ import '@fontsource/inter/latin-500.css';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import { SEO } from "astro-seo";
+import { Analytics } from '@vercel/analytics/react';
 // @astro/internal/no-reload
 
 
@@ -192,5 +193,6 @@ const { description, title } = Astro.props;
 
 
     </script>
+    <Analytics />
   </body>
 </html>
