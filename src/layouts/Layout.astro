@@ -1,5 +1,4 @@
 ---
-import tailwind from '@astrojs/tailwind';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
 import Footer from '../components/layout/Footer.astro';
@@ -15,12 +14,11 @@ interface Props {
 
 const { description, title } = Astro.props;
 ---
-
 <!DOCTYPE html>
 <html lang="en" x-cloak x-data :class="{ 'dark': $store.theme.isDark }">
   <head>
-    <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -70,7 +68,26 @@ const { description, title } = Astro.props;
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-W8V75P2Q');</script>
       <!-- End Google Tag Manager -->
-     
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-4FMQJ9VWF9"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-4FMQJ9VWF9');
+      </script>
+       <!-- Hotjar Tracking Code for Maher Fayad -->
+      <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3646389,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+      </script>
   </head>
   <body
     class="bg-primary-50 text-primary-900 dark:bg-primary-900 dark:text-primary-200 antialiased transition"
