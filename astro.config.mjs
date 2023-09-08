@@ -12,5 +12,15 @@ export default defineConfig({
     // viewTransitions: true,
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), compress(), sitemap(), robotsTxt(), react()]
+  integrations: [tailwind(), 
+    compress({
+			CSS: true,
+			HTML: true,
+			Image: true,
+			JavaScript: true,
+			SVG: true,
+		}), 
+    sitemap(), 
+    robotsTxt(), 
+    react()]
 });
