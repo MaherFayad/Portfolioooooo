@@ -1,6 +1,5 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-import compress from 'astro-compress';
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import react from "@astrojs/react";
@@ -10,11 +9,5 @@ export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), compress({
-    CSS: true,
-    HTML: true,
-    Image: true,
-    JavaScript: true,
-    SVG: true
-  }), sitemap(), robotsTxt(), react(), compressor()]
+  integrations: [tailwind(),sitemap(), robotsTxt(), react(), compressor()]
 });
