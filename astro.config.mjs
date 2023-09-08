@@ -5,21 +5,11 @@ import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import react from "@astrojs/react";
 import compressor from "astro-compressor";
-// import vercel from 'astro-vercel-edge';
 
-// import { astroImageTools } from "astro-imagetools";
-
-
-// https://astro.build/config
 export default defineConfig({
   experimental: {
-    // viewTransitions: true,
     optimizeHoistedScript: true
   },
-  // output: 'server',
-  // adapter: vercel({
-  //   analytics: true,
-  // }),
   integrations: [tailwind(), compress({
     CSS: true,
     HTML: true,
