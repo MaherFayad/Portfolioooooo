@@ -2,12 +2,9 @@
 import tailwind from '@astrojs/tailwind';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
-import { ViewTransitions } from 'astro:transitions';
-// import { ViewTransitions } from 'astro:transitions';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import { SEO } from "astro-seo";
-import emailjs from '@emailjs/browser';
 // @astro/internal/no-reload
 
 
@@ -94,48 +91,7 @@ const { description, title } = Astro.props;
         gtag('config', 'G-4FMQJ9VWF9');
       </script>
        <script src="../index.js"></script>
-       <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-      <script type="text/javascript">    
-      (function () {
-        emailjs.init("EX_A9-j_JtnnH7oPd");
-      })();
 
-      function sendMail(e) {
-        e.preventDefault();
-        emailjs.init("EX_A9-j_JtnnH7oPd");
-        console.log("test");
-        var params = {
-        name: document.getElementById("full-name").value,
-        email: document.getElementById("email").value,
-        message: document.getElementById("message").value,
-      };
-    
-      const serviceID = "service_c8jd2lr";
-      const templateID = "template_5z1q5qe";
-    
-        emailjs.send(serviceID, templateID, params)
-        .then(res=>{
-            document.getElementById("full-name").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("message").value = "";
-            console.log(res);
-            alert("Your message sent successfully!!")
-    
-        })
-        .catch(err=>console.log(err));
-      }
-
-      document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        sendMail(); // Call your sendMail function here
-      });
-
-
-    </script>
-
-    <!-- <ViewTransitions /> -->
   </head>
   <body
     class="bg-primary-50 text-primary-900 dark:bg-primary-900 dark:text-primary-200 antialiased transition"
