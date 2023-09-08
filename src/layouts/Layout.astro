@@ -20,15 +20,6 @@ const { description, title } = Astro.props;
 <html lang="en" x-cloak x-data :class="{ 'dark': $store.theme.isDark }">
   <head>
     <meta charset="utf-8" />
-    <script
-         type="text/javascript"
-         src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
-       ></script>
-       <script type="text/javascript">
-         (function () {
-           emailjs.init("EX_A9-j_JtnnH7oPd");
-         })();
-       </script>
     <SEO
       title="Maher Fayad"
       titleTemplate	="Maher Fayad"
@@ -89,7 +80,6 @@ const { description, title } = Astro.props;
 
         gtag('config', 'G-4FMQJ9VWF9');
       </script>
-       <script src="../index.js"></script>
        <!-- Hotjar Tracking Code for Maher Fayad -->
       <script>
         (function(h,o,t,j,a,r){

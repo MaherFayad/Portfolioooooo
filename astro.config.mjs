@@ -4,7 +4,7 @@ import compress from 'astro-compress';
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import react from "@astrojs/react";
-// import vercel from 'astro-vercel-edge';
+import vercel from 'astro-vercel-edge';
 
 // import { astroImageTools } from "astro-imagetools";
 
@@ -14,10 +14,10 @@ export default defineConfig({
     // viewTransitions: true,
     optimizeHoistedScript: true
   },
-  // output: 'server',
-  // adapter: vercel({
-  //   analytics: true,
-  // }),
+  output: 'server',
+  adapter: vercel({
+    analytics: true,
+  }),
   integrations: [tailwind(), 
     compress({
 			CSS: true,
