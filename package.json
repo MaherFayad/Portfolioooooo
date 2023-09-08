@@ -23,6 +23,7 @@
     "@vercel/analytics": "^1.0.2",
     "alpinejs": "^3.13.0",
     "astro": "^3.0.7",
+    "astro-compressor": "^0.4.0",
     "astro-imagetools": "^0.2.12",
     "astro-robots-txt": "^0.5.0",
     "astro-seo": "^0.8.0",
