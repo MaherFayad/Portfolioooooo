@@ -20,6 +20,16 @@ const { description, title } = Astro.props;
 <html lang="en" x-cloak x-data :class="{ 'dark': $store.theme.isDark }">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content="Maher Fayad" />
+    <meta property="og:description" content="maher fayad is an experienced UI/UX Designer with extensive knowledge and expertise in creating graphical user interfaces and user experiences." />
+    <meta property="og:image" content="/assets/Maher.png" />
     <SEO
       title="Maher Fayad"
       titleTemplate	="Maher Fayad"
@@ -51,17 +61,6 @@ const { description, title } = Astro.props;
       }}
     
     />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <meta property="og:title" content="Maher Fayad" />
-    <meta property="og:description" content="maher fayad is an experienced UI/UX Designer with extensive knowledge and expertise in creating graphical user interfaces and user experiences." />
-    <meta property="og:image" content="/assets/Maher.png" />
-
     <title>{title}</title>
     
     <!-- Google Tag Manager -->
