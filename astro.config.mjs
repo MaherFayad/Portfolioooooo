@@ -10,5 +10,5 @@ export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), sitemap(), robotsTxt(), react(), compress()]
+  integrations: [tailwind(), sitemap(), robotsTxt(), react()]
 });
