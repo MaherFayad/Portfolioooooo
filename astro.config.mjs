@@ -9,6 +9,7 @@ import compress from "astro-compress";
 export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
+    
   },
   integrations: [tailwind(), sitemap(), robotsTxt(), react()]
 });
