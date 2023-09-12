@@ -21,16 +21,16 @@ const links = [
 <header
   x-data="{ open: false }" 
   class="transition"
-  :class="{ 'dark bg-primary-500/10 dark:bg-primary-400/10': open, 'bg-primary-50 dark:bg-primary-900': !(open) }"
+  :class="{ 'bg-primary-500/10 dark:bg-primary-400/10': open, 'bg-primary-50 dark:bg-primary-900': !(open) }"
 >
   <div
-    class="dark mx-auto flex max-w-2xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"
+    class="mx-auto flex max-w-2xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"
   >
     <!-- Brand logo -->
     <div class="flex">
       <a
         href="/"
-        class="dark focus-visible:outline-primary-900 dark:group-focus-visible:outline-primary-200 rounded-md focus-visible:outline focus-visible:outline-2"
+        class="focus-visible:outline-primary-900 dark:group-focus-visible:outline-primary-200 rounded-md focus-visible:outline focus-visible:outline-2"
       >
         <span class="sr-only">Maher Fayad</span>
         <img
@@ -44,7 +44,7 @@ const links = [
     </div>
 
     <!-- Actions -->
-    <div class="-dark mr-2 flex items-center space-x-2 sm:space-x-2">
+    <div class="-mr-2 flex items-center space-x-2 sm:space-x-2">
       <!-- Toggle theme mode
       <button
         type="button"
@@ -84,7 +84,7 @@ const links = [
       <!-- Toggle menu -->
       <button
         type="button"
-        class=" dark text-primary-950 dark:text-primary-200 hover:bg-primary-500/10 dark:hover:bg-primary-400/10 ring-primary-950 inline-flex h-14 w-14 min-w-max items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2"
+        class="text-primary-950 dark:text-primary-200 hover:bg-primary-500/10 dark:hover:bg-primary-400/10 ring-primary-950 inline-flex h-14 w-14 min-w-max items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2"
         @click="open = !open"
         @mousedown="if (open) $event.preventDefault()"
         aria-controls="website-menu"
@@ -120,7 +120,7 @@ const links = [
 
       <a
           href="/contact"
-          class="dark text-center whitespace-nowrap px-4 bg-primary-600 dark:bg-primary-200 hover:bg-primary-700 dark:hover:bg-primary-300 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-center whitespace-nowrap px-4 bg-primary-600 dark:bg-primary-200 hover:bg-primary-700 dark:hover:bg-primary-300 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >Say hi
         </a>
     </div>
@@ -128,18 +128,18 @@ const links = [
 
   <!-- Menu content -->
   <div
-    class="dark mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-0"
+    class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-0"
     id="website-menu"
     x-cloak
     x-show="open"
     x-collapse
     x-collapse.duration.500ms
   >
-    <div class="dark grid grid-cols-1 lg:gap-16 gap-0 pb-6 pt-6 lg:grid-cols-2 lg:pt-12">
+    <div class="grid grid-cols-1 lg:gap-16 gap-0 pb-6 pt-6 lg:grid-cols-2 lg:pt-12">
       <div
-        class="dark bg-primary-500/10 dark:bg-primary-400/10 hidden items-center justify-center rounded-3xl px-6 py-8 lg:flex"
+        class="bg-primary-500/10 dark:bg-primary-400/10 hidden items-center justify-center rounded-3xl px-6 py-8 lg:flex"
       >
-        <p class="dark text-primary-900/70 dark:text-primary-200/70 max-w-sm text-xl italic leading-loose">
+        <p class="text-primary-900/70 dark:text-primary-200/70 max-w-sm text-xl italic leading-loose">
           <span class="text-3xl">“  I don’t help people with horse
             problems, I help horses with
             people problems. "</span> <br>
