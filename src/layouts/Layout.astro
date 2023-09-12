@@ -117,14 +117,7 @@ const { description, title } = Astro.props;
       Alpine.store('theme', {
         init() {
           this.isDark = (() => {
-            if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-              return true;
-            }
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              return true;
-            }
-            return true;
-          })();
+            return true})();
         },
       });
 
