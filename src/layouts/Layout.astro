@@ -114,12 +114,7 @@ const { description, title } = Astro.props;
 
       Alpine.plugin(collapse);
 
-      Alpine.store('theme', {
-        init() {
-          this.isDark = (() => {
-            return true})();
-        },
-      });
+      Alpine.store('theme', dark);
 
       window.Alpine = Alpine;
       Alpine.start();
