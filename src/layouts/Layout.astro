@@ -116,24 +116,13 @@ const { description, title } = Astro.props;
 
       Alpine.store('theme', {
         init() {
-          this.isDark = (() => {
-            if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-              return true;
-            }
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              return true;
-            }
-            return true;
-          })();
+          this.isDark = true; // Always set isDark to true to enforce dark mode.
         },
-
-        isDark: true,
-
-        // toggle() {
-        //   this.isDark = !this.isDark;
-        //   localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
-        // },
-      });
+  
+  isDark: true,
+  
+  // Other methods and properties...
+});
 
       window.Alpine = Alpine;
       Alpine.start();
