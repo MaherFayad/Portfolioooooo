@@ -118,7 +118,7 @@ const { description, title } = Astro.props;
         init() {
           this.isDark = (() => {
             if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-              return localStorage.getItem('theme') === 'dark';
+              return true;
             }
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
               return true;
