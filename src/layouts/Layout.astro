@@ -15,7 +15,7 @@ interface Props {
 const { description, title } = Astro.props;
 ---
 <!DOCTYPE html>
-<html lang="en" x-cloak x-data :class="{ 'dark': true }">
+<html lang="en" x-cloak x-data :class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -87,7 +87,7 @@ const { description, title } = Astro.props;
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8V75P2Q"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div class="dark bg-opacity-100 bg-primary-50 dark:bg-opacity-100 dark:bg-primary-900 sticky top-0 z-50 "><Header /></div>
+    <div class="bg-opacity-100 bg-primary-50 dark:bg-opacity-100 dark:bg-primary-900 sticky top-0 z-50 "><Header /></div>
     <main>
       <slot />
     </main transition:animate="slide">
