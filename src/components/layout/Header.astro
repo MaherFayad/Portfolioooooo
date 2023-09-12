@@ -21,7 +21,7 @@ const links = [
 <header
   x-data="{ open: false }" 
   class="transition"
-  :class="{ 'bg-primary-500/10 dark:bg-primary-400/10': open, 'bg-primary-50 dark:bg-primary-900': !(open) }"
+  :class="{ 'bg-primary-400/10 dark:bg-primary-400/10': open, 'bg-primary-900 dark:bg-primary-900': !(open) }"
 >
   <div
     class="mx-auto flex max-w-2xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"
@@ -30,14 +30,14 @@ const links = [
     <div class="flex">
       <a
         href="/"
-        class="focus-visible:outline-primary-900 dark:group-focus-visible:outline-primary-200 rounded-md focus-visible:outline focus-visible:outline-2"
+        class="focus-visible:outline-primary-200 dark:group-focus-visible:outline-primary-200 rounded-md focus-visible:outline focus-visible:outline-2"
       >
         <span class="sr-only">Maher Fayad</span>
         <img
           class="h-8 w-auto"
           width="65"
           height="40"
-          :src="$store.theme.isDark ? '/assets/logo-inverted.svg' : '/assets/logo.svg'"
+          :src="$store.theme.isDark ? '/assets/logo-inverted.svg' : '/assets/logo-inverted.svg'"
           alt="Stone"
         />
       </a>
@@ -84,7 +84,7 @@ const links = [
       <!-- Toggle menu -->
       <button
         type="button"
-        class="text-primary-950 dark:text-primary-200 hover:bg-primary-500/10 dark:hover:bg-primary-400/10 ring-primary-950 inline-flex h-14 w-14 min-w-max items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2"
+        class="text-primary-200 dark:text-primary-200 hover:bg-primary-400/10 dark:hover:bg-primary-400/10 ring-primary-950 inline-flex h-14 w-14 min-w-max items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2"
         @click="open = !open"
         @mousedown="if (open) $event.preventDefault()"
         aria-controls="website-menu"
@@ -120,7 +120,7 @@ const links = [
 
       <a
           href="/contact"
-          class="text-center whitespace-nowrap px-4 bg-primary-600 dark:bg-primary-200 hover:bg-primary-700 dark:hover:bg-primary-300 focus-visible:outline-primary-600 dark:focus-visible:outline-primary-400 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium text-white transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-center whitespace-nowrap px-4 bg-primary-200 dark:bg-primary-200 hover:bg-primary-300 dark:hover:bg-primary-300 focus-visible:outline-primary-400 dark:focus-visible:outline-primary-400 text-primary-950 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           >Say hi
         </a>
     </div>
@@ -137,9 +137,9 @@ const links = [
   >
     <div class="grid grid-cols-1 lg:gap-16 gap-0 pb-6 pt-6 lg:grid-cols-2 lg:pt-12">
       <div
-        class="bg-primary-500/10 dark:bg-primary-400/10 hidden items-center justify-center rounded-3xl px-6 py-8 lg:flex"
+        class="bg-primary-400/10 dark:bg-primary-400/10 hidden items-center justify-center rounded-3xl px-6 py-8 lg:flex"
       >
-        <p class="text-primary-900/70 dark:text-primary-200/70 max-w-sm text-xl italic leading-loose">
+        <p class="text-primary-200/70 dark:text-primary-200/70 max-w-sm text-xl italic leading-loose">
           <span class="text-3xl">“  I don’t help people with horse
             problems, I help horses with
             people problems. "</span> <br>
@@ -148,20 +148,20 @@ const links = [
       </div>
 
       <!-- Navigation -->
-      <nav class="divide-primary-900/10 dark:divide-primary-300/10 flex flex-col gap-1 divide-y ">
+      <nav class="divide-primary-300/10 dark:divide-primary-300/10 flex flex-col gap-1 divide-y ">
         {
           links.map((link) => (
             <a
               href={link.href}
-              class="text-primary-950 dark:text-primary-200 group inline-flex py-6 text-3xl font-medium tracking-tight transition focus-visible:outline-none sm:py-8 sm:text-4xl"
+              class="text-primary-200 dark:text-primary-200 group inline-flex py-6 text-3xl font-medium tracking-tight transition focus-visible:outline-none sm:py-8 sm:text-4xl"
             >
-              <div class="group-focus-visible:outline-primary-950 dark:group-focus-visible:outline-primary-200 flex flex-1 items-center justify-between rounded-3xl group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2">
+              <div class="group-focus-visible:outline-primary-200 dark:group-focus-visible:outline-primary-200 flex flex-1 items-center justify-between rounded-3xl group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2">
                 <div class="flex items-center gap-6">
                   <span class="text-xs">{link.ref}</span>
                   <span class="group-hover:underline">{link.name}</span>
                 </div>
                 <svg
-                  class="text-primary-600 dark:text-primary-400 h-6 w-6 sm:h-8 sm:w-8"
+                  class="text-primary-400 dark:text-primary-400 h-6 w-6 sm:h-8 sm:w-8"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"

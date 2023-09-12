@@ -36,12 +36,12 @@ const features = [
               <div
                 class="rounded-3xl px-4 transition"
                 x-data={`{ id: ${id}, get isOpen() { if (this.id == this.selected) return (true) ; else return this.id === this.selected; }, get isNextOpen() { return (this.id + 1) === this.selected } } `}
-                x-bind:class="{ 'bg-primary-500/10 dark:bg-primary-400/10': isOpen }"
+                x-bind:class="{ 'bg-primary-400/10 dark:bg-primary-400/10': isOpen }"
               >
                 <dt
                   class="border-b text-lg transition"
                   x-cloak
-                  x-bind:class="{ 'border-transparent': isOpen || isNextOpen, 'border-primary-900/10 dark:border-primary-300/10': !(isOpen || isNextOpen) }"
+                  x-bind:class="{ 'border-transparent': isOpen || isNextOpen, 'border-primary-300/10 dark:border-primary-300/10': !(isOpen || isNextOpen) }"
                 >
                   <button
                     type="button"
@@ -51,11 +51,11 @@ const features = [
                     aria-expanded="true"
                     x-bind:aria-expanded="isOpen.toString()"
                   >
-                    <div class="group-focus-visible:outline-primary-950 dark:group-focus-visible:outline-primary-200 flex items-center justify-between rounded-3xl group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2">
+                    <div class="group-focus-visible:outline-primary-200 dark:group-focus-visible:outline-primary-200 flex items-center justify-between rounded-3xl group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2">
                       <span class="whitespace-nowrap font-medium">{feature.name}</span>
                       <span class="ml-6 flex h-7 items-center">
                         <svg
-                          class="text-primary-600 dark:text-primary-400 h-6 w-6 rotate-0 transform transition duration-200 ease-in-out"
+                          class="text-primary-400 dark:text-primary-400 h-6 w-6 rotate-0 transform transition duration-200 ease-in-out"
                           x-bind:class="{ '-rotate-180': isOpen, 'rotate-0': !isOpen }"
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -69,7 +69,7 @@ const features = [
                   </button>
                 </dt>
                 <dd class="pb-6 pr-6" id={feature.id} x-show="isOpen || id === '1'">
-                  <p class="text-primary-950/70 dark:text-primary-200/70 text-base">
+                  <p class="text-primary-200/70 dark:text-primary-200/70 text-base">
                     {feature.description}
                   </p>
                 </dd>

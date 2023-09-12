@@ -28,7 +28,7 @@ const testimonials = [
     <div class="flex flex-col items-left gap-4 lg:gap-12">
       <h2 class="max-w-lg text-3xl font-medium tracking-tight sm:text-4xl lg:py-8 py-2">Clients Testimonials That Will Make You Smile.</h2>
       <div
-        class="divide-primary-900/10 dark:divide-primary-300/10 grid divide-y lg:grid-cols-3 lg:divide-x lg:divide-y-0"
+        class="divide-primary-300/10 dark:divide-primary-300/10 grid divide-y lg:grid-cols-3 lg:divide-x lg:divide-y-0"
       >
         {
           testimonials.map((testimonial) => (
@@ -36,7 +36,7 @@ const testimonials = [
               <div class="flex flex-row gap-2">
                 {[...Array(5)].map(() => (
                   <svg
-                    class="text-primary-600 dark:text-primary-400 h-6 w-6"
+                    class="text-primary-400 dark:text-primary-400 h-6 w-6"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
@@ -46,13 +46,13 @@ const testimonials = [
                   </svg>
                 ))}
               </div>
-              <blockquote class="text-primary-950/70 dark:text-primary-200/70 lg:h-72 text-left text-lg italic leading-loose">
+              <blockquote class="text-primary-200/70 dark:text-primary-200/70 lg:h-72 text-left text-lg italic leading-loose">
                 <p>{testimonial.message}</p>
               </blockquote>
               <figcaption class="flex flex-col gap-4">
                 <div class="text-left">
                   <div class="text-base font-medium">{testimonial.name}</div>
-                  <div class="text-primary-950/70 dark:text-primary-200/70 text-sm">
+                  <div class="text-primary-200/70 dark:text-primary-200/70 text-sm">
                     {testimonial.description}
                   </div>
                 </div>
