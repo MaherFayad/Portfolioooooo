@@ -85,8 +85,6 @@ const { description, title } = Astro.props;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", "ixpkuh0p30");
       </script>
-      <script src="https://smtpjs.com/v3/smtp.js"></script>
-
       
   </head>
   <body
@@ -165,6 +163,7 @@ const { description, title } = Astro.props;
         scroll.update();
       });
 
+      
       var Email = { send: function (a) { return new Promise(function (n, e) { a.nocache = Math.floor(1e6 * Math.random() + 1), a.Action = "Send"; var t = JSON.stringify(a); Email.ajaxPost("https://smtpjs.com/v3/smtpjs.aspx?", t, function (e) { n(e) }) }) }, ajaxPost: function (e, n, t) { var a = Email.createCORSRequest("POST", e); a.setRequestHeader("Content-type", "application/x-www-form-urlencoded"), a.onload = function () { var e = a.responseText; null != t && t(e) }, a.send(n) }, ajax: function (e, n) { var t = Email.createCORSRequest("GET", e); t.onload = function () { var e = t.responseText; null != n && n(e) }, t.send() }, createCORSRequest: function (e, n) { var t = new XMLHttpRequest; return "withCredentials" in t ? t.open(e, n, !0) : "undefined" != typeof XDomainRequest ? (t = new XDomainRequest).open(e, n) : t = null, t } };
       function sendEmail() {
           Email.send({
@@ -172,7 +171,7 @@ const { description, title } = Astro.props;
               Username: "maherfayad55@gmail.com",
               Password: "C8EA25D87DA70883F705017E596565098169",
               To: 'maherfayad55@gmail.com',
-              From: "contact@maherfayad.com",
+              From: "maherfayad55@gmail.com",
               Subject: "This is the subject",
               Body: "And this is the body"
           }).then(
