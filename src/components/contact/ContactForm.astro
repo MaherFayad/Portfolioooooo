@@ -32,7 +32,7 @@ const redirectTo404 = () => {
   location.href = '/404';
 };
 ---
-<form class="mt-3 flex flex-col gap-y-6" onsubmit={sendEmail} id="Form">
+<form class="mt-3 flex flex-col gap-y-6" on:submit={sendEmail} id="Form">
     <!-- Full name input -->
     <label for="full-name" class="sr-only">
       Full name
