@@ -2,7 +2,7 @@ import React, { useState, useRef, FormEvent } from 'react'; // Import FormEvent 
 import emailjs from 'emailjs-com';
 
 export const ContactUs = () => {
-  const form = useRef<HTMLFormElement | null>(null);
+  const form = useRef<HTMLFormElement>(null); // Specify the type of useRef
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState<string>('');
@@ -18,21 +18,25 @@ export const ContactUs = () => {
     window.location.href = '/404';
   };
 
-  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+  const sendEmail = (e: FormEvent) => {
     e.preventDefault();
-
+  
     if (form.current) {
-      emailjs.sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'template_hnydtuc')
-        .then((result) => {
-          console.log(result.text);
-          redirectToThanks();
-        })
-        .catch((error) => {
-          console.log(error.text);
-          redirectTo404();
-        });
-    }
+      emailjs
+      .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'template_hnydtuc')
+        .then(
+          (result) => {
+            console.log(result.text);
+            redirectToThanks();
+          },
+          (error) => {
+            console.log(error.text);
+            redirectTo404();
+          }
+        );
+    }else {redirectTo404();}
   };
+
 
   return (
     <section className="py-16 sm:py-20">
