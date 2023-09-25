@@ -6,15 +6,12 @@ export const ContactUs = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [redirecting, setRedirecting] = useState(false);
 
   const redirectToThanks = () => {
-    setRedirecting(true);
     window.location.href = '/thanks';
   };
 
   const redirectTo404 = () => {
-    setRedirecting(true);
     window.location.href = '/404';
   };
 
@@ -45,7 +42,7 @@ export const ContactUs = () => {
               We'd love to learn more about you and what we can build together.
             </p>
           </div>
-          <form className="mt-3 flex flex-col gap-y-6" id="Form" ref={form} onSubmit={(e) => sendEmail(e)}>
+          <form action="/thanks" className="mt-3 flex flex-col gap-y-6" id="Form" ref={form} onSubmit={(e) => sendEmail(e)}>
             {/* Full name input */}
             <label htmlFor="full-name" className="sr-only">
               Full name
