@@ -182,6 +182,7 @@ const { description, title } = Astro.props;
       document.getElementById("Form").addEventListener("submit", function (e) {
         console.log("layout");  
         e.preventDefault(); // Prevent the form from submitting traditionally
+        const form = document.getElementById("Form");
         if (form.current) {
           emailjs
             .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
@@ -197,10 +198,6 @@ const { description, title } = Astro.props;
             );
           }
       });
-
-
-
-
     </script>
   </body>
 </html>
