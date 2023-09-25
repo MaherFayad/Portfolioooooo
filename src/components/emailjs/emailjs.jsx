@@ -17,7 +17,7 @@ export const ContactUs = () => {
   };
 
   return (
-    <form action="#" method="POST" className="mt-3 flex flex-col gap-y-6" id="email-form">
+    <form method="POST" className="mt-3 flex flex-col gap-y-6" id="email-form" onSubmit={sendEmail}>
       {/* Full name input */}
       <div>
         <label htmlFor="full-name" className="sr-only">
@@ -64,7 +64,7 @@ export const ContactUs = () => {
 
       <div>
         <button
-          className="text-primary-200 dark:text-primary-200 hover:bg-primary-400/10 dark:hover:bg-primary-400/10 ring-primary-950 inline-flex h-14 w-14 min-w-max items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2"
+          className="text-center whitespace-nowrap px-4 bg-primary-200 dark:bg-primary-200 hover:bg-primary-300 dark:hover:bg-primary-300 focus-visible:outline-primary-400 dark:focus-visible:outline-primary-400 text-primary-950 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
           type="submit"
         >
           Submit
