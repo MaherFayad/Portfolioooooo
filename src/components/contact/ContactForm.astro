@@ -1,4 +1,83 @@
 ---
-import {ContactUs} from '../emailjs/emailjs.jsx';
+import emailjs from 'emailjs-com';
+
+let name = '';
+let email = '';
+let message = '';
+let redirecting = false;
+
+const sendEmail = async () => {
+  try {
+    const result = await emailjs.sendForm(
+      'service_lwri32l',
+      'template_hnydtuc',
+      'Form',
+      'EX_A9-j_JtnnH7oPd'
+    );
+    console.log(result.text);
+    redirectToThanks();
+  } catch (error) {
+    console.error(error.text);
+    redirectTo404();
+  }
+};
+
+const redirectToThanks = () => {
+  redirecting = true;
+  location.href = '/thanks';
+};
+
+const redirectTo404 = () => {
+  redirecting = true;
+  location.href = '/404';
+};
 ---
-<ContactUs />
+<form class="mt-3 flex flex-col gap-y-6" onsubmit={sendEmail} id="Form">
+    <!-- Full name input -->
+    <label for="full-name" class="sr-only">
+      Full name
+    </label>
+    <input
+      type="text"
+      name="full-name"
+      id="full-name"
+      autocomplete="name"
+      value={name}
+      class="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 text-primary-950 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
+      placeholder="Full name"
+    />
+  
+    <!-- Email input -->
+    <label for="email" class="sr-only">
+      Email
+    </label>
+    <input
+      type="email"
+      name="email"
+      id="email"
+      autocomplete="email"
+      value={email}
+      class="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
+      placeholder="Email"
+    />
+  
+    <!-- Message textarea -->
+    <label for="message" class="sr-only">
+      Message
+    </label>
+    <textarea
+      name="message"
+      id="message"
+      rows="3"
+      value={message}
+      class="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
+      placeholder="Message"
+    />
+  
+    <button
+      type="submit"
+      class="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      Submit
+    </button>
+  </form>
