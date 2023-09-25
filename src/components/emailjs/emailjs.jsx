@@ -55,7 +55,7 @@ export const ContactUs = () => {
               autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 text-primary-950 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
+              className="bg-opacity-20 hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 text-primary-950 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
               placeholder="Full name"
             />
 
@@ -70,7 +70,7 @@ export const ContactUs = () => {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
+              className="bg-opacity-20 hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
               placeholder="Email"
             />
 
@@ -84,7 +84,7 @@ export const ContactUs = () => {
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
+              className="bg-opacity-20 hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
               placeholder="Message"
             />
 
