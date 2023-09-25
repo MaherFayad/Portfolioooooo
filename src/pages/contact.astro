@@ -9,27 +9,6 @@ import Layout from '../layouts/Layout.astro';
   description="Contact Me team to learn more about how I can help you."
   title="Contact · Maher Fayad"
 >
-  <script>
-    function sendEmail() {
-        Email.send({
-            Host: "smtp.elasticemail.com",
-            Username: "maherfayad55@gmail.com",
-            Password: "C8EA25D87DA70883F705017E596565098169",
-            To: 'maherfayad55@gmail.com',
-            From: "contact@maherfayad.com",
-            Subject: "This is the subject",
-            Body: "And this is the body"
-        }).then(
-            message => alert(message)
-        );
-    }
-
-    document.getElementById("Form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the form from submitting traditionally
-        sendEmail(); // Call your sendEmail function
-    });
-  </script>
-
   <ContactInfo />
   <ContactForm />
   <ContactUs />
