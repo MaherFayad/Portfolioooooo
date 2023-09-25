@@ -2,7 +2,7 @@ import React, { useState, useRef, FormEvent } from 'react'; // Import FormEvent 
 import emailjs from 'emailjs-com';
   
   export const ContactUs = () => {
-    const form = useRef<HTMLFormElement>(null); // Specify the type of useRef
+    const form = useRef();
     const redirectToThanks = () => {
       setRedirecting(true);
       window.location.href = '/thanks';
@@ -12,7 +12,6 @@ import emailjs from 'emailjs-com';
         setRedirecting(true);
         window.location.href = '/404';
     };
-  
   
     const sendEmail = (e) => {
       e.preventDefault();
