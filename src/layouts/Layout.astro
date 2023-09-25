@@ -183,20 +183,18 @@ const { description, title } = Astro.props;
         console.log("layout");  
         e.preventDefault(); // Prevent the form from submitting traditionally
         const form = document.getElementById("Form");
-        if (form.current) {
-          emailjs
-            .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
-            .then(
-              (result) => {
-                console.log(result.text);
-                redirectToThanks();
-              },
-              (error) => {
-                console.log(error.text);
-                redirectTo404();
-              }
-            );
-          }
+        emailjs
+          .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
+          .then(
+            (result) => {
+              console.log(result.text);
+              redirectToThanks();
+            },
+            (error) => {
+              console.log(error.text);
+              redirectTo404();
+            }
+          );
       });
     </script>
   </body>
