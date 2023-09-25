@@ -19,9 +19,10 @@ export const ContactUs = () => {
   };
 
   const sendEmail = (e) => {
+    console.log("XXXXXXXXXXXXXXXX");
     e.preventDefault();
     emailjs
-    .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'template_hnydtuc')
+    .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
       .then(
         (result) => {
           console.log(result.text);
@@ -45,7 +46,7 @@ export const ContactUs = () => {
               We'd love to learn more about you and what we can build together.
             </p>
           </div>
-          <form action="/thanks" className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}>
+          <form className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}>
             {/* Full name input */}
             <label htmlFor="full-name" className="sr-only">
               Full name
