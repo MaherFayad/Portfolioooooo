@@ -37,7 +37,7 @@ import emailjs from 'emailjs-com';
                 We'd love to learn more about you and what we can build together.
               </p>
             </div>
-            <form action="/thanks" method="POST" className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}>
+            <form className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}>
               {/* Full name input */}
               <div>
                 <label htmlFor="full-name" className="sr-only">
@@ -48,7 +48,7 @@ import emailjs from 'emailjs-com';
                   name="full-name"
                   id="full-name"
                   autoComplete="name"
-                  className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-50 ring-primary-900/40 placeholder:text-primary-950/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2"
+                  className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-300 px-4 py-3 text-base transition focus:outline-none focus:ring-2"
                   placeholder="Full name"
                 />
               </div>
@@ -63,7 +63,7 @@ import emailjs from 'emailjs-com';
                   name="email"
                   id="email"
                   autoComplete="email"
-                  className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-50 ring-primary-900/40 placeholder:text-primary-950/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2"
+                  className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-300 px-4 py-3 text-base transition focus:outline-none focus:ring-2"
                   placeholder="Email"
                 />
               </div>
@@ -77,7 +77,7 @@ import emailjs from 'emailjs-com';
                   name="message"
                   id="message"
                   rows="3"
-                  className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-50 ring-primary-900/40 placeholder:text-primary-950/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2"
+                  className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-300 px-4 py-3 text-base transition focus:outline-none focus:ring-2"
                   placeholder="Message"
                 ></textarea>
               </div>
