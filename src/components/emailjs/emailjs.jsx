@@ -1,8 +1,18 @@
-  import React, { useRef } from 'react';
-  import emailjs from 'emailjs-com';
+import React, { useState, useRef, FormEvent } from 'react'; // Import FormEvent type
+import emailjs from 'emailjs-com';
   
   export const ContactUs = () => {
-    const form = useRef();
+    const form = useRef<HTMLFormElement>(null); // Specify the type of useRef
+    const redirectToThanks = () => {
+      setRedirecting(true);
+      window.location.href = '/thanks';
+    };
+    
+    const redirectTo404 = () => {
+        setRedirecting(true);
+        window.location.href = '/404';
+    };
+  
   
     const sendEmail = (e) => {
       e.preventDefault();
@@ -10,11 +20,11 @@
       emailjs.sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'template_hnydtuc')
         .then((result) => {
           console.log(result.text);
-          // Handle success, e.g., show a success message
+          redirectToThanks();
         })
         .catch((error) => {
           console.log(error.text);
-          // Handle error, e.g., show an error message
+          redirectTo404();
         });
     };
   
@@ -28,7 +38,7 @@
                 We'd love to learn more about you and what we can build together.
               </p>
             </div>
-            <form action="#" method="POST" className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}>
+            <form action="/thanks" method="POST" className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}>
               {/* Full name input */}
               <div>
                 <label htmlFor="full-name" className="sr-only">

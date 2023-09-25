@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  description="Page not found. Please check the URL in the address bar and try again."
+  title="Not found"
+>
+  <section class="py-16 sm:py-20">
+    <div class="flex lg:flex-row flex-col-reverse gap-20 mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div class="flex flex-col items-start gap-8 sm:gap-10">
+        <div class="flex flex-col gap-4 sm:gap-6">
+          <h1 class="text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl">
+            <div>thanks for reaching out, will contact you within the next 24 hours.</div>
+            <!-- <div>Neither do I</div> -->
+          </h1>
+        </div>
+          <a
+          href="/"
+          class="text-center whitespace-nowrap px-4 bg-primary-200 dark:bg-primary-200 hover:bg-primary-300 dark:hover:bg-primary-300 focus-visible:outline-primary-400 dark:focus-visible:outline-primary-400 dark:text-primary-950 text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          >Back home
+          </a>
+      </div>
+      <img src="/assets/404.svg" width="600" loading="lazy" />
+    </div>
+  </section>
+</Layout>
