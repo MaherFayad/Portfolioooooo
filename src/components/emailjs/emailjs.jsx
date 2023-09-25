@@ -1,4 +1,4 @@
-import React, { useState, useRef, FormEvent } from 'react'; // Import FormEvent type
+import React, { useState, useRef } from 'react'; // Import FormEvent type
 import emailjs from 'emailjs-com';
 
 export const ContactUs = () => {
@@ -22,6 +22,7 @@ export const ContactUs = () => {
     console.log("XXXXXXXXXXXXXXXX");
     alert('test');
     e.preventDefault();
+    if(form.current){
     emailjs
     .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
       .then(
@@ -33,7 +34,7 @@ export const ContactUs = () => {
           console.log(error.text);
           redirectTo404();
         }
-      );
+      );};
   };
 
 
