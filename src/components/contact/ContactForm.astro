@@ -1,42 +1,46 @@
 ---
   import emailjs from 'emailjs-com';
+  import { onCleanup } from 'svelte';
 
-let name = '';
-let email = '';
-let message = '';
-let redirecting = false;
+  let name = '';
+  let email = '';
+  let message = '';
+  let redirecting = false;
 
-const form = document.getElementById('Form');
+  const sendEmail = async () => {
+    try {
+      const form = document.getElementById('Form');
+      if (!form) return; // Ensure the form element exists
 
-const sendEmail = async (e: Event) => {
-  e.preventDefault(); // Prevent the default form submission behavior
-  try {
-    const result = await emailjs.sendForm(
-      'service_lwri32l',
-      'template_hnydtuc',
-      form as HTMLFormElement, // Cast form as HTMLFormElement
-      'EX_A9-j_JtnnH7oPd'
-    );
-    console.log(result.text);
-    redirectToThanks();
-  } catch (error) {
-    console.error(error.text);
-    redirectTo404();
-  }
-};
+      const result = await emailjs.sendForm(
+        'service_lwri32l',
+        'template_hnydtuc',
+        Form,
+        'EX_A9-j_JtnnH7oPd'
+      );
+      console.log(result.text);
+      redirectToThanks();
+    } catch (error) {
+      console.error(error.text);
+      redirectTo404();
+    }
+  };
 
-const redirectToThanks = () => {
-  redirecting = true;
-  location.href = '/thanks';
-};
+  const redirectToThanks = () => {
+    redirecting = true;
+    location.href = '/thanks';
+  };
 
-const redirectTo404 = () => {
-  redirecting = true;
-  location.href = '/404';
-};
+  const redirectTo404 = () => {
+    redirecting = true;
+    location.href = '/404';
+  };
 
-// Add a submit event listener to the form
-form?.addEventListener('submit', sendEmail);
+  // Cleanup event listener when the component unmounts
+  onCleanup(() => {
+    const form = document.getElementById('Form');
+    form?.removeEventListener('submit', sendEmail);
+  });
 
 ---
 <section class="py-16 sm:py-20 fade-up">
