@@ -90,7 +90,7 @@ export const ContactUs = () => {
 
             <button
               type="submit"
-              className="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              class="text-center whitespace-nowrap px-4 bg-primary-200 dark:bg-primary-200 hover:bg-primary-300 dark:hover:bg-primary-300 focus-visible:outline-primary-400 dark:focus-visible:outline-primary-400 text-primary-950 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               Submit
             </button>
