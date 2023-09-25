@@ -1,6 +1,5 @@
 ---
   import emailjs from 'emailjs-com';
-  import { onCleanup } from 'svelte';
 
   let name = '';
   let email = '';
@@ -15,12 +14,12 @@
       const result = await emailjs.sendForm(
         'service_lwri32l',
         'template_hnydtuc',
-        Form,
+        form as HTMLFormElement,
         'EX_A9-j_JtnnH7oPd'
       );
       console.log(result.text);
       redirectToThanks();
-    } catch (error) {
+    } catch (error:any) {
       console.error(error.text);
       redirectTo404();
     }
@@ -35,12 +34,6 @@
     redirecting = true;
     location.href = '/404';
   };
-
-  // Cleanup event listener when the component unmounts
-  onCleanup(() => {
-    const form = document.getElementById('Form');
-    form?.removeEventListener('submit', sendEmail);
-  });
 
 ---
 <section class="py-16 sm:py-20 fade-up">
