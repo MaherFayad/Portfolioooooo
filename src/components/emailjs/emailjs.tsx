@@ -18,23 +18,20 @@ export const ContactUs = () => {
     window.location.href = '/404';
   };
 
-  const sendEmail = (e: FormEvent) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-  
-    if (form.current) {
-      emailjs
-      .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'template_hnydtuc')
-        .then(
-          (result) => {
-            console.log(result.text);
-            redirectToThanks();
-          },
-          (error) => {
-            console.log(error.text);
-            redirectTo404();
-          }
-        );
-    }else {redirectTo404();}
+    emailjs
+    .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'template_hnydtuc')
+      .then(
+        (result) => {
+          console.log(result.text);
+          redirectToThanks();
+        },
+        (error) => {
+          console.log(error.text);
+          redirectTo404();
+        }
+      );
   };
 
 
