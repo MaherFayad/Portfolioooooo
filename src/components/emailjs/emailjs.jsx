@@ -61,7 +61,7 @@ export const ContactUs = () => {
               autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-opacity-0 hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-950 dark:bg-primary-950 ring-primary-200/40 dark:ring-primary-200/40 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-800 transition focus:outline-none focus:ring-2 mb-4"
+              className="bg-opacity-0 hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-950 dark:bg-primary-950 ring-primary-200 dark:ring-primary-200 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-800 transition focus:outline-none focus:ring-2 mb-4"
               placeholder="Full name"
             />
 
@@ -76,7 +76,7 @@ export const ContactUs = () => {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-opacity-0 hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-950 dark:bg-primary-950 ring-primary-200/40 dark:ring-primary-200/40 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-800 transition focus:outline-none focus:ring-2 mb-4"
+              className="bg-opacity-0 hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-950 dark:bg-primary-950 ring-primary-200 dark:ring-primary-200 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-800 transition focus:outline-none focus:ring-2 mb-4"
               placeholder="Email"
             />
 
@@ -90,7 +90,7 @@ export const ContactUs = () => {
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="bg-opacity-0 hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-950 dark:bg-primary-950 ring-primary-200/40 dark:ring-primary-200/40 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-800 transition focus:outline-none focus:ring-2 mb-4"
+              className="bg-opacity-0 hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-950 dark:bg-primary-950 ring-primary-200 dark:ring-primary-200 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-800 transition focus:outline-none focus:ring-2 mb-4"
               placeholder="Message"
             />
 
