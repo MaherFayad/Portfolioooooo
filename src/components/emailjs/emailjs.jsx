@@ -42,6 +42,7 @@ export const ContactUs = () => {
               We'd love to learn more about you and what we can build together.
             </p>
           </div>
+          <div class="bg-primary-400/10 dark:bg-primary-400/10 rounded-3xl px-6 py-6">
           <form action="/thanks" className="mt-3 flex flex-col gap-y-6" id="Form" ref={form} onSubmit={(e) => sendEmail(e)}>
             {/* Full name input */}
             <label htmlFor="full-name" className="sr-only">
@@ -94,6 +95,7 @@ export const ContactUs = () => {
               Submit
             </button>
           </form>
+          </div>
         </div>
       </div>
     </section>
