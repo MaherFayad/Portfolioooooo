@@ -199,13 +199,21 @@ const { description, title } = Astro.props;
           );
       };
 
-
       document.getElementById("Form").addEventListener("submit", function (e) {
-          sendEmaill(); // Call your sendEmail function
-      });
-
-      document.getElementById("Form1").addEventListener("submit", function (e) {
-          sendEmail(); // Call your sendEmail function
+          e.preventDefault(); // Prevent the form from submitting traditionally
+          
+          emailjs
+          .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
+          .then(
+              (result) => {
+                console.log(result.text);
+                redirectToThanks();
+              },
+              (error) => {
+                console.log(error.text);
+                redirectTo404();
+              }
+            );
       });
 
 
