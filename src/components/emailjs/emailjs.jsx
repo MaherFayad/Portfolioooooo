@@ -1,13 +1,12 @@
-import React, { useState, useRef } from 'react'; // Import FormEvent type
+import React, { useState, useRef } from 'react';
 import emailjs from 'emailjs-com';
 
 export const ContactUs = () => {
-  const form = useRef(); // Specify the type of useRef
+  const form = useRef();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [redirecting, setRedirecting] = useState(false); // Specify boolean type
-  console.log("XXXXXXXXXXXXXXXX");
+  const [redirecting, setRedirecting] = useState(false);
 
   const redirectToThanks = () => {
     setRedirecting(true);
@@ -20,13 +19,10 @@ export const ContactUs = () => {
   };
 
   const sendEmail = (e) => {
-    console.log("XXXXXXXXXXXXXXXX");
-    alert('test');
     e.preventDefault();
-    if(form.current){
     emailjs
     .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
-      .then(
+    .then(
         (result) => {
           console.log(result.text);
           redirectToThanks();
@@ -35,9 +31,8 @@ export const ContactUs = () => {
           console.log(error.text);
           redirectTo404();
         }
-      );};
+      );
   };
-
 
   return (
     <section className="py-16 sm:py-20">
@@ -49,8 +44,7 @@ export const ContactUs = () => {
               We'd love to learn more about you and what we can build together.
             </p>
           </div>
-          <form className="mt-3 flex flex-col gap-y-6" ref={form} onSubmit={sendEmail}
- >
+          <form className="mt-3 flex flex-col gap-y-6" id="Form1" ref={form} onSubmit={sendEmail}>
             {/* Full name input */}
             <label htmlFor="full-name" className="sr-only">
               Full name
@@ -95,19 +89,15 @@ export const ContactUs = () => {
               placeholder="Message"
             />
 
-            <button type="submit"
-            className="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            placeholder="hjkggs"
-            >Submit</button>
+            <button
+              type="submit"
+              className="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
     </section>
-    <script>
-      document.getElementById("Form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the form from submitting traditionally
-        sendEmail(); // Call your sendEmail function
-      })
-    </script>
   );
 };
