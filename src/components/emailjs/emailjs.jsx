@@ -3,10 +3,10 @@ import emailjs from 'emailjs-com';
 
 export const ContactUs = () => {
   const form = useRef(); // Specify the type of useRef
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [redirecting, setRedirecting] = useState<boolean>(false); // Specify boolean type
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [redirecting, setRedirecting] = useState(false); // Specify boolean type
 
   const redirectToThanks = () => {
     setRedirecting(true);
