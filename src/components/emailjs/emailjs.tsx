@@ -56,7 +56,7 @@ export const ContactUs = () => {
               autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 text-primary-950/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950/60 transition focus:outline-none focus:ring-2"
+              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 text-primary-950 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
               placeholder="Full name"
             />
 
@@ -71,7 +71,7 @@ export const ContactUs = () => {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950/60 transition focus:outline-none focus:ring-2"
+              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
               placeholder="Email"
             />
 
@@ -85,12 +85,12 @@ export const ContactUs = () => {
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950/60 transition focus:outline-none focus:ring-2"
+              className="hover:ring-primary-600 focus:ring-primary-600 bg-primary-100 ring-primary-700/40 placeholder:text-primary-700/60 block w-full appearance-none rounded-md border-1 border-primary-400 px-4 py-3 text-primary-950 transition focus:outline-none focus:ring-2"
               placeholder="Message"
             />
 
             <button
-              className="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950/60 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
               type="submit"
             >
               Submit
