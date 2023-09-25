@@ -7,6 +7,7 @@ export const ContactUs = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [redirecting, setRedirecting] = useState(false); // Specify boolean type
+  console.log("XXXXXXXXXXXXXXXX");
 
   const redirectToThanks = () => {
     setRedirecting(true);
@@ -94,10 +95,10 @@ export const ContactUs = () => {
               placeholder="Message"
             />
 
-            <input type="submit"
+            <button type="submit"
             className="bg-primary-600 hover:bg-primary-700 focus-visible:outline-primary-600 text-white rounded-full px-5 py-3 text-primary-950 font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
             placeholder="hjkggs"
-            />
+            >Submit</button>
           </form>
         </div>
       </div>
