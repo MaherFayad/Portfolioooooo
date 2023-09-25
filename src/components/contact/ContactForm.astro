@@ -1,44 +1,59 @@
 ---
-  import emailjs from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
-  let name = '';
-  let email = '';
-  let message = '';
-  let redirecting = false;
+let name = '';
+let email = '';
+let message = '';
+let redirecting = false;
 
-  const sendEmail = async () => {
-    console.log("123");
-    try {
-      const form = document.getElementById('Form');
-      if (!form) return; // Ensure the form element exists
+const sendEmail = async () => {
+  try {
+    // Find the form by its ID using querySelector
+    const form = document.querySelector('#Form');
+    if (!form) return; // Ensure the form element exists
 
-      const result = await emailjs.sendForm(
-        'service_lwri32l',
-        'template_hnydtuc',
-        form as HTMLFormElement,
-        'EX_A9-j_JtnnH7oPd'
-      );
-      console.log(result.text);
-      redirectToThanks();
-    } catch (error:any) {
-      console.error(error.text);
-      redirectTo404();
-    }
-  };
+    // Prevent the default form submission
+    e.preventDefault();
 
-  const redirectToThanks = () => {
-    redirecting = true;
-    location.href = '/thanks';
-  };
+    // Use FormData to collect form data
+    const formData = new FormData(form);
 
-  const redirectTo404 = () => {
-    redirecting = true;
-    location.href = '/404';
-  };
+    const result = await emailjs.sendForm(
+      'service_lwri32l',
+      'template_hnydtuc',
+      formData, // Pass the FormData object
+      'EX_A9-j_JtnnH7oPd'
+    );
+
+    console.log(result.text);
+    redirectToThanks();
+  } catch (error:any) {
+    console.error(error.text);
+    redirectTo404();
+  }
+};
+
+const redirectToThanks = () => {
+  redirecting = true;
+  location.href = '/thanks';
+};
+
+const redirectTo404 = () => {
+  redirecting = true;
+  location.href = '/404';
+};
+
+// Add a submit event listener to the form
+window.addEventListener('load', () => {
+  const form = document.querySelector('#Form');
+  if (form) {
+    form.addEventListener('submit', sendEmail);
+  }
+});
 
 ---
 <section class="py-16 sm:py-20 fade-up">
-<form action="#" method="POST" class="mt-3 flex flex-col gap-y-6" id="Form">
+<form action="/thanks" method="POST" class="mt-3 flex flex-col gap-y-6" onsubmit="sendEmail(); return false;" id="Form">
     <!-- Full name input -->
     <label for="full-name" class="sr-only">
       Full name
