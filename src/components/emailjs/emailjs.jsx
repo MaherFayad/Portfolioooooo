@@ -105,9 +105,9 @@ export const ContactUs = () => {
     </section>
     <script>
       document.getElementById("Form").addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent the form from submitting traditionally
-      sendEmail(); // Call your sendEmail function
-    });
+        e.preventDefault(); // Prevent the form from submitting traditionally
+        sendEmail(); // Call your sendEmail function
+      })
     </script>
   );
 };
