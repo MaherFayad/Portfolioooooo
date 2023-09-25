@@ -20,6 +20,7 @@ export const ContactUs = () => {
 
   const sendEmail = (e) => {
     console.log("XXXXXXXXXXXXXXXX");
+    alert('test');
     e.preventDefault();
     emailjs
     .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
