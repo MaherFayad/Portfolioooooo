@@ -4,6 +4,8 @@ import '@fontsource/inter/latin-500.css';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import { SEO } from "astro-seo";
+import emailjs from 'emailjs-com';
+
 // @astro/internal/no-reload
 
 
@@ -180,7 +182,9 @@ const { description, title } = Astro.props;
       };
 
       const sendEmail = (e) => {
+        console.log("123");
         e.preventDefault();
+        
         emailjs
         .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
         .then(
