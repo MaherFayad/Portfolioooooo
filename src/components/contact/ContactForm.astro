@@ -59,27 +59,4 @@ let message = '';
   </form>
 </section>
 
-<script src="https://smtpjs.com/v3/smtp.js">
-</script>
-
-<script>
-    document.getElementById("Form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the form from submitting traditionally
-        sendEmail(); // Call your sendEmail function
-    });
-
-    function sendEmail() {
-        Email.send({
-            Host: "smtp.elasticemail.com",
-            Username: "maherfayad55@gmail.com",
-            Password: "C8EA25D87DA70883F705017E596565098169",
-            To: 'maherfayad55@gmail.com',
-            From: "contact@maherfayad.com",
-            Subject: "This is the subject",
-            Body: "And this is the body"
-        }).then(
-            message => alert(message)
-        );
-    }
-</script>
 
