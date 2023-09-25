@@ -8,26 +8,26 @@ let redirecting = false;
 
 const sendEmail = async () => {
   try {
-    // Find the form by its ID using querySelector
-    const form = document.querySelector('#Form');
-    if (!form) return; // Ensure the form element exists
+    // Check if running in the browser (client-side)
+    if (typeof window !== 'undefined') {
+      // Find the form by its ID using querySelector
+      const form = document.querySelector('#Form') as HTMLFormElement | null;
+      if (!form) return; // Ensure the form element exists
 
-    // Prevent the default form submission
-    e.preventDefault();
+      // Use FormData to collect form data
+      const formData = new FormData(form);
 
-    // Use FormData to collect form data
-    const formData = new FormData(form);
+      const result = await emailjs.sendForm(
+        'service_lwri32l',
+        'template_hnydtuc',
+        formData, // Pass the FormData object
+        'EX_A9-j_JtnnH7oPd'
+      );
 
-    const result = await emailjs.sendForm(
-      'service_lwri32l',
-      'template_hnydtuc',
-      formData, // Pass the FormData object
-      'EX_A9-j_JtnnH7oPd'
-    );
-
-    console.log(result.text);
-    redirectToThanks();
-  } catch (error:any) {
+      console.log(result.text);
+      redirectToThanks();
+    }
+  } catch (error) {
     console.error(error.text);
     redirectTo404();
   }
@@ -35,21 +35,27 @@ const sendEmail = async () => {
 
 const redirectToThanks = () => {
   redirecting = true;
-  location.href = '/thanks';
+  if (typeof window !== 'undefined') {
+    window.location.href = '/thanks';
+  }
 };
 
 const redirectTo404 = () => {
   redirecting = true;
-  location.href = '/404';
+  if (typeof window !== 'undefined') {
+    window.location.href = '/404';
+  }
 };
 
 // Add a submit event listener to the form
-window.addEventListener('load', () => {
-  const form = document.querySelector('#Form');
-  if (form) {
-    form.addEventListener('submit', sendEmail);
-  }
-});
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', () => {
+    const form = document.querySelector('#Form') as HTMLFormElement | null;
+    if (form) {
+      form.addEventListener('submit', sendEmail);
+    }
+  });
+}
 
 ---
 <section class="py-16 sm:py-20 fade-up">
