@@ -1,17 +1,20 @@
 ---
-import emailjs from 'emailjs-com';
+  import emailjs from 'emailjs-com';
 
 let name = '';
 let email = '';
 let message = '';
 let redirecting = false;
 
-const sendEmail = async () => {
+const form = document.getElementById('Form');
+
+const sendEmail = async (e: Event) => {
+  e.preventDefault(); // Prevent the default form submission behavior
   try {
     const result = await emailjs.sendForm(
       'service_lwri32l',
       'template_hnydtuc',
-      'Form',
+      form as HTMLFormElement, // Cast form as HTMLFormElement
       'EX_A9-j_JtnnH7oPd'
     );
     console.log(result.text);
@@ -31,8 +34,13 @@ const redirectTo404 = () => {
   redirecting = true;
   location.href = '/404';
 };
+
+// Add a submit event listener to the form
+form?.addEventListener('submit', sendEmail);
+
 ---
-<form class="mt-3 flex flex-col gap-y-6" on:submit={sendEmail} id="Form">
+<section class="py-16 sm:py-20 fade-up">
+<form action="/thanks" method="POST" class="mt-3 flex flex-col gap-y-6" id="Form">
     <!-- Full name input -->
     <label for="full-name" class="sr-only">
       Full name
@@ -81,3 +89,4 @@ const redirectTo404 = () => {
       Submit
     </button>
   </form>
+</section>
