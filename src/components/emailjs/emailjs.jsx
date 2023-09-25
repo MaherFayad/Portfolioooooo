@@ -40,7 +40,7 @@ export const ContactUs = () => {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-8">
           <div className="flex flex-col gap-4 sm:gap-6">
             <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">Let's work together</h2>
-            <p className="text-primary-950/70 max-w-lg text-lg sm:text-xl">
+            <p className="max-w-lg text-lg sm:text-xl">
               We'd love to learn more about you and what we can build together.
             </p>
           </div>
