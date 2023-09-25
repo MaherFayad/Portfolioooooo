@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'; // Import FormEvent type
 import emailjs from 'emailjs-com';
 
 export const ContactUs = () => {
-  const form = useRef<HTMLFormElement>(null); // Specify the type of useRef
+  const form = useRef(); // Specify the type of useRef
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState<string>('');
