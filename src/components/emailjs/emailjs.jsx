@@ -90,7 +90,7 @@ export const ContactUs = () => {
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-800 dark:bg-primary-900 ring-primary-600 dark:ring-primary-600 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 transition focus:outline-none focus:ring-2 mb-4"
+              className="hover:ring-primary-600 focus:ring-primary-600 dark:hover:ring-primary-400 dark:focus:ring-primary-400 bg-primary-900 dark:bg-primary-900 dark:ring-primary-600 placeholder:text-primary-200/60 dark:placeholder:text-primary-200/60 block w-full appearance-none rounded-md border-0 px-4 py-4 text-base ring-1 ring-primary-600 transition focus:outline-none focus:ring-2 mb-4"
               placeholder="Message"
             />
 
