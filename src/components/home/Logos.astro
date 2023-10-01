@@ -3,34 +3,42 @@ const logo = [
   {
     name: 'Theradome',
     image: '/assets/Logos/theradome.png',
+    link: 'https://theradome.com/',
     },
     {
     name: 'Mit-olins',
     image: '/assets/Logos/Mit-olin.png',
+    link: 'https://www.miltolinfoundation.org/',
     },
     {
     name: 'Contact',
     image: '/assets/Logos/Contact.png',
+    link: 'https://contact.eg/',
     },
     {
     name: 'Konica',
     image: '/assets/Logos/konica-minolta.png',
+    link: 'https://www.konicaminolta.us/',
     },
     {
     name: 'IterationX',
     image: '/assets/Logos/iterationX.png',
+    link: 'https://www.iterationx.com/',
     },
     {
     name: 'Solidity Law',
     image: '/assets/Logos/Solidity-Law.png',
+    link: 'https://www.soliditylaw.com/',
     }, 
     {
     name: 'GameIt',
     image: '/assets/Logos/gameit-logo-large.png',
+    link: 'https://gameit.ai/',
     },     
     {
     name: 'Solidity Studios',
     image: '/assets/Logos/Solidity-Studios.png',
+    link: 'https://www.soliditylabs.com/',
     },
      
 ];
@@ -42,7 +50,9 @@ const logo = [
     {
       logo.map((logo) => (
         <div class="bg-primary-800 bg-opacity-50 dark:bg-opacity-50 flex flex-col gap-4 align-middle items-center rounded-md px-4 py-8">
-          <img class="items-center align-middle md:h-12 bg-contain h-8 cover-contain" src={logo.image} alt={logo.name}/>
+          <a href={logo.link} target="_blank" rel="noopener noreferrer"> {/* Added anchor tag */}
+            <img class="items-center align-middle md:h-12 bg-contain h-8 cover-contain" src={logo.image} alt={logo.name} />
+          </a>
         </div>
       ))
     }
