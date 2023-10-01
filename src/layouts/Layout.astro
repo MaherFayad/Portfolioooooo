@@ -100,7 +100,28 @@ const { description, title } = Astro.props;
                 }
             };w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
         })(window, document, "//rum.beusable.net/load/b230930e134632u394");
-        </script>  
+        </script>
+        <script>
+          (function (m, a, z, e) {
+            var s, t;
+            try {
+              t = m.sessionStorage.getItem('maze-us');
+            } catch (err) {}
+          
+            if (!t) {
+              t = new Date().getTime();
+              try {
+                m.sessionStorage.setItem('maze-us', t);
+              } catch (err) {}
+            }
+          
+            s = a.createElement('script');
+            s.src = z + '?t=' + t + '&apiKey=' + e;
+            s.async = true;
+            a.getElementsByTagName('head')[0].appendChild(s);
+            m.mazeUniversalSnippetApiKey = e;
+          })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'd09ba9c0-cdd6-469c-b002-a937ee31f95e');
+          </script>  
       
   </head>
   <body
