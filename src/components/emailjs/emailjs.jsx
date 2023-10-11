@@ -37,7 +37,7 @@ export const ContactUs = () => {
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-8">
           <div className="flex flex-col gap-4 sm:gap-6">
-            <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">Let's work together</h2>
+            <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">Let's work together</h1>
             <p className="max-w-lg text-lg sm:text-xl">
               I'd love to learn more about you and what we can build together.
             </p>
