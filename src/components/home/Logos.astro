@@ -51,7 +51,7 @@ const logo = [
       logo.map((logo) => (
         <div class="bg-primary-800 bg-opacity-50 dark:bg-opacity-50 flex flex-col gap-4 align-middle items-center rounded-md px-4 py-8">
           <a href={logo.link} target="_blank" rel="noopener noreferrer"> {/* Added anchor tag */}
-            <img class="aspect-[5.17] items-center align-middle md:h-12 bg-contain h-8 cover-contain" src={logo.image} alt={logo.name} />
+            <img class="aspect-[5.17] md:aspect-[5.17] sm:aspect-[5.17] lg:aspect-[5.17] items-center align-middle" src={logo.image} alt={logo.name} />
           </a>
         </div>
       ))
