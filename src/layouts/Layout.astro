@@ -124,7 +124,12 @@ const { description, title } = Astro.props;
       import collapse from '@alpinejs/collapse';
       import emailjs from 'emailjs-com';
 
-
+      // Define the Alpine object and its type
+      declare global {
+        interface Window {
+          Alpine: typeof Alpine;
+        }
+      }
 
       Alpine.plugin(collapse);
 
@@ -166,22 +171,28 @@ const { description, title } = Astro.props;
         window.location.href = '/404';
       };
 
-      document.getElementById("Form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Prevent the form from submitting traditionally
-        const form = document.getElementById("Form");
-        emailjs
-          .sendForm('service_lwri32l', 'template_hnydtuc', form, 'EX_A9-j_JtnnH7oPd')
-          .then(
-            (result) => {
-              console.log(result.text);
-              redirectToThanks();
-            },
-            (error) => {
-              console.log(error.text);
-              redirectTo404();
-            }
-          );
+      document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("Form") as HTMLFormElement; // Explicitly type as HTMLFormElement
+
+        if (form) {
+          form.addEventListener("submit", function(e) {
+            e.preventDefault(); // Prevent the form from submitting traditionally
+            emailjs
+              .sendForm('service_lwri32l', 'template_hnydtuc', form, 'EX_A9-j_JtnnH7oPd')
+              .then(
+                (result) => {
+                  console.log(result.text);
+                  redirectToThanks();
+                },
+                (error) => {
+                  console.log(error.text);
+                  redirectTo404();
+                }
+              );
+          });
+        }
       });
+
     </script>
   </body>
 </html>
