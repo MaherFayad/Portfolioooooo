@@ -157,9 +157,6 @@ const { description, title } = Astro.props;
       });
 
       // Add event listener to reinitialize on window resize (optional)
-      window.addEventListener("resize", () => {
-        scroll.update();
-      });
 
       const redirectToThanks = () => {
         window.location.href = '/thanks';
