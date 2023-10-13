@@ -38,6 +38,7 @@
   "devDependencies": {
     "@types/alpinejs__collapse": "^3.13.1",
     "astro-compress": "^2.0.15",
+    "css-aspect-ratio": "^1.0.5",
     "tailwindcss": "^3.3.3"
   }
 }

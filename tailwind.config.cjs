@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 
+
 const colors = require('tailwindcss/colors');
 
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
+    extend: {
+      aspectRatio: {
+        '5.17': '517 / 100'
+      }},
     colors: {
       current: 'currentColor',
       transparent: 'transparent',
@@ -27,5 +32,6 @@ module.exports = {
       '5xl': ['3rem', '3.5rem'],
       '6xl': ['3.75rem', '4.25rem'],
     },
+
   },
 };
