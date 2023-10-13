@@ -7,11 +7,12 @@ import partytown from '@astrojs/partytown';
 import svelte from '@astrojs/svelte';
 import alpinejs from "@astrojs/alpinejs";
 
+import compressor from "astro-compressor";
 
 // https://astro.build/config
 export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), sitemap(), robotsTxt(), react(), partytown(), svelte(), alpinejs(),]
+  integrations: [tailwind(), sitemap(), robotsTxt(), react(), partytown(), svelte(), alpinejs(), compressor()]
 });
