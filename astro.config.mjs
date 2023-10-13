@@ -6,6 +6,7 @@ import react from "@astrojs/react";
 import partytown from '@astrojs/partytown';
 import purgecss from "astro-purgecss";
 import svelte from '@astrojs/svelte';
+import alpinejs from "@astrojs/alpinejs";
 
 
 // https://astro.build/config
@@ -13,5 +14,5 @@ export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), sitemap(), robotsTxt(), react(), purgecss(), partytown(), svelte()]
+  integrations: [tailwind(), sitemap(), robotsTxt(), react(), purgecss(), partytown(), svelte(), alpinejs(),]
 });
