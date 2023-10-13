@@ -8,10 +8,12 @@ import svelte from '@astrojs/svelte';
 import alpinejs from "@astrojs/alpinejs";
 import compressor from "astro-compressor";
 
+import compress from "astro-compress";
+
 // https://astro.build/config
 export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), sitemap(), robotsTxt(), react(), partytown(), svelte(), alpinejs(), compressor()]
+  integrations: [tailwind(), sitemap(), robotsTxt(), react(), partytown(), svelte(), alpinejs(), compressor(), compress()]
 });
