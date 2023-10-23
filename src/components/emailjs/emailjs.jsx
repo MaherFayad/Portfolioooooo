@@ -1,36 +1,10 @@
 import React, { useState, useRef } from 'react';
-import emailjs from 'emailjs-com';
 
 export const ContactUs = () => {
   const form = useRef();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-
-  const redirectToThanks = () => {
-    window.location.href = '/thanks';
-  };
-
-  const redirectTo404 = () => {
-    window.location.href = '/404';
-  };
-
-  const sendEmail = (e) => {
-    console.log("emailjs");
-    e.preventDefault();
-    emailjs
-    .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
-    .then(
-        (result) => {
-          console.log(result.text);
-          redirectToThanks();
-        },
-        (error) => {
-          console.log(error.text);
-          redirectTo404();
-        }
-      );
-  };
 
   return (
     <section className="py-16 sm:py-20">
