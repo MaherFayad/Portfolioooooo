@@ -6,7 +6,8 @@ import Hero from '../components/home/Hero.astro';
 import Services from '../components/home/Services.astro';
 import Testimonials from '../components/home/Testimonials.astro';
 import Layout from '../layouts/Layout.astro';
-import Logos from '../components/home/Logos.astro'
+import Logos from '../components/home/Logos.astro';
+import {Mockup} from '../components/home/Mockup.jsx';
 ---
 
 <Layout
@@ -15,6 +16,7 @@ import Logos from '../components/home/Logos.astro'
 >
   <Hero />
   <Services />
+  <div class="fade up w-0 h-0 opacity-0 sm:w-auto sm:h-auto sm:opacity-100 sm:mt-24 sm:mb-24"><Mockup/></div>
   <Logos />
   <About />
   <Expertise />
@@ -22,3 +24,4 @@ import Logos from '../components/home/Logos.astro'
   <Cta />
 
 </Layout>
+../components/home/Mockup.jsx
