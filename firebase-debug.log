@@ -1,0 +1,25 @@
+[debug] [2023-12-22T12:24:26.672Z] ----------------------------------------------------------------------
+[debug] [2023-12-22T12:24:26.674Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\maher\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-12-22T12:24:26.674Z] CLI Version:   13.0.1
+[debug] [2023-12-22T12:24:26.674Z] Platform:      win32
+[debug] [2023-12-22T12:24:26.674Z] Node Version:  v20.10.0
+[debug] [2023-12-22T12:24:26.674Z] Time:          Fri Dec 22 2023 15:24:26 GMT+0300 (Arabian Standard Time)
+[debug] [2023-12-22T12:24:26.674Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-12-22T12:24:26.676Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-12-22T12:24:26.740Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-12-22T12:24:26.740Z] > authorizing via signed-in user (maherfayad55@gmail.com)
+[debug] [2023-12-22T12:24:26.740Z] [iam] checking project portfolio-f6c74 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-12-22T12:24:26.741Z] > refreshing access token with scopes: []
+[debug] [2023-12-22T12:24:26.741Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-12-22T12:24:26.741Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-12-22T12:24:27.132Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-12-22T12:24:27.132Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-12-22T12:24:27.135Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/portfolio-f6c74:testIamPermissions [none]
+[debug] [2023-12-22T12:24:27.135Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/portfolio-f6c74:testIamPermissions x-goog-quota-user=projects/portfolio-f6c74
+[debug] [2023-12-22T12:24:27.135Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/portfolio-f6c74:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-12-22T12:24:27.666Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-12-22T12:24:27.666Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2023-12-22T12:24:28.293Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/portfolio-f6c74:testIamPermissions 200
+[debug] [2023-12-22T12:24:28.293Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/portfolio-f6c74:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-12-22T12:24:28.293Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/portfolio-f6c74 [none]
