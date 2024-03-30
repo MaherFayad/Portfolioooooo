@@ -29,32 +29,6 @@ const { description, title } = Astro.props;
     <meta property="og:title" content="Maher Fayad" />
     <meta property="og:description" content="maher fayad is an experienced UI/UX Designer with extensive knowledge and expertise in creating graphical user interfaces and user experiences." />
     <meta property="og:image" content="/assets/Maher.png" />
-    <SEO
-      openGraph={{
-        basic: {
-          title: "Maher Fayad Portfolio",
-          type: "title",
-          image: "/assets/Maher.png",
-        }
-      }}
-      twitter={{
-        creator: "MaherFayad"
-      }}
-      extend={{
-        // extending the default link tags
-        link: [{ rel: "icon", href: "/assets/Maher.png" }],
-        // extending the default meta tags
-        meta: [
-          {
-            name: "twitter:image",
-            content:
-              "/assets/Maher.png",
-          },
-          { name: "twitter:title", content: "Maher Fayad" },
-          { name: "twitter:description", content: "maher fayad is an experienced UI/UX Designer with extensive knowledge and expertise in creating graphical user interfaces and user experiences." },
-        ],
-      }}></SEO>
-
       <title>{title}</title>
       <!-- Google tag (gtag.js) -->
       <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-MDGXQYTFN1"></script>
