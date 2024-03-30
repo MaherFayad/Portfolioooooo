@@ -19,9 +19,11 @@ const links = [
 ---
 
 <header
-  x-data="{ open: false }" 
+  x-data="{ open: false, scrolled: false }"
+  @scroll.window="scrolled = (window.pageYOffset > 0 ? true : false)"
   class="transition"
   :class="{ 'bg-primary-400/10 dark:bg-primary-400/10': open, 'bg-primary-900 dark:bg-primary-900': !(open) }"
+  x-init="scrolled = window.pageYOffset > 0 ? true : false"
 >
   <div
     class="mx-auto flex max-w-2xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"
@@ -38,7 +40,7 @@ const links = [
           width="65"
           height="40"
           :src="$store.theme.isDark ? '/assets/logo-inverted.svg' : '/assets/logo-inverted.svg'"
-          alt="Stone"
+          alt="Logo"
         />
       </a>
     </div>
@@ -117,12 +119,13 @@ const links = [
           ></path>
         </svg>
       </button>
-
       <a
-          href="/contact"
-          class="text-center whitespace-nowrap px-4 bg-primary-200 dark:bg-primary-200 hover:bg-primary-300 dark:hover:bg-primary-300 focus-visible:outline-primary-400 dark:focus-visible:outline-primary-400 text-primary-950 dark:text-primary-950 inline-flex items-center justify-center rounded-full border border-transparent py-1 text-base font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          >Say hi
-        </a>
+      href="/contact"
+      :class="scrolled ? 'bg-primary-300 text-primary-950 hover:bg-primary-300 dark:hover:bg-primary-300 focus-visible:outline-primary-400 dark:focus-visible:outline-primary-400' : 'border-primary-300 text-primary-300 bg-primary-800 hover:bg-primary-850 dark:hover:bg-primary-850'"
+      class="transition-colors text-center whitespace-nowrap px-4 inline-flex items-center justify-center rounded-full py-1 text-base font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+      >Say hi
+    </a>
+
     </div>
   </div>
 
@@ -140,7 +143,7 @@ const links = [
         class="bg-primary-400/10 dark:bg-primary-400/10 hidden items-center justify-center rounded-3xl px-6 py-8 lg:flex"
       >
         <p class="text-primary-200/70 dark:text-primary-200/70 max-w-sm text-xl italic leading-loose">
-          <span class="text-3xl">“  I don’t help people with horse
+          <span class="text-3xl">“  I don"t help people with horse
             problems, I help horses with
             people problems. "</span> <br>
             <span class="text-lg small"><br>Robert Redford - Horse Whisperer movie.</span>  
