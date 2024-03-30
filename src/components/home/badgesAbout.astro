@@ -1,0 +1,54 @@
+---
+const logo = [
+    {
+    name: 'google-ux-design-professional-certificate',
+    image: '/assets/badges/google-ux-design-professional-certificate.webp',
+    link: 'https://www.credly.com/badges/5f3aa817-a4c2-4cee-8364-bd8b163a737b/public_url',
+    },
+    {
+    name: 'google-data-analytics-professional-certificate',
+    image: '/assets/badges/google-data-analytics-professional-certificate.webp',
+    link: 'https://www.credly.com/badges/4b94e10d-d67c-43cb-b529-f9127c04ed91/public_url',
+    },
+    {
+    name: 'enterprise-design-thinking-practitioner',
+    image: '/assets/badges/enterprise-design-thinking-practitioner.webp',
+    link: 'https://www.credly.com/badges/ed0ef7e8-cc68-41e9-8e10-664be336e779/public_url',
+    },
+    {
+    name: 'mckinsey-forward-program',
+    image: '/assets/badges/mckinsey-forward-program.webp',
+    link: 'https://www.credly.com/badges/0e8306a5-d19b-4524-94ca-a2f501be3d81/public_url',
+    },
+    {
+    name: 'meta-front-end-developer-certificate',
+    image: '/assets/badges/meta-front-end-developer-certificate.webp',
+    link: 'https://www.credly.com/badges/2e307edc-0639-42bb-a70c-c6cac291fec3/public_url',
+    },
+];
+---
+
+<div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 py-8 fade-up">
+  <h2 class="text-3xl font-medium tracking-tight sm:text-4xl py-8">Continues Learning Earnt me thos badges</h2>
+  <div class="grid lg:gap-8 md:gap-8 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-2 items-center align-middle">
+    {
+      logo.map((logo) => (
+        <div class="bg-primary-800 bg-opacity-50 dark:bg-opacity-50 flex flex-col gap-4 align-middle items-center rounded-md px-4 py-4">
+          <a href={logo.link} target="_blank" rel="noopener noreferrer"> {/* Added anchor tag */}
+            <style>  
+              .inner-border {
+                box-shadow: inset -4px -4px 0px 0px #231F1D , inset 4px 4px 0px 0px #231F1D ;
+                aspect-ratio: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+              }
+            </style>
+            <img class="inner-border" src={logo.image} alt={logo.name} />
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</div>
