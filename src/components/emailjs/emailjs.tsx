@@ -1,10 +1,42 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, FormEvent } from 'react';
+import emailjs from 'emailjs-com';
+
 
 export const ContactUs = () => {
-  const form = useRef();
+  const form = useRef<HTMLFormElement>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [isRedirecting, setRedirecting] = useState(false); // Step 1: Add a state variable for redirecting
+  const redirectToThanks = () => {
+    setRedirecting(true);
+    window.location.href = '/thanks';
+};
+
+const redirectTo404 = () => {
+    setRedirecting(true);
+    window.location.href = '/404';
+};
+
+
+const sendEmail = (e: FormEvent) => {
+    e.preventDefault();
+  
+    if (form.current) {
+      emailjs
+        .sendForm('service_lwri32l', 'template_hnydtuc', form.current, 'EX_A9-j_JtnnH7oPd')
+        .then(
+          (result) => {
+            console.log(result.text);
+            redirectToThanks();
+          },
+          (error) => {
+            console.log(error.text);
+            redirectTo404();
+          }
+        );
+    }
+  };
 
   return (
     <section className="py-16 sm:py-20">
@@ -16,22 +48,23 @@ export const ContactUs = () => {
               I'd love to learn more about you and what we can build together.
             </p>
           </div>
-          <div class="bg-primary-400/10 dark:bg-primary-400/10 rounded-3xl px-6 py-6">
+          <div className="bg-primary-400/10 dark:bg-primary-400/10 rounded-3xl px-6 py-6">
           <form
-            action="/thanks"
             className="mt-3 flex flex-col gap-y-6"
             id="Form"
+            action="/thanks" 
+            method="post"
             ref={form}
-            onSubmit={(e) => sendEmail(e)}
+            onSubmit={sendEmail}
           >
             {/* Full name input */}
-            <label htmlFor="full-name" className="sr-only">
+            <label htmlFor="name" className="sr-only">
               Full name
             </label>
             <input
               type="text"
-              name="fullname"
-              id="full-name"
+              name="name"
+              id="name"
               autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -81,3 +114,7 @@ export const ContactUs = () => {
     </section>
   );
 };
+function setRedirecting(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+
