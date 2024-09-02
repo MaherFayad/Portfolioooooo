@@ -81,10 +81,22 @@
             </svg>
             
           <div class="transition-colors border-primary-300 text-primary-300 bg-primary-700 hover:bg-primary-850 dark:hover:bg-primary-850 text-center whitespace-nowrap px-4 inline-flex items-center justify-center rounded-full py-1 text-base font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
-          <!-- Calendly link widget begin -->
-          <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-          <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-          <a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/maherfayad/quick-chat'});return false;">Set Meeting</a>
+            <script type="text/javascript">
+              (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+            Cal("init", "meeting", {origin:"https://cal.com"});
+                        
+              
+              // Important: Please add the following attributes to the element that should trigger the calendar to open upon clicking.
+              // `data-cal-link="maherfayad/30min"`
+              // data-cal-namespace="30min"
+              // `data-cal-config='{"layout":"month_view"}'`
+            
+              Cal.ns["30min"]("ui", {"styles":{"branding":{"brandColor":"#1c1917"}},"hideEventTypeDetails":true,"layout":"month_view"});
+              </script>
+                      <button data-cal-namespace="meeting" 
+                      data-cal-link="maherfayad/meeting"
+                      data-cal-config='{"layout":"month_view"}'
+                  >Set Meeting</button>
           <!-- Calendly link widget end --></div>         </dd>
       </div>
      </dl>
