@@ -31,15 +31,15 @@ const { description, title } = Astro.props;
     <meta property="og:image" content="/assets/Maher.png" />
       <title>{title}</title>
       <!-- Google tag (gtag.js) -->
-      <script type="text/partytown" async src="https://www.googletagmanager.com/gtag/js?id=G-MDGXQYTFN1"></script>
-      <script type="text/partytown">
+      <script type="text/javascript" async src="https://www.googletagmanager.com/gtag/js?id=G-MDGXQYTFN1"></script>
+      <script type="text/javascript">
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
         gtag('config', 'G-MDGXQYTFN1');
       </script>
-      <script type="text/javascript">
+      <script type="text/partytown">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -65,7 +65,7 @@ const { description, title } = Astro.props;
     class="dark bg-primary-900 text-primary-200 dark:bg-primary-900 dark:text-primary-200 antialiased transition"
   >
 <!-- Cal floating-popup embed code begins -->
-<script type="text/javascript">
+<script type="text/partytown">
   (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
 Cal("init", "meeting", {origin:"https://cal.com"});
 
