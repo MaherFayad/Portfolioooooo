@@ -36,8 +36,8 @@ const sections = [
     threshold: 0.5,
   };
 
-  const observerCallback = (entries) => {
-    entries.forEach((entry) => {
+  const observerCallback = (entries: any[]) => {
+    entries.forEach((entry: { isIntersecting: any; target: { id: any; }; }) => {
       if (entry.isIntersecting) {
         const activeId = entry.target.id;
         navLinks.forEach((link) => {
