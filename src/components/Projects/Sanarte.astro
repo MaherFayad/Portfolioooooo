@@ -1,1 +1,116 @@
-<iframe src="https://pages.embednotion.com/466a6b1726634c0f97965c4c8c15dbf9" class="mx-auto h-[1000px] flex max-w-2xl w-full items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"></iframe>
+---
+import placeholderImage from '../../../public/assets/5.webp';
+import SideNavigation from './SideNavigation.astro';
+---
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="lg:flex lg:gap-10">
+      <aside class="lg:w-64 flex-shrink-0">
+        <SideNavigation />
+      </aside>
+      <article class="mt-10 lg:mt-0 lg:flex-grow">
+        <h1 class="text-4xl font-bold mb-8 text-gray-900 dark:text-white">UX Research Case Study: <span class="text-blue-600 dark:text-blue-400">Product Redesign</span></h1>
+        
+        <section id="project-overview" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Project Overview</h2>
+          <p class="text-gray-600 dark:text-gray-400">This case study presents the UX research conducted for the redesign of our flagship product. The goal was to improve user satisfaction and increase engagement.</p>
+        </section>
+
+        <section id="research-methods" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Research Methods</h2>
+          <ul class="list-disc pl-5 text-gray-600 dark:text-gray-400">
+            <li>User Interviews (n=15)</li>
+            <li>Usability Testing (n=10)</li>
+            <li>Survey (n=500)</li>
+            <li>Analytics Review</li>
+          </ul>
+        </section>
+
+        <section id="user-interviews" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">User Interviews</h2>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Participant</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Age</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Occupation</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-400">Key Pain Points</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-700">
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">P1</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">28</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Marketing Manager</td>
+                  <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">Difficulty in navigation, slow load times</td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">P2</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">35</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Software Engineer</td>
+                  <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">Lack of customization options, complex workflow</td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">P3</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">42</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Product Owner</td>
+                  <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">Inconsistent UI, missing key features</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="user-persona" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">User Persona</h2>
+          <img src={placeholderImage} alt="User Persona" width={800} height={400} class="rounded-lg shadow-md" />
+        </section>
+
+        <section id="user-journey-map" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">User Journey Map</h2>
+          <img src={placeholderImage} alt="User Journey Map" width={800} height={400} class="rounded-lg shadow-md" />
+        </section>
+
+        <section id="overall-analytics" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Overall Analytics</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+              <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Bounce Rate</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">45%</dd>
+                <dd class="mt-2 text-sm text-gray-600 dark:text-gray-400">Down from 60% last quarter</dd>
+              </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+              <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Avg. Session Duration</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">3m 45s</dd>
+                <dd class="mt-2 text-sm text-gray-600 dark:text-gray-400">Up 20% from previous version</dd>
+              </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+              <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Conversion Rate</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">2.5%</dd>
+                <dd class="mt-2 text-sm text-gray-600 dark:text-gray-400">Improved by 0.8% after redesign</dd>
+              </div>
+            </div>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+              <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">User Satisfaction</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">4.2/5</dd>
+                <dd class="mt-2 text-sm text-gray-600 dark:text-gray-400">Based on post-interaction surveys</dd>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="conclusion" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Conclusion</h2>
+          <p class="text-gray-600 dark:text-gray-400">The UX research revealed several key areas for improvement in our product. By addressing the identified pain points and implementing data-driven design decisions, we were able to significantly enhance user satisfaction and engagement metrics.</p>
+        </section>
+      </article>
+    </div>
+  </main>
+<!-- <iframe src="https://pages.embednotion.com/466a6b1726634c0f97965c4c8c15dbf9" class="mx-auto h-[1000px] flex max-w-2xl w-full items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"></iframe> -->
