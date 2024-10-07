@@ -58,26 +58,34 @@ const sections = [
 
 
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <div class="lg:flex lg:gap-10">
+  <div class="lg:flex lg:gap-10 ">
     <!-- Side Navigation -->
     <aside class="lg:w-64 flex-shrink-0">
       <SideNavigation />
     </aside>
 
     <!-- Main Article -->
-    <article class="mt-10 lg:mt-0 lg:flex-grow w-[80%] gap-10">
+    <article class="mt-10 lg:mt-0 lg:flex-grow w-[80%] gap-10 align-middle object-center justify-items-center items-center flex-auto">
+      <img src="../../../public/assets/4.webp" alt="Chart" class="rounded-lg shadow-md mt-4 mb-12 w-full h-40 object-cover">
       <h1 class="text-6xl font-extrabold mb-8 text-primary-900 dark:text-white">Sanarte Case Study</h1>
+      <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+
 
 <div id="project-overview">
+  <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Project overview</h2>
+
       <!-- Dynamic Sections -->
       {
         sections.map((section) => (
-          <section id={section.id} class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-primary-200">{section.title}</h2>
+          <section id={section.id} class="mb-4">
+            <h3 class="text-xl font-medium mb-4 text-primary-900 dark:text-primary-300">{section.title}</h2>
             <p class="text-primary-400 dark:text-primary-400" set:html={section.content}></p>
           </section>
         ))
       }</div>
+
+<hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+
 <div id="the-plan">
 
       <!-- Table Section Example -->
@@ -137,6 +145,7 @@ const sections = [
 
       <!-- Table Section Example -->
 </div>
+<hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
 
 <div id="competitor-analysis">
 
@@ -236,6 +245,7 @@ const sections = [
     </div>
   </section>
 </div>
+<hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
 
 <div id="literature-review">
   <section class="mb-12 max-w-full">
@@ -244,51 +254,55 @@ const sections = [
     <div class="space-y-6">
       <!-- Remote Workers Feeling Disconnected -->
       <div>
-        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">Remote workers often feel disconnected at their workplaces</h3>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">1- Remote workers often feel disconnected at their workplaces</h3>
         <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
           <li>30% of business leaders stated that maintaining corporate culture is their biggest concern.</li>
           <li>29% of business leaders have not implemented measures to track productivity remotely.</li>
           <li>91% of remote workers who experienced increased efficiency and productivity in the last six months also regularly engage in wellness activities.</li>
           <li>80% of remote workers would consider quitting their current position for a job that focuses more on employees' mental health.</li>
         </ul>
-        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fa1cc09c-c691-42f8-a106-9bcee408a387/Untitled.png" alt="Chart" class="rounded-lg shadow-md mt-4">
-        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd4e7110-b23d-4d5c-b6ee-38813c1865eb/Untitled.png" alt="Graph" class="rounded-lg shadow-md mt-4">
+      <div class="flex flex-row w-full gap-8">
+        <img src="../../../public/assets/Projects/Sanarte/1.webp" alt="Chart" class="rounded-lg shadow-md mt-4 aspect-square w-64 h-64">
+        <img src="../../../public/assets/Projects/Sanarte/2.webp" alt="Graph" class="rounded-lg shadow-md mt-4 aspect-square w-64 h-64">
+      </div>
       </div>
   
       <!-- Target Audience -->
       <div>
-        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">My target audience is youth aged 25-40 who work remotely and are tech-savvy</h3>
-        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/918a981a-704b-4a39-a38c-267ce6cb6107/Untitled.png" alt="Target Audience" class="rounded-lg shadow-md mt-4">
-        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/41125d8d-18bc-4e6a-9b36-c6760d4715d0/Untitled.png" alt="Audience Breakdown" class="rounded-lg shadow-md mt-4">
-        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e912d4d2-152e-4ee6-9f58-b9e8c25a4fce/Untitled.png" alt="Demographics" class="rounded-lg shadow-md mt-4">
-      </div>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">2- My target audience is youth aged 25-40 who work remotely and are tech-savvy</h3>
+        <div class="flex flex-row w-full gap-8 flex-wrap">
+          <img src="../../../public/assets/Projects/Sanarte/4.webp" alt="Chart" class="rounded-lg shadow-md mt-4 aspect-square w-64 h-64">
+          <img src="../../../public/assets/Projects/Sanarte/5.webp" alt="Graph" class="rounded-lg shadow-md mt-4 aspect-square w-64 h-64">
+          <img src="../../../public/assets/Projects/Sanarte/6.webp" alt="Graph" class="rounded-lg shadow-md mt-4 aspect-square w-64 h-64">
+        </div>
+        </div>
   
       <!-- Listening to Music for Stress Relief -->
       <div>
-        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">Listening to music or sounds can help alleviate stress in remote workplaces</h3>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">3- Listening to music or sounds can help alleviate stress in remote workplaces</h3>
         <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
-          <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6614998/" target="_blank" class="text-blue-500 dark:text-blue-400">Research</a> suggests that smartphone-based mindfulness apps offer a similar degree of improvement as in-person programs, with the added benefit of convenience and continued use.</li>
-          <li>According to <a href="https://news.stanford.edu/news/2006/may31/brainwave-053106.html" target="_blank" class="text-blue-500 dark:text-blue-400">Stanford researchers</a>, "listening to music seems to be able to change brain functioning to the same extent as medication," making music an accessible stress reduction tool.</li>
+          <li>Research suggests that smartphone-based mindfulness apps offer a similar degree of improvement as in-person programs, with the added benefit of convenience and continued use.</li>
+          <li>According to Stanford researchers, "listening to music seems to be able to change brain functioning to the same extent as medication," making music an accessible stress reduction tool.</li>
           <li>Th eNational Alliance on Mental Illness notes that while music can match our mood, it can also keep us stuck in negative emotional states like depression or anxiety.</li>
-          <li>Jordan Eller suggests that complex tasks might be better suited to music without lyrics, as it can prevent distractions (<a href="https://www.forbes.com/sites/barnabylashbrooke/2020/07/29/can-music-and-sound-change-the-tune-of-remote-worker-productivity/?sh=6bd62e832599" target="_blank" class="text-blue-500 dark:text-blue-400">Forbes</a>).</li>
+          <li>Jordan Eller suggests that complex tasks might be better suited to music without lyrics, as it can prevent distractions .</li>
         </ul>
-        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b4970329-3d64-4ef9-ba9d-a87daf626fde/Untitled.png" alt="Music Impact" class="rounded-lg shadow-md mt-4">
       </div>
   
       <!-- Listening to Music for Productivity -->
       <div>
-        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">Listening to music increases worker productivity and work quality</h3>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">4- Listening to music increases worker productivity and work quality</h3>
         <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
           <li>Music can influence creative tasks, affecting mark-making and color choices in visual work.</li>
-          <li>Music has well-studied psychological benefits, such as relaxing the mind and energizing the body (<a href="https://www.verywellmind.com/benefits-of-music-therapy-89829" target="_blank" class="text-blue-500 dark:text-blue-400">Verywell Mind</a>).</li>
+          <li>Music has well-studied psychological benefits, such as relaxing the mind and energizing the body .</li>
           <li>Dr. Jeffrey Thompson of The Center for Neuroacoustic Research explains that sound can increase creativity and productivity.</li>
-          <li>A study by Mindlab International found that 88% of people had improved accuracy and 81% completed tasks faster when listening to music (<a href="https://www.forbes.com/sites/barnabylashbrooke/2020/07/29/can-music-and-sound-change-the-tune-of-remote-worker-productivity/?sh=6bd62e832599" target="_blank" class="text-blue-500 dark:text-blue-400">Forbes</a>).</li>
+          <li>A study by Mindlab International found that 88% of people had improved accuracy and 81% completed tasks faster when listening to music .</li>
         </ul>
       </div>
     </div>
   </section>
   
 </div>
+<hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
 
       <!-- Image Sections -->
       <section id="user-persona" class="mb-12">
