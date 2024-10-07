@@ -1,0 +1,94 @@
+---
+const sections = [
+  { id: 'project-overview', title: 'Project Overview' },
+  { id: 'the-plan', title: 'The plan' },
+  { id: 'competitor-analysis', title: 'competitor analysis' },
+  { id: 'literature-review', title: 'Literature Review' },
+  { id: 'user-interviews', title: 'User Interviews' },
+  { id: 'conclusion', title: 'Conclusion' },
+  { id: 'recommendations', title: 'Recommendations' },
+  { id: 'define', title: 'Define' },
+  { id: 'wireframes', title: 'Wireframes' },
+  { id: 'testing', title: 'Testing' },
+  { id: 'style-guide', title: 'Style Guide' },
+  { id: 'ui-design', title: 'UI Design' },
+];
+---
+
+<nav class="sticky top-48 h-[calc(100vh-6rem)] overflow-y-auto">
+  <ul class="space-y-2">
+    {sections.map((section) => (
+      <li>
+        <a
+          href={`#${section.id}`}
+          class="nav-link block py-2 px-4 text-sm text-primary-600 hover:text-primary-900 hover:bg-primary-100 rounded transition-colors duration-200 dark:text-primary-400 dark:hover:text-white dark:hover:bg-primary-800"
+          data-section={section.id}
+        >
+          {section.title}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<!-- Script to handle scroll and section observation -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const divs = document.querySelectorAll('div[id]'); // Target divs with IDs
+    const offset = 96; // Total offset (56px for sticky header + 40px additional offset)
+
+    // Intersection observer options
+    const observerOptions = {
+      root: null,
+      rootMargin: `-${offset}px 0px 0px 0px`, // Adjust for top offset
+      threshold: 0.1, // Trigger when the top of the div reaches the top + offset
+    };
+
+    // Observer callback to handle intersection entries
+    const observerCallback = (entries: any[]) => {
+      entries.forEach((entry: { isIntersecting: any; target: { id: any; }; }) => {
+        if (entry.isIntersecting) {
+          const activeId = entry.target.id;
+          navLinks.forEach((link) => {
+            if (link.getAttribute('data-section') === activeId) {
+              link.classList.add('text-white', 'bg-primary-700', 'font-medium', 'bg-primary-800');
+              link.classList.remove('text-primary-600', 'dark:text-primary-400');
+            } else {
+              link.classList.remove('text-white', 'bg-primary-700', 'font-medium', 'bg-primary-800');
+              link.classList.add('text-primary-600', 'dark:text-primary-400');
+            }
+          });
+        }
+      });
+    };
+
+    // Create a new Intersection Observer with the callback and options
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe each div with an ID
+    divs.forEach((div) => {
+      observer.observe(div);
+    });
+    navLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+    const targetId = link.getAttribute('href')?.substring(1); // Get the target section ID
+
+    // Check if targetId exists
+    if (targetId) {
+      const targetSection = document.getElementById(targetId);
+
+      // Check if targetSection is not null
+      if (targetSection) {
+        const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth', // Smooth scrolling
+          });
+        }
+      }});});}
+
+  );
+  
+</script>    
