@@ -68,7 +68,7 @@ const sections = [
     <article class="mt-10 lg:mt-0 lg:flex-grow w-[80%] gap-10">
       <h1 class="text-6xl font-extrabold mb-8 text-primary-900 dark:text-white">Sanarte Case Study</h1>
 
-
+<div id="project-overview">
       <!-- Dynamic Sections -->
       {
         sections.map((section) => (
@@ -77,10 +77,11 @@ const sections = [
             <p class="text-primary-400 dark:text-primary-400" set:html={section.content}></p>
           </section>
         ))
-      }
+      }</div>
+<div id="the-plan">
 
       <!-- Table Section Example -->
-      <section id="the-plan" class="mb-12 max-w-full ">
+      <section class="mb-12 max-w-full ">
         <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">The plan</h2>
         <div class="max-w-full overflow-x-auto rounded-xl">
           <table class="max-w-full w-full bg-primary-800 rounded-xl divide-y divide-primary-600 dark:divide-primary-600">
@@ -135,101 +136,159 @@ const sections = [
       </section>
 
       <!-- Table Section Example -->
-      <section id="competitor-analysis" class="mb-12 max-w-full ">
-        <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Competitor Analysis</h2>
-        <div class="w-full overflow-x-auto">
-          <table class="w-full bg-primary-800 rounded-xl divide-y divide-primary-700 dark:divide-primary-700">
-            <thead class="bg-primary-800 dark:bg-primary-800">
-      <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">Company Name</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">Calm</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">HeadSpace</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">Mindfi</th>
-      </tr>
-    </thead>
-    <tbody class="bg-primary-900 divide-primary-700 dark:bg-primary-900 dark:divide-primary-700">
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200 bg-primary-800">Users</td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Primary Target audience</td>
-        <td class="px-6 py-4 text-sm text-primary-200">General users seeking mindfulness and relaxation.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">General users seeking mindfulness and meditation.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Young professionals seeking mindfulness and stress relief.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Customer reviews</td>
-        <td class="px-6 py-4 text-sm text-primary-200">PlayStore (4.1)<br>Appstore (4.8)<br>High ratings and positive feedback on ease of use, variety of meditation content, and sleep aids.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">PlayStore (3.3)<br>AppStore (4.8)<br>Good reviews praising guided meditation, user-friendly interface, and personalized content.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">PlayStore (4.0)<br>AppStore (4.7)<br>Positive reviews highlighting unique features, customizable meditations, and mood-based recommendations.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200 bg-primary-800">Product</td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">USP's</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Guided meditations, sleep stories, breathing exercises, and calming music.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Structured meditation courses, mindful exercises, and SOS mini-sessions for on-the-go relaxation.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">AI-powered personalized mindfulness programs, ambient soundscapes, and mood tracking.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Feature List</td>
-        <td class="px-6 py-4 text-sm text-primary-200">- Guided meditations and sleep stories.<br>- Breathing exercises and relaxing music.<br>- Masterclasses and programs on stress, anxiety, and sleep.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">- Guided meditation courses.<br>- Mindful exercises and SOS sessions.<br>- Sleep sounds and music.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">- AI-driven personalized mindfulness plans.<br>- Ambient soundscapes and sleep stories.<br>- Mood tracking and journaling.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Product strengths</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Extensive library of calming content.<br>Effective sleep aid features.<br>Well-designed and intuitive interface.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Structured and beginner-friendly meditation programs.<br>Credible and renowned meditation experts.<br>Wide range of content for different needs.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Personalized mindfulness programs.<br>Innovative AI technology.<br>Mood-based recommendations.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Product weaknesses</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Some premium content requires subscription.<br>Free version has limited features.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Limited free content and features.<br>Occasional performance issues.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Smaller user base and brand recognition.<br>Less content variety compared to competitors.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Free version?</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Offers a free version with limited features and content.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Provides a limited free trial.<br>Access to more features with a subscription.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Offers a free version with basic features and limited content.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200 bg-primary-800">UI Foundation</td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-        <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
-      </tr>s
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Tone of voice</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Calming, soothing, and serene.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Friendly, approachable, and informative.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Modern, tech-savvy, and youthful.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Color scheme</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Soft pastel colors, shades of blue and green, and earthy tones.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Bright and vibrant colors, gradients, and playful elements.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Bold and energetic colors, dynamic gradients, and contrasting accents.</td>
-      </tr>
-      <tr>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Interaction</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Simple and intuitive interface.<br>Minimalistic navigation and easy-to-use controls.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Step-by-step guidance and progress tracking.<br>User interaction through animations and prompts.</td>
-        <td class="px-6 py-4 text-sm text-primary-200">Personalized recommendations and adaptive program adjustments.<br>Interactive elements and progress tracking.</td>
-      </tr>
-    </tbody>
-          </table>
-        </div>
-      </section>
+</div>
+
+<div id="competitor-analysis">
+
+  <section id="competitor-analysis" class="mb-12 max-w-full ">
+    <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Competitor Analysis</h2>
+    <div class="w-full overflow-x-auto">
+      <table class="w-full bg-primary-800 rounded-xl divide-y divide-primary-700 dark:divide-primary-700">
+        <thead class="bg-primary-800 dark:bg-primary-800">
+  <tr>
+    <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">Company Name</th>
+    <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">Calm</th>
+    <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">HeadSpace</th>
+    <th class="px-6 py-3 text-left text-xs font-medium text-primary-200/70 uppercase tracking-wider">Mindfi</th>
+  </tr>
+</thead>
+<tbody class="bg-primary-900 divide-primary-700 dark:bg-primary-900 dark:divide-primary-700">
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200 bg-primary-800">Users</td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Primary Target audience</td>
+    <td class="px-6 py-4 text-sm text-primary-200">General users seeking mindfulness and relaxation.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">General users seeking mindfulness and meditation.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Young professionals seeking mindfulness and stress relief.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Customer reviews</td>
+    <td class="px-6 py-4 text-sm text-primary-200">PlayStore (4.1)<br>Appstore (4.8)<br>High ratings and positive feedback on ease of use, variety of meditation content, and sleep aids.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">PlayStore (3.3)<br>AppStore (4.8)<br>Good reviews praising guided meditation, user-friendly interface, and personalized content.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">PlayStore (4.0)<br>AppStore (4.7)<br>Positive reviews highlighting unique features, customizable meditations, and mood-based recommendations.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200 bg-primary-800">Product</td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">USP's</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Guided meditations, sleep stories, breathing exercises, and calming music.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Structured meditation courses, mindful exercises, and SOS mini-sessions for on-the-go relaxation.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">AI-powered personalized mindfulness programs, ambient soundscapes, and mood tracking.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Feature List</td>
+    <td class="px-6 py-4 text-sm text-primary-200">- Guided meditations and sleep stories.<br>- Breathing exercises and relaxing music.<br>- Masterclasses and programs on stress, anxiety, and sleep.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">- Guided meditation courses.<br>- Mindful exercises and SOS sessions.<br>- Sleep sounds and music.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">- AI-driven personalized mindfulness plans.<br>- Ambient soundscapes and sleep stories.<br>- Mood tracking and journaling.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Product strengths</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Extensive library of calming content.<br>Effective sleep aid features.<br>Well-designed and intuitive interface.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Structured and beginner-friendly meditation programs.<br>Credible and renowned meditation experts.<br>Wide range of content for different needs.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Personalized mindfulness programs.<br>Innovative AI technology.<br>Mood-based recommendations.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Product weaknesses</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Some premium content requires subscription.<br>Free version has limited features.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Limited free content and features.<br>Occasional performance issues.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Smaller user base and brand recognition.<br>Less content variety compared to competitors.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Free version?</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Offers a free version with limited features and content.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Provides a limited free trial.<br>Access to more features with a subscription.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Offers a free version with basic features and limited content.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200 bg-primary-800">UI Foundation</td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+    <td class="px-6 py-4 text-sm text-primary-200 bg-primary-800"> </td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Tone of voice</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Calming, soothing, and serene.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Friendly, approachable, and informative.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Modern, tech-savvy, and youthful.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Color scheme</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Soft pastel colors, shades of blue and green, and earthy tones.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Bright and vibrant colors, gradients, and playful elements.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Bold and energetic colors, dynamic gradients, and contrasting accents.</td>
+  </tr>
+  <tr>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-primary-200">Interaction</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Simple and intuitive interface.<br>Minimalistic navigation and easy-to-use controls.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Step-by-step guidance and progress tracking.<br>User interaction through animations and prompts.</td>
+    <td class="px-6 py-4 text-sm text-primary-200">Personalized recommendations and adaptive program adjustments.<br>Interactive elements and progress tracking.</td>
+  </tr>
+</tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div id="literature-review">
+  <section class="mb-12 max-w-full">
+    <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Literature Review</h2>
+  
+    <div class="space-y-6">
+      <!-- Remote Workers Feeling Disconnected -->
+      <div>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">Remote workers often feel disconnected at their workplaces</h3>
+        <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+          <li>30% of business leaders stated that maintaining corporate culture is their biggest concern.</li>
+          <li>29% of business leaders have not implemented measures to track productivity remotely.</li>
+          <li>91% of remote workers who experienced increased efficiency and productivity in the last six months also regularly engage in wellness activities.</li>
+          <li>80% of remote workers would consider quitting their current position for a job that focuses more on employees' mental health.</li>
+        </ul>
+        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fa1cc09c-c691-42f8-a106-9bcee408a387/Untitled.png" alt="Chart" class="rounded-lg shadow-md mt-4">
+        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd4e7110-b23d-4d5c-b6ee-38813c1865eb/Untitled.png" alt="Graph" class="rounded-lg shadow-md mt-4">
+      </div>
+  
+      <!-- Target Audience -->
+      <div>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">My target audience is youth aged 25-40 who work remotely and are tech-savvy</h3>
+        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/918a981a-704b-4a39-a38c-267ce6cb6107/Untitled.png" alt="Target Audience" class="rounded-lg shadow-md mt-4">
+        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/41125d8d-18bc-4e6a-9b36-c6760d4715d0/Untitled.png" alt="Audience Breakdown" class="rounded-lg shadow-md mt-4">
+        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e912d4d2-152e-4ee6-9f58-b9e8c25a4fce/Untitled.png" alt="Demographics" class="rounded-lg shadow-md mt-4">
+      </div>
+  
+      <!-- Listening to Music for Stress Relief -->
+      <div>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">Listening to music or sounds can help alleviate stress in remote workplaces</h3>
+        <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+          <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6614998/" target="_blank" class="text-blue-500 dark:text-blue-400">Research</a> suggests that smartphone-based mindfulness apps offer a similar degree of improvement as in-person programs, with the added benefit of convenience and continued use.</li>
+          <li>According to <a href="https://news.stanford.edu/news/2006/may31/brainwave-053106.html" target="_blank" class="text-blue-500 dark:text-blue-400">Stanford researchers</a>, "listening to music seems to be able to change brain functioning to the same extent as medication," making music an accessible stress reduction tool.</li>
+          <li>Th eNational Alliance on Mental Illness notes that while music can match our mood, it can also keep us stuck in negative emotional states like depression or anxiety.</li>
+          <li>Jordan Eller suggests that complex tasks might be better suited to music without lyrics, as it can prevent distractions (<a href="https://www.forbes.com/sites/barnabylashbrooke/2020/07/29/can-music-and-sound-change-the-tune-of-remote-worker-productivity/?sh=6bd62e832599" target="_blank" class="text-blue-500 dark:text-blue-400">Forbes</a>).</li>
+        </ul>
+        <img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b4970329-3d64-4ef9-ba9d-a87daf626fde/Untitled.png" alt="Music Impact" class="rounded-lg shadow-md mt-4">
+      </div>
+  
+      <!-- Listening to Music for Productivity -->
+      <div>
+        <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">Listening to music increases worker productivity and work quality</h3>
+        <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+          <li>Music can influence creative tasks, affecting mark-making and color choices in visual work.</li>
+          <li>Music has well-studied psychological benefits, such as relaxing the mind and energizing the body (<a href="https://www.verywellmind.com/benefits-of-music-therapy-89829" target="_blank" class="text-blue-500 dark:text-blue-400">Verywell Mind</a>).</li>
+          <li>Dr. Jeffrey Thompson of The Center for Neuroacoustic Research explains that sound can increase creativity and productivity.</li>
+          <li>A study by Mindlab International found that 88% of people had improved accuracy and 81% completed tasks faster when listening to music (<a href="https://www.forbes.com/sites/barnabylashbrooke/2020/07/29/can-music-and-sound-change-the-tune-of-remote-worker-productivity/?sh=6bd62e832599" target="_blank" class="text-blue-500 dark:text-blue-400">Forbes</a>).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+</div>
 
       <!-- Image Sections -->
       <section id="user-persona" class="mb-12">
