@@ -2,15 +2,15 @@
 import SideNavigationLFG from './SideNavigationLFG.astro';
 
 ---
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="lg:flex lg:gap-10">
+<main class="lg:max-w-7xl md:max-w-2xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="lg:flex lg:gap-10 ">
       <!-- Side Navigation -->
-      <aside class="lg:w-64 flex-shrink-0 md:hidden sm:hidden lg:block">
+      <aside class="lg:w-64 hidden lg:block flex-shrink-0">
         <SideNavigationLFG />
       </aside>
-  
+    
       <!-- Main Article -->
-      <article class="mt-10 lg:mt-0 lg:flex-grow w-[80%] gap-10 align-middle object-center justify-items-center items-center flex-auto">
+      <article class="mt-10 lg:mt-0 lg:flex-grow w-full lg:w-[70%] gap-10 align-middle object-center justify-items-center items-center flex-auto">
         <img src="/assets/5.webp" alt="Chart" class="rounded-lg shadow-md mt-4 mb-12 w-full h-40 object-cover">
         <h1 class="text-6xl font-extrabold mb-8 text-primary-900 dark:text-white">LFG App</h1>
         <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
