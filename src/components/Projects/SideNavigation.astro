@@ -10,13 +10,13 @@ const sections = [
 ];
 ---
 
-<nav class="sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto">
+<nav class="sticky top-56 h-[calc(100vh-6rem)] overflow-y-auto">
   <ul class="space-y-2">
     {sections.map((section) => (
       <li>
         <a
           href={`#${section.id}`}
-          class="nav-link block py-2 px-4 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800"
+          class="nav-link block py-2 px-4 text-sm  text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded transition-colors duration-200 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800"
           data-section={section.id}
         >
           {section.title}
@@ -27,33 +27,48 @@ const sections = [
 </nav>
 
 <script>
-  const navLinks = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('section');
+  document.addEventListener('DOMContentLoaded', function () {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section');
 
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5,
-  };
+    console.log('navLinks:', navLinks);  // Check if navLinks are being correctly selected
+    console.log('sections:', sections);  // Check if sections are being correctly selected
 
-  const observerCallback = (entries: any[]) => {
-    entries.forEach((entry: { isIntersecting: any; target: { id: any; }; }) => {
-      if (entry.isIntersecting) {
-        const activeId = entry.target.id;
-        navLinks.forEach((link) => {
-          if (link.getAttribute('data-section') === activeId) {
-            link.classList.add('text-blue-600', 'dark:text-blue-400', 'font-medium');
-          } else {
-            link.classList.remove('text-blue-600', 'dark:text-blue-400', 'font-medium');
-          }
-        });
-      }
+    // Intersection observer options
+    const observerOptions = {
+      root: null, // viewport
+      rootMargin: '0px',
+      threshold: 0.1, // Trigger when 10% of the section is visible
+    };
+
+    // Observer callback to handle intersection entries
+    const observerCallback = (entries: any[]) => {
+      entries.forEach((entry: { isIntersecting: any; target: { id: any; }; }) => {
+        if (entry.isIntersecting) {
+          const activeId = entry.target.id;
+          console.log('Active section:', activeId);  // Check which section is currently active
+          navLinks.forEach((link) => {
+            if (link.getAttribute('data-section') === activeId) {
+              // Add active styles to the visible section link
+              link.classList.add('text-white', 'bg-gray-700', 'font-medium','bg-primary-800');
+              link.classList.remove('text-gray-600', 'dark:text-gray-400');
+            } else {
+              // Remove the active styles from other links
+              link.classList.remove('text-white', 'bg-gray-700', 'font-medium','bg-primary-800');
+              link.classList.add('text-gray-600', 'dark:text-gray-400');
+            }
+          });
+        }
+      });
+    };
+
+    // Create a new Intersection Observer with the callback and options
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe each section for intersection
+    sections.forEach((section) => {
+      console.log('Observing section:', section.id);  // Verify that sections are being observed
+      observer.observe(section);
     });
-  };
-
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-  sections.forEach((section) => {
-    observer.observe(section);
   });
 </script>
