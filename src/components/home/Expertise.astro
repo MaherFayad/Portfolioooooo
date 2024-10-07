@@ -33,13 +33,13 @@ Collaboration is key in bringing these designs to life. I'll work closely with y
       <div class="lg:col-span-2">
         <dl
           class="-mt-3"
-          x-data="{ selected: '0', toggle(value) { this.selected = (this.selected === value) ? null : value } }"
+          x-data="{ selected: 0, toggle(value) { this.selected = (this.selected === value) ? null : value } }"
         >
           {
             features.map((feature, id) => (
               <div
                 class="rounded-3xl px-4 transition"
-                x-data={`{ id: ${id}, get isOpen() { if (this.id == this.selected) return (true) ; else return this.id === this.selected; }, get isNextOpen() { return (this.id + 1) === this.selected } } `}
+                x-data={`{ id: ${id}, get isOpen() { return this.id === this.selected }, get isNextOpen() { return (this.id + 1) === this.selected } } `}
                 x-bind:class="{ 'bg-primary-400/10 dark:bg-primary-400/10': isOpen }"
               >
                 <dt
@@ -72,7 +72,12 @@ Collaboration is key in bringing these designs to life. I'll work closely with y
                     </div>
                   </button>
                 </dt>
-                <dd class="pb-6 pr-6" id={feature.id} x-show="isOpen || id === '1'">
+                <dd
+                  class="pb-6 pr-6"
+                  id={feature.id}
+                  x-show="isOpen"
+                  x-collapse
+                >
                   <p class="text-primary-200/70 dark:text-primary-200/70 text-base">
                     {feature.description}
                   </p>
