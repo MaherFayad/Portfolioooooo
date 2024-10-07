@@ -1,1 +1,155 @@
-<iframe src="https://pages.embednotion.com/9376019753954b8991aaa8dc95c86f1b" class="mx-auto h-[1000px] flex max-w-2xl w-full items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:max-w-7xl lg:px-8"></iframe>
+---
+import SideNavigationLFG from './SideNavigationLFG.astro';
+
+---
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="lg:flex lg:gap-10">
+      <!-- Side Navigation -->
+      <aside class="lg:w-64 flex-shrink-0 md:hidden sm:hidden lg:block">
+        <SideNavigationLFG />
+      </aside>
+  
+      <!-- Main Article -->
+      <article class="mt-10 lg:mt-0 lg:flex-grow w-[80%] gap-10 align-middle object-center justify-items-center items-center flex-auto">
+        <img src="/assets/5.webp" alt="Chart" class="rounded-lg shadow-md mt-4 mb-12 w-full h-40 object-cover">
+        <h1 class="text-6xl font-extrabold mb-8 text-primary-900 dark:text-white">LFG App</h1>
+        <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+  
+        <aside class="bg-primary-900 dark:bg-primary-800 rounded-xl p-6 mt-8 text-primary-400 dark:text-primary-400">
+          <h4 class="text-lg font-semibold text-primary-200 dark:text-primary-200">💡 Client Request Note</h4>
+          <p class="mt-4">
+            This document is altered from the original design, and some features are stripped away, so it may appear for some screens to not add up due to the request from the client after asking if I can make this case study for a job interview.
+          </p>
+        </aside>
+  
+        <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+  
+        <!-- Client Background -->
+        <div id="client-background" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Client Background</h2>
+          <p class="text-primary-400 dark:text-primary-400">
+            My client is Mit Olin, which was founded in December 2013 after Milt Olin, a prominent Music Entertainment Attorney, tragically lost his life due to distracted driving. The Milt Olin Foundation team, along with Milt’s widow Louise Olin, is committed to making our roads safer by eliminating distracted driving through education, community awareness, collaboration, and advocacy. Thus, the Let’s Freakin’ Go (LFG) App was born.
+          </p>
+        </div>
+        <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+
+        <!-- Client Requirements -->
+        <div id="client-requirements" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Client Requirements</h2>
+          <p class="text-primary-400 dark:text-primary-400">
+            The client requested a mobile app that uses gamification aspects to help users stay on track with daily habits by chasing rewards while also addressing internal motivations.
+          </p>
+        </div>
+        <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+
+        <!-- Octalysis Framework -->
+        <div id="octalysis-framework" class="mb-12">
+          <h2 class="text-2xl font-semibold mb-4 text-primary-900 dark:text-white">Octalysis Framework</h2>
+          <p class="text-primary-400 dark:text-primary-400 mb-6">
+            The Octalysis framework, conceptualized by Yu-kai Chou, is a sophisticated gamification model that transforms mundane tasks into engaging experiences, motivating user participation through rewards and challenges. Here’s how the eight core drives can be applied:
+          </p>
+          <img src="/assets/Projects/LFG/octalysis.webp" alt="Chart" class="rounded-lg shadow-md mt-4 mb-12 w-full object-cover">
+          <div class="space-y-6">
+            <!-- Core Drive 1 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">1- Epic Meaning & Calling</h3>
+              <p class="text-primary-400 dark:text-primary-400">
+                This drive taps into users' desire to be part of something greater. Implementing a compelling narrative tied to the app's mission can imbue users' actions with significance.
+              </p>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Craft a compelling narrative about a larger mission or personal growth journey.</li>
+                <li>Personal reminders that align user actions with the app’s grand purpose.</li>
+                <li>Use inclusive language and imagery that reinforce the user's vital role in the app's ecosystem.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 2 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">2- Development & Accomplishment</h3>
+              <p class="text-primary-400 dark:text-primary-400">
+                Focusing on progression and achievement can encourage users to reach personal milestones.
+              </p>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Multi-tier achievement systems for both short- and long-term goals.</li>
+                <li>Benchmarking features that allow users to measure progress against average metrics.</li>
+                <li>Reward escalation for higher milestone achievements.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 3 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">3- Empowerment of Creativity & Feedback</h3>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Customizable goal-setting tailored to personal ambitions.</li>
+                <li>Dynamic activity options and user-created activities for creativity and ownership.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 4 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">4- Ownership & Possession</h3>
+              <p class="text-primary-400 dark:text-primary-400">
+                Leveraging users’ intrinsic motivation for ownership can encourage engagement.
+              </p>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Digital rewards and collectibles like NFTs for a tangible sense of ownership.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 5 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">5- Social Influence & Relatedness</h3>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>In-app communities and forums for social interaction.</li>
+                <li>Social challenges, leaderboards, and competitions to foster community spirit.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 6 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">6- Scarcity & Impatience</h3>
+              <p class="text-primary-400 dark:text-primary-400">
+                Scarcity drives users to engage frequently to avoid missing out on rare rewards.
+              </p>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Time-limited challenges and rewards to create urgency.</li>
+                <li>Daily check-in bonuses that reset or diminish after inactivity.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 7 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">7- Unpredictability & Curiosity</h3>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Randomized reward mechanisms to add excitement and variety.</li>
+                <li>Mystery challenges or hidden features to keep users engaged and curious.</li>
+              </ul>
+            </div>
+  
+            <!-- Core Drive 8 -->
+            <div>
+              <h3 class="text-lg font-medium text-primary-200 dark:text-primary-200">8- Loss & Avoidance</h3>
+              <p class="text-primary-400 dark:text-primary-400">
+                The risk of loss can motivate users to stay engaged.
+              </p>
+              <ul class="list-disc pl-5 space-y-2 text-primary-400 dark:text-primary-400">
+                <li>Decay mechanisms where rewards or status are lost after inactivity.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <hr style="border: 1px solid #4d4d4d; margin-bottom: 40px; margin-top: 40px;">
+
+        <div id="ui-design">
+            <section class="mb-12">
+            <div class="mb-8">
+              <h3 class="text-xl font-semibold text-primary-700 dark:text-primary-200">UI Design</h3>
+              <img src="/assets/Projects/LFG/ui1.webp" alt="Chart" class="rounded-lg shadow-md mt-4">
+              <img src="/assets/Projects/LFG/ui2.webp" alt="Chart" class="rounded-lg shadow-md mt-4">
+              <img src="/assets/Projects/LFG/ui3.webp" alt="Chart" class="rounded-lg shadow-md mt-4">
+            </div></section></div>
+          
+      </article>
+    </div>
+  </main>
+  
