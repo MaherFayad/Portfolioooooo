@@ -17,7 +17,7 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto', // Inline small stylesheets
     minify: true,
-    // format: 'file',
+    // Removed format option to use default 'directory' setting
     assets: 'assets'
   },
   vite: {
@@ -42,7 +42,8 @@ export default defineConfig({
     ssr: {
       noExternal: ['@fontsource/inter']
     }
-  },  integrations: [
+  },
+  integrations: [
     tailwind({
       // Minify CSS in production
       minify: true,
