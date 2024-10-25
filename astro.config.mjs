@@ -14,5 +14,24 @@ export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [tailwind(), sitemap(), robotsTxt(), react(), partytown(), svelte(), alpinejs(), compressor(), compress()],
+  integrations: [
+    tailwind(),
+    sitemap(),
+    robotsTxt(),
+    react(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
+    svelte(),
+    alpinejs(),
+    compress({
+      css: true,
+      html: true,
+      js: true,
+      img: true,
+      svg: true
+    })
+  ],
 });
