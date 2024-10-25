@@ -14,8 +14,39 @@ export default defineConfig({
   experimental: {
     optimizeHoistedScript: true
   },
-  integrations: [
-    tailwind(),
+  build: {
+    inlineStylesheets: 'auto', // Inline small stylesheets
+    minify: true,
+    // format: 'file',
+    assets: 'assets'
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true
+        }
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+            'alpine': ['alpinejs'],
+            'emailjs': ['emailjs-com', '@emailjs/browser']
+          }
+        }
+      }
+    },
+    ssr: {
+      noExternal: ['@fontsource/inter']
+    }
+  },  integrations: [
+    tailwind({
+      // Minify CSS in production
+      minify: true,
+    }),
     sitemap(),
     robotsTxt(),
     react(),
@@ -31,7 +62,9 @@ export default defineConfig({
       html: true,
       js: true,
       img: true,
-      svg: true
-    })
+      svg: true,
+      logger: 1
+    }),
+    compressor()
   ],
 });
