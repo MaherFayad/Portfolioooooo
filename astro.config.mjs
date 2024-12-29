@@ -3,7 +3,6 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import react from "@astrojs/react";
-import partytown from '@astrojs/partytown';
 import svelte from '@astrojs/svelte';
 import alpinejs from "@astrojs/alpinejs";
 import compressor from "astro-compressor";
@@ -51,11 +50,6 @@ export default defineConfig({
     sitemap(),
     robotsTxt(),
     react(),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
-      },
-    }),
     svelte(),
     alpinejs(),
     compress({
