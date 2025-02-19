@@ -12,7 +12,7 @@ const services = [
     description:`Made it 20% more enaging for users to track their habits and time, using Octalysis Gamification method`  },
   {
     step: '03',
-    name: 'Indigo Marketing Website',
+    name: 'Indigo Marketing',
     image: '/assets/1.webp',
     description:`website design for a marketing agency`  },
     {
@@ -25,6 +25,11 @@ const services = [
     name: 'Airlab Website design',
     image: '/assets/3.webp',
     description:`Website for a Web3.0 company`  }, 
+    {
+    step: '06',
+    name: 'Alrajhi Bank payroll',
+    image: '/assets/6.webp',
+    description:`Enhance the Payroll pages at AlRajhi E-Business Portal.`  }, 
 ];
 ---
 
@@ -62,7 +67,7 @@ const services = [
           </div>
         </div>
       </div>
-      <div class="grid lg:grid-cols-3"> 
+      <div class="grid lg:grid-cols-4"> 
         <div class="cursor-pointer hover:bg-primary-800 dark:hover:bg-primary-800 flex flex-col gap-4 rounded-3xl lg:px-4 md:px-8 px-4 lg:py-4 md:py-8 py-4" 
         onclick="window.open('https://www.behance.net/gallery/179485605/Indigo-marketing')"
         >
@@ -93,6 +98,17 @@ const services = [
             <h3 class="text-2xl font-medium">{services[4].name}</h3>
             <p class="text-primary-200/70 dark:text-primary-200/70 text-base sm:text-lg">
               {services[4].description}
+            </p>
+          </div>
+        </div>
+        <div class="cursor-pointer hover:bg-primary-800 dark:hover:bg-primary-800 flex flex-col gap-4 rounded-3xl lg:px-4 md:px-8 px-4 lg:py-4 md:py-8 py-4"
+        onclick="window.open('https://www.behance.net/gallery/218311889/Alrajhi-Bank-payroll-revamp-UX-design-case-study')"
+        >
+          <img class="mx-auto rounded-lg aspect-video object-cover" src={services[5].image} alt={services[4].name} />
+          <div class="flex flex-col ">
+            <h3 class="text-2xl font-medium">{services[5].name}</h3>
+            <p class="text-primary-200/70 dark:text-primary-200/70 text-base sm:text-lg">
+              {services[5].description}
             </p>
           </div>
         </div>
