@@ -1,0 +1,52 @@
+---
+const services = [
+  {
+    step: '01',
+    name: 'Primitive & Semantic colors Generator',
+    image: '/assets/Plugins/primitive_colors_generator_1x.webp',
+    description: `Create, manage, and document comprehensive color systems with ease. Perfect for design systems, brand guidelines, and maintaining color consistency across projects.`  },
+  {
+    step: '02',
+    name: 'Numeric Tokens Generator',
+    image: '/assets/Plugins/numeric_tokens_generator_1x.webp',
+    description:`Transform your design workflow with a comprehensive design system generator that creates and manages typography, spacing, border radius, and shadow systems.`  },
+];
+---
+
+<section class="py-16 sm:py-20 fade-up">
+  <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8 ">
+    <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Plugins I developed <br/><br/></h2>
+    <div class="flex flex-col gap-0">
+      <!-- <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">My work Steps</h2> -->
+      <div class="grid lg:grid-cols-4 md:grid-cols-1 sm:grid-cols-1 gap-0">
+        <div class="lg:col-span-2 lg:row-span-2">
+          <div class="cursor-pointer hover:bg-primary-800 dark:hover:bg-primary-800 flex flex-col gap-4 rounded-3xl lg:px-4 md:px-8 px-4 lg:py-4 md:py-8 py-4"
+          onclick="window.open('https://www.figma.com/community/plugin/1444818529763652434/primitive-semantic-colors-generator/', '_blank')"
+          >
+            <img class="mx-auto aspect-video rounded-lg object-cover" src={services[0].image} alt={services[0].name} />
+            <div class="flex flex-col">
+              <h3 class="text-2xl font-medium">{services[0].name}</h3>
+              <p class="text-primary-200/70 dark:text-primary-200/70 text-base sm:text-lg">
+                {services[0].description}
+              </p>
+            </div>
+        </div>
+      </div>
+      <div class="lg:col-span-2 lg:row-span-2">
+        <div class="cursor-pointer hover:bg-primary-800 dark:hover:bg-primary-800 flex flex-col gap-4 rounded-3xl lg:px-4 md:px-8 px-4 lg:py-4 md:py-8 py-4"
+        onclick="window.open('https://www.figma.com/community/plugin/1457720620225105340/numeric-tokens-generator', '_blank')"
+
+        >
+          <img class="mx-auto aspect-video rounded-lg object-cover" src={services[1].image} alt={services[1].name} />
+          <div class="flex flex-col">
+            <h3 class="text-2xl font-medium">{services[1].name}</h3>
+            <p class="text-primary-200/70 dark:text-primary-200/70 text-base sm:text-lg">
+              {services[1].description}
+            </p>
+          </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
