@@ -1,19 +1,33 @@
 ---
 const stats = [
+{
+    Position: 'Sr. User Experience Designer',
+    Company: 'AlRajhi Bank',
+    Time: 'Dec. 2023 - Present',
+    link: 'https://www.alrajhibank.com.sa/en/',
+    image: '/assets/Logos/Rajhi.png',
+    description1:`Delivered 41 revamps and enhancements to Al Rajhi E-Business platforms.`,
+    description2:`Boosted online account openings by 47%.`,
+    description3:`Increased transactions via E-Business channels by 81%.`,
+
+  },
   {
     Position: 'Sr. User Experience Designer',
     Company: 'AZMX',
     Time: 'Dec. 2023 - Present',
-    image: '/assets/Logos/Contact.png',
+    link: 'https://www.azmx.sa/',
+    image: '/assets/Logos/AZMX.png',
     description1:`Collaborating with AZMX clients, crafting user-centric designs that resonate with and fulfill customer needs.`,
     description2:`Engaging with Al Rajhi Bank, a leading financial institution in the Middle East, to enhance user experiences.`,
     description3:`Teaming up with a premier group in Saudi Arabia's vibrant tech ecosystem, driving innovation and user engagement.`,
 
   },
+
   {
     Position: 'Product Designer',
     Company: 'Contact',
     Time: 'Dec. 2022 - Nov. 2023',
+    link: 'https://www.contact.eg/',
     image: '/assets/Logos/Contact.png',
     description1:`I spearhead the creation of user-centric and visually captivating designs that align with both the company's objectives and customer requirements. My role encompasses the entire design lifecycle, from ideation and concept development to execution and implementation.`,
     description2:`My responsibilities involve crafting user flows and wireframes, designing intuitive user interfaces, building interactive prototypes, and executing comprehensive user research to inform design decisions.`,
@@ -24,6 +38,7 @@ const stats = [
     Position: 'UI/UX Designer',
     Company: 'GameIT',
     Time: 'Jun. 2022 - Dec. 2022',
+    link: 'https://gameit.ai/',
     image: '/assets/Logos/gameit-logo-large.png',
     description1:`I focus on refining the website experience to ensure it is user-friendly, engaging, and accessible for all users, thereby enhancing overall satisfaction and usability.`,
     description2:`Collaborating closely with the marketing team, I contribute to the creation of compelling visual and video assets that elevate our brand presence across various platforms.`,
@@ -42,6 +57,7 @@ const stats = [
     Position: 'User Experience Intern Designer',
     Company: 'Algoriza',
     Time: "Mar. 2022 - Jun. 2022",
+    link: 'https://algoriza.com/',
     image: '/assets/Logos/Algoriza.png',
     description1:`Gained foundational knowledge in UX design processes and research methodologies, equipping me with the skills to analyze and understand user needs effectively.`,
     description2:`Acquired a solid understanding of UI design principles, focusing on crafting visually appealing and intuitive user interfaces.`,
@@ -51,6 +67,7 @@ const stats = [
     Position: 'Intern',
     Company: 'British Council',
     Time: "Jun. 2018 - May 2019",
+    link: 'https://www.britishcouncil.org/',
     image: '/assets/Logos/british-council.png',
     description1:`Acted as a vital bridge between the British Council and my university, facilitating effective communication and collaboration.`,
     description2:`Orchestrated large-scale events each semester, successfully drawing in excess of 200 participants, showcasing exceptional event management skills.`,
@@ -63,15 +80,24 @@ const stats = [
   <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
       <div class="flex lg:flex-row flex-col lg:gap-32 md:gap-8 sm:gap-8 w-full lg:flex-nowrap sm:flex-wrap md:flex-wrap">
        <!-- Stats -->
-       <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Experience</h2>
+       <div class="lg:sticky lg:top-32 lg:h-fit">
+         <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">Experience</h2>
+         <p class="text-primary-950/70 dark:text-primary-200/70 text-base max-w-md mt-4">
+          A journey through my professional evolution, showcasing impactful contributions.<br/><br/>
+        </p>
+       </div>
         <dl class="grid grid-row-1 gap-6 sm:grid-row-2 w-full">
           {
             stats.map((stat) => (
               <div class="border-primary-300/10 dark:border-primary-300/10 rounded-3xl border p-6">
                 <dt class="text-sm">{stat.Position}</dt>
                 <div class="flex flex-row justify-between align-middle items-center">
-                  <div class="flex flex-row justify-between">
-                    <dd class="lg:text-3xl text-2xl font-bold tracking-tight w-fit py-2">{stat.Company}</dd>
+                  <div class="flex flex-row justify-between items-center gap-4">
+                    <dd class="lg:text-3xl text-2xl font-bold tracking-tight w-fit py-2">
+                      <a href={stat.link} target="_blank" rel="noopener noreferrer" class="hover:text-primary-600 transition-colors">
+                        {stat.Company}
+                      </a>
+                    </dd>
                   </div>
                   <dd class="lg:text-base text-xs font-regular text-right w-fit">{stat.Time}</dd>
                 </div>
