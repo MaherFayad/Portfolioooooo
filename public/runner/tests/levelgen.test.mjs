@@ -2,14 +2,18 @@
 // Env: SEEDS (default 200), RUN_SECONDS (default 180).
 //
 // 1. Structural checks (API shape, entity fields, determinism, difficulty curve).
-// 2. An engine model spawns chunks the way runner.js is expected to (horizon = view width +
-//    look-ahead, random per seed; camX passed to nextChunk on half the seeds, and on some of
-//    the others the camera starts at a non-zero x so the generator's estimate is wrong).
+// 2. An engine model spawns chunks like runner.js (first chunk at viewW + 120, then whenever
+//    the horizon is within viewW + look-ahead; view width and look-ahead random per seed;
+//    camX passed to nextChunk on half the seeds, and on a quarter the camera starts at a
+//    non-zero x so the generator's camera estimate is wrong).
 // 3. A search bot (exhaustive forward search over ground states, branching on jump hold
 //    length at every ground tick near hazards, ducking, and hold/release after each stomp)
 //    must survive every normal-mode run.
 // 4. Mini mode is played by the simple bot: full jump when a visible hazard is <= 0.12 s away.
-// The physics here is written independently of levelgen.js, from config.js only.
+//    Mini also runs a port of runner.js's own autoplay bot (botThink).
+// The physics is written independently of levelgen.js, from config.js plus the runner.js
+// behaviours listed in SIM. Hitboxes are the raw config sizes (runner.js insets them by
+// 10-12%, which only makes the real game easier).
 
 import { createLevelGen } from '../levelgen.js';
 import { PHYS, SPEED, PLAYER, ENTITIES, AIR_LANES, METEOR } from '../config.js';
@@ -19,51 +23,60 @@ const SEEDS = Number(process.env.SEEDS) || 200;
 const DURATION = Number(process.env.RUN_SECONDS) || 180;
 const N = Math.round(DURATION / DT);
 
-// Engine details config.js leaves open, modelled here (generator assumes worse values).
-const SIM = { meteorBlastH: 32, tumbleBounceH: 20, tumblePeriod: 0.5, stompTol: 6 };
+// Engine details config.js leaves open, taken from runner.js as of writing.
+const SIM = {
+  meteorBlastH: 34,                       // blast box height
+  meteorBlastT: Math.max(METEOR.lingerTime, 0.4), // blast lasts max(lingerTime, 0.4) s
+  tumbleBounceH: 22, tumbleOmega: 5.5,    // y = 22 * |sin(5.5 t)|
+  vultureBob: 3, vultureOmega: 6,         // y = lane + 3 * sin(6 t)
+  heldStompVel: 0.95 * PHYS.jumpVel,      // stomp with jump held
+  stompTol: 6,                            // stricter than runner.js (0.55 * h)
+};
 
 const failures = [];
 const fail = (msg) => failures.push(msg);
 const speedAt = (t) => Math.min(SPEED.max, SPEED.start + SPEED.accel * t);
+const miniSpeedAt = (t) => Math.min(SPEED.max * 0.55, 0.8 * SPEED.start + SPEED.accel * t); // runner.js
 const HAZARD_KINDS = new Set(['ground', 'stomp', 'spiky', 'air', 'meteor']);
 const MINI_TYPES = new Set(['cactus_s', 'rock', 'bug', 'meteor', 'coin']);
 
 /* ------------------------------------------------------------ engine -- */
 
-function engineParams(seed) {
+function engineParams(seed, mini) {
   let a = (seed * 2654435761) >>> 0;
   const r = () => ((a = (Math.imul(a ^ (a >>> 13), 1274126177) + 7) >>> 0) / 4294967296);
   const passCamX = seed % 2 === 0;
   return {
-    viewW: Math.round(480 + r() * 480),        // 16:10 .. 3:1 at VIEW_H 300
-    lookahead: Math.round(60 + r() * 440),     // how far past the right edge chunks are requested
+    viewW: Math.round((mini ? 360 : 560) + r() * 400), // runner.js minimum widths
+    lookahead: Math.round(60 + r() * 640),     // runner.js uses 600
     passCamX,
     camStart: passCamX || seed % 4 === 1 ? 0 : Math.round(-150 + r() * 300),
   };
 }
 
 function buildRun(seed, mini) {
-  const eng = engineParams(seed);
+  const eng = engineParams(seed, mini);
+  const speedFn = mini ? miniSpeedAt : speedAt;
   const gen = createLevelGen({ seed, mini });
   const cam = new Float64Array(N + 2);
   cam[0] = eng.camStart;
-  for (let k = 1; k <= N + 1; k++) cam[k] = cam[k - 1] + speedAt((k - 1) * DT) * DT;
-  let horizon = cam[0] + eng.viewW;
+  for (let k = 1; k <= N + 1; k++) cam[k] = cam[k - 1] + speedFn((k - 1) * DT) * DT;
+  let horizon = cam[0] + eng.viewW + 120;
   const ents = [];
   const chunks = [];
   for (let k = 0; k <= N; k++) {
     const t = k * DT;
     while (horizon <= cam[k] + eng.viewW + eng.lookahead) {
-      const args = { worldX: horizon, speed: speedAt(t), t, score: Math.floor((cam[k] - cam[0]) / 10) };
+      const args = { worldX: horizon, speed: speedFn(t), t, score: Math.floor((cam[k] - cam[0]) / 10) };
       if (eng.passCamX) args.camX = cam[k];
       const c = gen.nextChunk(args);
       checkChunk(c, { seed, mini, k, worldX: horizon, cam: cam[k], viewW: eng.viewW });
       chunks.push({ name: c.name, k, t, worldX: horizon, length: c.length, d: gen.difficulty(t, args.score), n: c.entities.length });
       for (const e of c.entities) ents.push({ ...e, kSpawn: k, chunk: chunks.length - 1 });
-      horizon += c.length;
+      horizon += Math.max(80, c.length);
     }
   }
-  return { seed, mini, eng, gen, cam, ents, chunks };
+  return { seed, mini, eng, gen, cam, ents, chunks, speedFn };
 }
 
 function checkChunk(c, ctx) {
@@ -106,7 +119,7 @@ function prepare(run) {
       h.h = SIM.meteorBlastH;
       h.kReticle = e.kSpawn + Math.round(e.delay / DT);
       h.kImp = h.kReticle + Math.round(METEOR.warn / DT);
-      h.kEnd = h.kImp + Math.round(METEOR.lingerTime / DT);
+      h.kEnd = h.kImp + Math.round(SIM.meteorBlastT / DT);
     }
     // rel(k) = playerX - entityX grows monotonically; overlap iff -PLAYER.w < rel < w.
     const rel = (k) => cam[k] + PLAYER.x - (h.x0 + h.vx * (k - h.kSpawn) * DT);
