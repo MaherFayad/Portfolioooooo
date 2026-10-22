@@ -33,6 +33,7 @@ const ASSUME = {
   vultureBob: 4,                     // vertical wobble of a vulture around its lane
   heldStompVel: 0.95 * PHYS.jumpVel, // bounce when jump is held during a stomp
   camErrorU: 100,                    // camera-estimate error (u) assumed when camX is not passed
+  miniMaxSpeed: 0.55 * SPEED.max,    // runner.js caps the mini loader's speed here
 };
 
 /* ------------------------------------------------------------------ RNG -- */
@@ -163,8 +164,8 @@ function tuning(d, mini) {
 /* ------------------------------------------------------------- Clock ---- */
 
 /** Player-front position over time from the moment a chunk is requested. */
-function makeClock(front0, v0, accel) {
-  const vmax = Math.max(SPEED.max, v0);
+function makeClock(front0, v0, accel, vCap) {
+  const vmax = Math.max(vCap, v0);
   const tCap = accel > 0 ? Math.max(0, (vmax - v0) / accel) : Infinity;
   const dCap = Number.isFinite(tCap) ? v0 * tCap + 0.5 * accel * tCap * tCap : Infinity;
   const dist = (tau) =>
@@ -769,7 +770,7 @@ export function createLevelGen({ seed = Date.now(), mini = false } = {}) {
     if (prev && t - prev.t > 0.25) {
       S.accel = Math.max(0, Math.min(3 * SPEED.accel, (speed - prev.speed) / (t - prev.t)));
     }
-    if (speed >= SPEED.max) S.accel = 0;
+    if (speed >= (mini ? ASSUME.miniMaxSpeed : SPEED.max) - 1e-6) S.accel = 0;
     S.cam = { t, camX: cam, speed };
   }
 
@@ -817,7 +818,8 @@ export function createLevelGen({ seed = Date.now(), mini = false } = {}) {
     const v0 = Math.max(1, Number(speed) || SPEED.start);
     t = Number.isFinite(Number(t)) ? Number(t) : 0;
     updateClock(t, v0, camX);
-    const clock = makeClock(S.cam.camX + PLAYER.x + PLAYER.w, v0, S.accel);
+    const vCap = mini ? ASSUME.miniMaxSpeed : SPEED.max;
+    const clock = makeClock(S.cam.camX + PLAYER.x + PLAYER.w, v0, S.accel, vCap);
     const d = difficulty(t, score);
     const ctx = { worldX, d, mini, clock, rng, has, camUncertain: !Number.isFinite(camX) };
 

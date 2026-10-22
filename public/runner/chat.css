@@ -82,7 +82,7 @@
 
 /* mini runner inside the thinking bubble */
 .mini-runner { display: grid; gap: 8px; }
-.mini-runner canvas { display: block; width: 100%; height: 96px; border-radius: 12px; background: #3b1d3a; cursor: pointer; touch-action: none; }
+.mini-runner canvas { display: block; width: 100%; height: 96px; border-radius: 12px; background: #120f14; cursor: pointer; touch-action: none; }
 .mini-runner canvas:focus-visible { outline: 3px solid var(--ai-accent, #ffb347); outline-offset: 2px; }
 .mini-label { font-size: 14px; color: var(--ai-ink-2, #d6d3d1); padding-inline: 4px; }
 .mini-hint { color: var(--ai-muted, #a8a29e); }

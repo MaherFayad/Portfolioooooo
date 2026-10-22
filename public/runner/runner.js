@@ -9,7 +9,7 @@ const DT = 1 / 120; // fixed physics step
 const PIXEL_FONT = '"Press Start 2P", ui-monospace, monospace';
 
 // ---------------------------------------------------------------- assets
-let assetPromise = null;
+const assetPromises = {};
 function loadImage(name) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -21,16 +21,17 @@ function loadImage(name) {
 }
 const loadJSON = (name) => fetch(new URL(name, ASSET_BASE)).then((r) => r.json());
 
-export function loadAssets() {
-  if (!assetPromise) {
-    assetPromise = Promise.all([
-      loadImage('sky.jpg'), loadImage('mesas.png'), loadImage('ground.png'),
+// theme 'night' (default) blends into dark pages; 'dusk' is the original sunset.
+export function loadAssets(theme = 'night') {
+  if (!assetPromises[theme]) {
+    assetPromises[theme] = Promise.all([
+      loadImage(theme === 'dusk' ? 'sky.jpg' : 'sky-night.jpg'), loadImage('mesas.png'), loadImage('ground.png'),
       loadImage('world.png'), loadJSON('world.json'),
       loadImage('hero.png'), loadJSON('hero.json'),
       document.fonts ? document.fonts.load(`10px ${PIXEL_FONT}`).catch(() => null) : null,
     ]).then(([sky, mesas, ground, world, worldMap, hero, heroMap]) => ({ sky, mesas, ground, world, worldMap, hero, heroMap }));
   }
-  return assetPromise;
+  return assetPromises[theme];
 }
 
 // ---------------------------------------------------------------- audio (tiny synth, no files)
@@ -100,7 +101,8 @@ export async function createRunner(canvas, opts = {}) {
   const reduced = opts.reducedMotion ?? window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   let autoplay = !!opts.autoplay;
 
-  const A = await loadAssets();
+  const night = (opts.theme || 'night') === 'night';
+  const A = await loadAssets(night ? 'night' : 'dusk');
   const ctx = canvas.getContext('2d');
   const sfx = opts.sfx === false ? createSilentSfx() : createSfx();
   const upx = HERO_H / A.heroMap.frames.idle_0[3]; // hero sheet px -> world units
@@ -239,7 +241,7 @@ export async function createRunner(canvas, opts = {}) {
   function spawnAhead() {
     let guard = 0;
     while (S.genX < S.camX + viewW + 600 && guard++ < 20) {
-      const chunk = S.gen.nextChunk({ worldX: S.genX, speed: S.speed, t: S.t, score: S.score });
+      const chunk = S.gen.nextChunk({ worldX: S.genX, speed: S.speed, t: S.t, score: S.score, camX: S.camX });
       for (const it of chunk.entities || []) {
         const def = ENTITIES[it.type]; if (!def) continue;
         const e = { ...it, def, born: S.t, t: 0, alive: true, y: it.y ?? 0, vx: def.vx || 0, vy: 0, rot: 0, frame: 0 };
@@ -302,11 +304,18 @@ export async function createRunner(canvas, opts = {}) {
       const closing = S.speed - (e.vx || 0);
       const dist = ex - (px + pw);
       if (k === 'air' && e.lane === 'high') continue;
-      if (k === 'air' && e.lane === 'mid') { if (dist < closing * 0.35) wantDuck = true; continue; }
+      if (k === 'air' && e.lane === 'mid') {
+        // duck under it, and never jump for the next hazard while it is still overhead
+        if (dist < closing * 0.35) wantDuck = true;
+        if (dist < closing * 0.6) break;
+        continue;
+      }
       // be over the obstacle's centre near the apex of a full jump
       const tApex = PHYS.jumpVel / PHYS.gravity;
       const lead = closing * tApex * 0.82 - ew / 2;
-      if (dist <= lead && dist > -ew && S.p.grounded) { S.p.buffer = PHYS.jumpBuffer; S.p.jumpHeld = true; }
+      // press inside the jump-buffer window too, so tight doubles at speed are taken on landing
+      const landingSoon = !S.p.grounded && S.p.vy < 0 && S.p.y < 40;
+      if (dist <= lead && dist > -ew && (S.p.grounded || landingSoon)) { S.p.buffer = PHYS.jumpBuffer; S.p.jumpHeld = true; }
       break;
     }
     if (S.p.grounded && S.p.vy <= 0 && S.p.buffer <= 0) S.p.jumpHeld = false;
@@ -495,6 +504,7 @@ export async function createRunner(canvas, opts = {}) {
     ctx.beginPath(); ctx.ellipse(cx, sy(0) + 1, 16 * sh, 3 * sh, 0, 0, Math.PI * 2); ctx.fill();
     ctx.save();
     ctx.translate(cx, sy(y)); ctx.scale(sxk, syk);
+    if (night) { ctx.shadowColor = 'rgba(255,232,196,0.55)'; ctx.shadowBlur = 5 * scale * dpr; } // moonlit rim keeps him readable
     ctx.drawImage(A.hero, sx, sy0, w, h, -ax * upx, -dh, dw, dh);
     ctx.restore();
     if (S.shield > 0) {
@@ -519,8 +529,8 @@ export async function createRunner(canvas, opts = {}) {
     const sw = sky.width * sk, sh = sky.height * sk;
     const drift = mini ? 0 : (S.camX * 0.01) % 20;
     ctx.drawImage(sky, (viewW - sw) / 2 - drift + 10, sy(-30) - sh, sw, sh); // centred; 44u of slack covers the 20u drift
-    // slow day/night cycle tint
-    if (!mini) {
+    // slow day/night cycle tint (dusk theme only; the night sky is already dark)
+    if (!mini && !night) {
       const night = (Math.sin(S.t / 30 - Math.PI / 2) + 1) / 2 * 0.45;
       if (night > 0.01) { ctx.fillStyle = `rgba(20,10,40,${night})`; ctx.fillRect(0, 0, viewW, sy(0)); }
     }
@@ -529,11 +539,21 @@ export async function createRunner(canvas, opts = {}) {
     drawTiled(A.mesas, 0.22, mH, mini ? 2 : 4);
     // atmospheric haze pushes the mesas back so the hero and hazards read first
     const hz = ctx.createLinearGradient(0, sy(mH * 0.5), 0, sy(0));
-    hz.addColorStop(0, 'rgba(255,140,110,0.38)'); hz.addColorStop(1, 'rgba(120,50,70,0.30)');
+    if (night) { hz.addColorStop(0, 'rgba(70,40,110,0.30)'); hz.addColorStop(1, 'rgba(20,12,40,0.30)'); }
+    else { hz.addColorStop(0, 'rgba(255,140,110,0.38)'); hz.addColorStop(1, 'rgba(120,50,70,0.30)'); }
     ctx.fillStyle = hz; ctx.fillRect(0, sy(mH * 0.5), viewW, sy(0) - sy(mH * 0.5));
     // ground band
     const gH = groundY + 10;
     drawTiled(A.ground, 1, gH, -groundY);
+    if (night) {
+      // moonlight grade: multiply the daylit mesas and sand toward cool violet
+      ctx.save(); ctx.globalCompositeOperation = 'multiply';
+      const top = sy(mH * 0.62), full = sy(mH * 0.4); // fade in over the mesa tops so the sky keeps no seam
+      const mg = ctx.createLinearGradient(0, top, 0, full);
+      mg.addColorStop(0, 'rgba(110,96,150,0)'); mg.addColorStop(1, 'rgba(110,96,150,1)');
+      ctx.fillStyle = mg; ctx.fillRect(0, top, viewW, viewH - top);
+      ctx.restore();
+    }
     for (const s of S.scorches) {
       ctx.fillStyle = `rgba(30,12,8,${0.45 * Math.min(1, s.life)})`;
       ctx.beginPath(); ctx.ellipse(s.x - S.camX, sy(0) + 2, 30, 4, 0, 0, Math.PI * 2); ctx.fill();
@@ -541,6 +561,7 @@ export async function createRunner(canvas, opts = {}) {
   }
 
   function drawEntities() {
+    if (night) ctx.filter = 'brightness(0.9) saturate(0.9)';
     for (const e of S.ents) {
       const d = e.def; const x = e.x - S.camX + d.w / 2;
       if (e.type === 'meteor') { drawMeteor(e); continue; }
@@ -559,6 +580,7 @@ export async function createRunner(canvas, opts = {}) {
         default: spr(e.type, x, e.y, d.drawH, { rot: e.knocked ? e.rot : 0 });
       }
     }
+    ctx.filter = 'none';
   }
 
   function drawMeteor(e) {

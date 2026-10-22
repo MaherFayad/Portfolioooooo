@@ -14,8 +14,6 @@ interface Props {
 }
 
 const { description, title } = Astro.props;
-// Site-wide AI chat (with the playable mini runner while it thinks). Mounts only when an answering endpoint is configured.
-const aiChatEndpoint = import.meta.env.PUBLIC_AI_CHAT_ENDPOINT;
 ---
 <!DOCTYPE html>
 <html lang="en" x-cloak x-data class="dark">
@@ -151,14 +149,6 @@ Cal("init", "meeting", {origin:"https://cal.com"});
         observer.observe(element);
       });
     </script>
-      {aiChatEndpoint && (
-      <Fragment>
-        <link rel="stylesheet" href="/runner/chat.css" />
-        <script is:inline define:vars={{ aiChatEndpoint }}>
-          import('/runner/chat.js').then((m) => m.mountChat({ endpoint: aiChatEndpoint }));
-        </script>
-      </Fragment>
-    )}
   </body>
 </html>
 

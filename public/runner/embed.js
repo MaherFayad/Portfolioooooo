@@ -27,6 +27,7 @@ export async function mountRunner(el, opts = {}) {
   el.after(tools);
 
   const game = await createRunner(el.querySelector('canvas'), { frame: mobile ? FRAME_MOBILE : FRAME, entrance: true, ...opts });
+  game.canvas = el.querySelector('canvas');
   bindStick(el.querySelector('.runner-stick'), game);
 
   // fade in on the next frame, once the first render has happened
@@ -57,9 +58,29 @@ export async function mountRunner(el, opts = {}) {
 
   // Look down at the site's AI chat while it has focus.
   const isChat = (t) => t?.closest?.('[data-ai-chat]');
-  document.addEventListener('focusin', (e) => { if (isChat(e.target)) game.setLookDown(true); });
-  document.addEventListener('focusout', (e) => { if (isChat(e.target)) game.setLookDown(false); });
+  const onIn = (e) => { if (isChat(e.target)) game.setLookDown(true); };
+  const onOut = (e) => { if (isChat(e.target)) game.setLookDown(false); };
+  // hovering the chat counts too: on the live site the chat pill opens on click
+  const onOver = (e) => { if (isChat(e.target) && !isChat(e.relatedTarget)) game.setLookDown(true); };
+  const onLeave = (e) => { if (isChat(e.target) && !isChat(e.relatedTarget) && !isChat(document.activeElement)) game.setLookDown(false); };
+  document.addEventListener('focusin', onIn);
+  document.addEventListener('focusout', onOut);
+  document.addEventListener('pointerover', onOver);
+  document.addEventListener('pointerout', onLeave);
 
+  // destroy() also removes everything mountRunner added (for client-side route changes)
+  const destroyGame = game.destroy;
+  game.destroy = () => {
+    destroyGame();
+    document.removeEventListener('focusin', onIn);
+    document.removeEventListener('focusout', onOut);
+    document.removeEventListener('pointerover', onOver);
+    document.removeEventListener('pointerout', onLeave);
+    root.classList.remove('runner-playing');
+    tools.remove();
+    el.innerHTML = '';
+    el.classList.remove('runner-wrap', 'is-ready');
+  };
   return game;
 }
 

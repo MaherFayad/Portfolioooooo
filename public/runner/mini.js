@@ -3,12 +3,12 @@
 // mountThinkingRunner(container, { label, hint }) -> stop()
 import { createRunner, loadAssets } from './runner.js';
 
-export async function mountThinkingRunner(container, { label = 'Thinking', hint = false } = {}) {
+export async function mountThinkingRunner(container, { label = 'Thinking', hint = false, theme = 'night' } = {}) {
   const wrap = document.createElement('div');
   wrap.className = 'mini-runner';
   wrap.setAttribute('role', 'status');
   wrap.innerHTML = `<canvas tabindex="0" aria-label="Mini game while the agent thinks. Press Space to jump."></canvas>
-    <span class="mini-label">${label}<span class="dots" aria-hidden="true"></span>${hint ? '<span class="mini-hint"> Tap the game to jump</span>' : ''}</span>`;
+    ${label ? `<span class="mini-label">${label}<span class="dots" aria-hidden="true"></span>${hint ? '<span class="mini-hint"> Tap the game to jump</span>' : ''}</span>` : ''}`;
   container.appendChild(wrap);
   const canvas = wrap.querySelector('canvas');
 
@@ -18,8 +18,8 @@ export async function mountThinkingRunner(container, { label = 'Thinking', hint 
     return () => wrap.remove();
   }
 
-  await loadAssets();
-  const game = await createRunner(canvas, { mini: true, autoplay: true, sfx: false, keyboard: false });
+  await loadAssets(theme);
+  const game = await createRunner(canvas, { mini: true, autoplay: true, sfx: false, keyboard: false, theme });
   game.start();
 
   let idle = 0;
