@@ -21,11 +21,15 @@
 import { PHYS, SPEED, PLAYER, ENTITIES, AIR_LANES, METEOR } from './config.js';
 
 // Engine behaviour that config.js does not pin down. Values are deliberately pessimistic.
+// runner.js today: blast box 34u tall, tumbleweed bounce 22u, vulture bob +-3u, stomp with
+// jump held = 0.95 * jumpVel, and minJumpVel caps vy on every frame the button is up.
 const ASSUME = {
-  meteorBlastH: 36,   // height of the crater fire hitbox
-  tumbleBounceH: 24,  // max height a tumbleweed's hitbox bottom bounces up to
-  impactLead: 0.05,   // meteor lands this long before the player's front reaches the blast
-  camErrorU: 100,     // assumed camera-estimate error (u) when the engine does not pass camX
+  meteorBlastH: 36,                  // height of the crater fire hitbox
+  tumbleBounceH: 24,                 // max height a tumbleweed's hitbox bottom bounces up to
+  vultureBob: 4,                     // vertical wobble of a vulture around its lane
+  heldStompVel: 0.95 * PHYS.jumpVel, // bounce when jump is held during a stomp
+  impactLead: 0.05,                  // meteor lands this long before the player reaches it
+  camErrorU: 100,                    // camera-estimate error (u) assumed when camX is not passed
 };
 
 /* ------------------------------------------------------------------ RNG -- */
@@ -80,15 +84,18 @@ function aboveWindow(H) {
 }
 
 const BUG_H = ENTITIES.bug.h;
-// Stomp chains: after a stomp vy = stompBounce. With the button not held the player returns
-// to bug-top height after 2*v/gFall (~0.356 s), whatever horizontal offset they stomped at,
-// so bugs spaced exactly that far apart in time keep the rhythm. Holding (~0.455 s) or an
-// early release (~0.289 s) lets the player correct their offset.
-const STOMP_PERIOD = (2 * PHYS.stompBounce) / G_DN;
+// Stomp chains. With the button up, the bounce is stompBounce capped by minJumpVel (the
+// engine applies the cap on every frame the button is up), under gravityFall. The player
+// returns to bug-top height after 2*v/gFall (~0.289 s) whatever horizontal offset they
+// stomped at, so bugs spaced exactly that far apart in contact time keep the rhythm
+// hands-off. Holding jump on a stomp bounces higher; a partial hold corrects the offset.
+const V_STOMP = Math.min(PHYS.stompBounce, PHYS.minJumpVel);
+const STOMP_PERIOD = (2 * V_STOMP) / G_DN;
 // Worst case from a stomp to touching the ground: button held through the bounce.
+const V_STOMP_HELD = Math.max(PHYS.stompBounce, ASSUME.heldStompVel);
 const T_BOUNCE_LAND =
-  PHYS.stompBounce / G_UP +
-  Math.sqrt((2 * (BUG_H + (PHYS.stompBounce * PHYS.stompBounce) / (2 * G_UP))) / G_DN);
+  V_STOMP_HELD / G_UP +
+  Math.sqrt((2 * (BUG_H + (V_STOMP_HELD * V_STOMP_HELD) / (2 * G_UP))) / G_DN);
 // A full jump comes back down through bug-top height this long after take-off.
 const T_DESCEND_BUG = aboveWindow(BUG_H)[1];
 
@@ -99,13 +106,21 @@ function spec(type, lane) {
   const u = -(e.vx || 0); // extra closing speed on top of the scroll
   if (type === 'vulture') {
     const y = AIR_LANES[lane];
-    if (lane === 'low') return { mode: 'jump', w: e.w, H: y + e.h, u };
+    if (lane === 'low') return { mode: 'jump', w: e.w, H: y + e.h + ASSUME.vultureBob, u };
     if (lane === 'mid') return { mode: 'duck', w: e.w, H: y + e.h, u };
     return { mode: 'ground', w: e.w, H: 0, u }; // high: safe only while not jumping
   }
   if (type === 'meteor') return { mode: 'jump', w: METEOR.blastW, H: ASSUME.meteorBlastH, u: 0 };
   if (type === 'tumbleweed') return { mode: 'jump', w: e.w, H: e.h + ASSUME.tumbleBounceH, u };
   return { mode: 'jump', w: e.w, H: e.h, u };
+}
+
+// Contract sanity: these must hold for the lane rules (low = jump, mid = duck) to work.
+if (PLAYER.duckH >= AIR_LANES.mid - ASSUME.vultureBob || PLAYER.h <= AIR_LANES.mid) {
+  console.warn('levelgen: AIR_LANES.mid no longer separates ducking from standing');
+}
+if (PLAYER.duckH <= AIR_LANES.low - ASSUME.vultureBob) {
+  console.warn('levelgen: low vultures can be ducked under; low lane is meant to be jumped');
 }
 
 /* ---------------------------------------------------------- Difficulty -- */
@@ -364,7 +379,7 @@ class Chunk {
   bounceCoins(stomp, span) {
     for (let i = 1; i <= 3; i++) {
       const tau = (span * i) / 4;
-      const y = BUG_H + PHYS.stompBounce * tau - 0.5 * G_DN * tau * tau;
+      const y = BUG_H + V_STOMP * tau - 0.5 * G_DN * tau * tau;
       this.item('coin', stomp + tau, Math.max(0, y) + PLAYER.h / 2);
     }
   }
@@ -375,7 +390,7 @@ class Chunk {
 
   finish(name) {
     const end = this.clock.front(this.ready);
-    const length = Math.max(40, end - this.worldX);
+    const length = Math.max(80, end - this.worldX); // runner.js floors lengths at 80
     this.entities.sort((a, b) => a.x - b.x);
     return { length: r2(length), name, entities: this.entities };
   }
@@ -775,6 +790,7 @@ export function createLevelGen({ seed = Date.now(), mini = false } = {}) {
     const pool = [];
     for (const [name, p] of Object.entries(PATTERNS)) {
       if (!p.weight || !!p.mini !== mini || name === S.last) continue;
+      if (p.breather && S.lastWasBreather) continue; // never two breathers in a row
       if (d < (p.minD || 0) || !(p.uses || []).every(has)) continue;
       if (name === 'mini_meteor' && t - S.lastMeteorT < 12) continue;
       let w = Math.max(0.05, p.weight(d));

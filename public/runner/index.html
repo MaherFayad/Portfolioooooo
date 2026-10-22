@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./embed.css" />
   <link rel="stylesheet" href="./runner.css" />
 </head>
 <body>
@@ -16,25 +17,11 @@
       <h1>Outrun the meteors</h1>
       <p class="lede">Jump the cacti, stomp the bugs, watch the sky.</p>
     </header>
-
-    <section class="stage" aria-label="Maher Runner game">
-      <canvas id="game" role="img" aria-label="Maher Runner. Press Space or tap to run and jump. Press Down to duck."></canvas>
-      <button class="icon-btn mute" id="mute" type="button" aria-pressed="false" aria-label="Mute sound">
-        <i data-lucide="volume-2" aria-hidden="true"></i>
-      </button>
-    </section>
-
-    <ul class="keys" aria-label="Controls">
-      <li class="key-only"><kbd>Space</kbd> Jump, hold to go higher</li>
-      <li class="key-only"><kbd>↓</kbd> Duck or drop faster</li>
-      <li class="key-only"><kbd>P</kbd> Pause</li>
-      <li class="touch-only">Tap to jump, hold to go higher. Swipe down to duck.</li>
-    </ul>
-    <p class="sr-only" aria-live="polite" id="announce"></p>
   </main>
+  <div id="runner"></div>
 
   <!-- AI chat dock: focusing it makes Maher look down at it -->
-  <aside class="chat" id="chat" aria-label="Chat with Maher's agent">
+  <aside class="chat" id="chat" aria-label="Chat with Maher's agent" data-ai-chat>
     <div class="thread" id="thread" role="log" aria-live="polite"></div>
     <form class="composer" id="composer" autocomplete="off">
       <label class="sr-only" for="ask">Message</label>
@@ -45,39 +32,20 @@
 
   <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
   <script type="module">
-    import { createRunner } from './runner.js';
+    import { mountRunner } from './embed.js';
     import { mountThinkingRunner } from './mini.js';
 
     window.lucide?.createIcons();
-    const canvas = document.getElementById('game');
     const params = new URLSearchParams(location.search);
-    const game = await createRunner(canvas, { seed: params.has('seed') ? +params.get('seed') : undefined, autoplay: params.has('autoplay') });
+    const game = await mountRunner(document.getElementById('runner'), {
+      seed: params.has('seed') ? +params.get('seed') : undefined,
+      autoplay: params.has('autoplay'),
+    });
     window.__runner = game; // for testing in the console
     if (params.has('autoplay')) game.start();
 
-    const announce = document.getElementById('announce');
-    game.on((type, data) => {
-      if (type === 'gameover') announce.textContent = `Game over. Score ${data.score}. Best ${data.hi}. Press Space to retry.`;
-      if (type === 'start') announce.textContent = 'Running.';
-    });
-
-    const muteBtn = document.getElementById('mute');
-    const syncMute = () => {
-      muteBtn.setAttribute('aria-pressed', String(game.muted));
-      muteBtn.setAttribute('aria-label', game.muted ? 'Unmute sound' : 'Mute sound');
-      muteBtn.innerHTML = `<i data-lucide="${game.muted ? 'volume-x' : 'volume-2'}" aria-hidden="true"></i>`;
-      window.lucide?.createIcons();
-    };
-    muteBtn.addEventListener('click', () => { game.setMuted(!game.muted); syncMute(); muteBtn.blur(); });
-    game.on((t) => t === 'mute' && syncMute());
-    syncMute();
-
-    // Chat: Maher looks down at the composer while it has focus.
     const ask = document.getElementById('ask');
     const thread = document.getElementById('thread');
-    ask.addEventListener('focus', () => game.setLookDown(true));
-    ask.addEventListener('blur', () => game.setLookDown(false));
-
     const replies = [
       'I design product experiences end to end: research, flows, UI and design systems. Recent work includes LFG and Sanarte.',
       'Discovery comes first: interviews, analytics and a clear problem statement. Then flows and prototypes, tested with real users.',

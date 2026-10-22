@@ -14,6 +14,7 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
+  padding-bottom: 200px;
   background: var(--ground);
   color: var(--ink);
   font: 400 16px/1.6 var(--font);
@@ -25,47 +26,10 @@ body {
 .page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 48px 24px 200px;
-  display: grid;
-  gap: 24px;
+  padding: 48px 24px 8px;
 }
 .intro h1 { font-size: 40px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px; }
 .lede { margin: 0; color: var(--ink-2); font-size: 18px; }
-
-.stage {
-  position: relative;
-  aspect-ratio: 21 / 9;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: #3b1d3a;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 80px -30px rgba(255,120,60,0.35), 0 12px 32px rgba(0,0,0,0.45);
-}
-.stage canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: pointer; }
-.stage canvas:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
-
-.icon-btn {
-  position: absolute; bottom: 12px; right: 12px;
-  width: 44px; height: 44px; border-radius: 12px;
-  display: grid; place-items: center;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(28,25,23,0.55);
-  color: var(--ink);
-  backdrop-filter: blur(6px);
-  cursor: pointer;
-}
-.icon-btn svg { width: 20px; height: 20px; }
-.icon-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-@media (hover: hover) { .icon-btn:hover { background: rgba(28,25,23,0.8); } }
-
-.keys { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--ink-2); font-size: 14px; }
-.keys kbd {
-  font: 500 14px/1 var(--font);
-  display: inline-block; min-width: 28px; padding: 5px 8px; margin-right: 6px;
-  border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 8px;
-  background: var(--panel); color: var(--ink); text-align: center;
-}
-.touch-only { display: none; }
-@media (pointer: coarse) { .touch-only { display: list-item; } .key-only { display: none; } }
 
 /* chat dock */
 .chat {
@@ -119,10 +83,9 @@ body {
 @keyframes dots { from { width: 0; } to { width: 1.5em; } }
 
 @media (max-width: 640px) {
-  .page { padding: 24px 16px 180px; gap: 16px; }
+  .page { padding: 24px 16px 4px; }
   .intro h1 { font-size: 28px; }
   .lede { font-size: 16px; }
-  .stage { aspect-ratio: 4 / 3; }
 }
 @media (prefers-reduced-motion: reduce) {
   .msg { animation: none; }

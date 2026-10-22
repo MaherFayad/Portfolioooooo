@@ -169,23 +169,25 @@ const HOLDS = [0, 6, 14, 24, 42];         // ticks the jump button is held (0 = 
 const STOMP_OPTS = [[false, 0], [true, 42], [true, 10]]; // [held, ticks] after a stomp
 const STEP = 2;                           // ground decisions every 1/60 s
 
-function solve(run, P, { stompOpts = STOMP_OPTS } = {}) {
+// Exhaustive forward search over ground states (tick, bugs killed, earliest next jump).
+// dwell: minimum ticks on the ground after landing before the next jump (0 = frame-perfect).
+function solve(run, P, { stompOpts = STOMP_OPTS, holds = HOLDS, dwell = 0 } = {}) {
   const collide = makeCollider(run, P);
   const { hz, busy } = P;
   const frontier = new Array(N + 2);
   let states = 0;
   let maxK = 0;
-  const add = (k, killed) => {
+  const add = (k, killed, jumpAt) => {
     if (k > N) k = N;
     const live = killed.filter((i) => hz[i].kOut >= k);
-    const key = live.join(',');
+    const key = live.join(',') + (jumpAt > k ? `|${jumpAt}` : '');
     const m = (frontier[k] ||= new Map());
-    if (!m.has(key)) m.set(key, live);
+    if (!m.has(key)) m.set(key, [live, jumpAt]);
   };
   function fly(k, y, vy, held, rem, killed) {
     for (;;) {
       k++;
-      if (k > N) return add(N, killed);
+      if (k > N) return add(N, killed, 0);
       if (held && --rem < 0) {
         held = false;
         if (vy > PHYS.minJumpVel) vy = PHYS.minJumpVel; // early-release cap
@@ -204,15 +206,15 @@ function solve(run, P, { stompOpts = STOMP_OPTS } = {}) {
         for (const [h2, t2] of stompOpts) fly(k, Math.max(y, 0), PHYS.stompBounce, h2, t2, k2);
         return;
       }
-      if (landed) return add(k, killed);
+      if (landed) return add(k, killed, k + dwell);
     }
   }
-  add(0, []);
+  add(0, [], 0);
   for (let k = 0; k <= N; k++) {
     const m = frontier[k];
     if (!m) continue;
     frontier[k] = undefined;
-    for (const killed of m.values()) {
+    for (const [killed, jumpAt] of m.values()) {
       states++;
       if (k > maxK) maxK = k;
       if (k >= N) return { ok: true, states };
@@ -221,9 +223,9 @@ function solve(run, P, { stompOpts = STOMP_OPTS } = {}) {
       for (let s = 1; s <= STEP && ok && k + s <= N; s++) {
         if (collide(k + s, 0, PLAYER.duckH, 0, 0, killed) !== SAFE) ok = false;
       }
-      if (ok) add(k + STEP, killed);
-      if (busy[k]) {
-        for (const hold of HOLDS) {
+      if (ok) add(k + STEP, killed, jumpAt);
+      if (busy[k] && k >= jumpAt) {
+        for (const hold of holds) {
           fly(k, 0, hold > 0 ? PHYS.jumpVel : PHYS.minJumpVel, hold > 0, hold, killed);
         }
       }
@@ -471,7 +473,8 @@ botSanity();
 
 const normal = newStats();
 const mini = newStats();
-let solved = 0, miniSolved = 0;
+let solved = 0, miniSolved = 0, humanSolved = 0;
+const HUMAN_DWELL = Math.round(0.15 / DT);
 const deaths = [];
 
 for (let s = 1; s <= SEEDS; s++) {
@@ -481,6 +484,10 @@ for (let s = 1; s <= SEEDS; s++) {
   designChecks(run, P, seen);
   const res = solve(run, P);
   normal.states += res.states;
+  // Human-ish variant: 0.15 s on the ground between jumps, no taps, plain stomp bounces.
+  const hres = solve(run, P, { dwell: HUMAN_DWELL, holds: [24, 42], stompOpts: [[false, 0]] });
+  if (hres.ok) humanSolved++;
+  else fail(`normal seed ${s} ${JSON.stringify(run.eng)}: reaction-limited bot stuck at ${(hres.maxK * DT).toFixed(2)}s`);
   if (res.ok) solved++;
   else {
     const c = [...run.chunks].reverse().find((ch) => ch.k * DT <= res.maxK * DT) || {};
@@ -527,6 +534,7 @@ function report(label, st) {
 }
 report('normal', normal);
 console.log(`search bot survived ${solved}/${SEEDS} (${(normal.states / SEEDS / 1000).toFixed(1)}k ground states/run)`);
+console.log(`reaction-limited bot (>=0.15 s ground time, medium/full jumps only, plain stomp bounces) survived ${humanSolved}/${SEEDS}`);
 report('mini', mini);
 console.log(`simple bot survived ${miniSolved}/${SEEDS}`);
 console.log(`\n${((Date.now() - t0) / 1000).toFixed(1)}s`);

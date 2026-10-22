@@ -107,6 +107,9 @@ export async function createRunner(canvas, opts = {}) {
 
   // view
   let cssW = 0, cssH = 0, dpr = 1, scale = 1, viewW = 600;
+  // Faded page edges (fractions of the view) that gameplay and HUD must stay clear of.
+  const edge = { side: 0, top: 0, ...(opts.frame || {}) };
+  let px0 = PLAYER.x; // screen x of the player's hitbox left edge, in world units
   function resize() {
     const r = canvas.getBoundingClientRect();
     cssW = Math.max(1, r.width); cssH = Math.max(1, r.height);
@@ -114,6 +117,7 @@ export async function createRunner(canvas, opts = {}) {
     canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr);
     scale = Math.min(cssH / baseViewH, cssW / minViewW);
     viewH = cssH / scale; viewW = cssW / scale;
+    px0 = PLAYER.x + edge.side * viewW;
   }
   resize();
   const ro = new ResizeObserver(resize); ro.observe(canvas);
@@ -125,6 +129,9 @@ export async function createRunner(canvas, opts = {}) {
   let S; // run state, rebuilt by reset()
   let mode = 'ready'; // ready | playing | dead | paused | countdown
   let lookDown = false, lookDownAt = 0;
+  const ENTRANCE = opts.entrance && !reduced ? 1.0 : 0; // seconds
+  const entranceK = () => (ENTRANCE ? clamp(clock / ENTRANCE, 0, 1) : 1);
+  const entranceOffset = () => { const k = entranceK(); return k >= 1 ? 0 : -(1 - (1 - (1 - k) ** 3)) * (px0 + 60); };
   let clock = 0; // real seconds since creation
   const listeners = new Set();
   const emit = (type, data) => listeners.forEach((fn) => fn(type, data));
@@ -160,7 +167,7 @@ export async function createRunner(canvas, opts = {}) {
   function onKey(e) {
     if (opts.keyboard === false) return;
     const t = e.target;
-    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON|A|SUMMARY)$/.test(t.tagName) || t.getAttribute?.('role') === 'button')) return;
     const down = e.type === 'keydown';
     switch (e.code) {
       case 'Space': case 'ArrowUp': case 'KeyW':
@@ -220,7 +227,7 @@ export async function createRunner(canvas, opts = {}) {
   // ------------------------------------------------ hitboxes
   function playerBox() {
     const h = S.p.ducking ? PLAYER.duckH : PLAYER.h;
-    return { x: S.camX + PLAYER.x, y: S.p.y, w: PLAYER.w, h };
+    return { x: S.camX + px0, y: S.p.y, w: PLAYER.w, h };
   }
   function entBox(e) {
     const d = e.def; const insetX = d.w * 0.12, insetY = d.h * 0.1;
@@ -252,7 +259,7 @@ export async function createRunner(canvas, opts = {}) {
     if (S.shield > 0) {
       S.shield = 0; S.invuln = 1; sfx.hit(); S.shake = reduced ? 0 : 6;
       if (e && e.type !== 'meteor') { e.knocked = true; e.vy = 420; e.vx = 260; }
-      pop(S.camX + PLAYER.x, S.p.y + 70, 'SHIELD!', '#8fd3ff');
+      pop(S.camX + px0, S.p.y + 70, 'SHIELD!', '#8fd3ff');
       return;
     }
     if (S.lives > 1) {
@@ -274,7 +281,7 @@ export async function createRunner(canvas, opts = {}) {
 
   // ------------------------------------------------ autoplay bot (mini + attract)
   function botThink() {
-    const px = S.camX + PLAYER.x, pw = PLAYER.w;
+    const px = S.camX + px0, pw = PLAYER.w;
     let wantDuck = false;
     for (const e of S.ents) {
       if (!e.alive || e.knocked) continue;
@@ -335,10 +342,10 @@ export async function createRunner(canvas, opts = {}) {
     if (p.buffer > 0) {
       if (p.coyote > 0) {
         p.vy = PHYS.jumpVel; p.grounded = false; p.coyote = 0; p.buffer = 0; p.airJumps = S.boots > 0 ? 1 : 0;
-        p.squash = -0.12; sfx.jump(); puff(S.camX + PLAYER.x + 8, 0, 5, '#e9b872', 50, 40, 0.35);
+        p.squash = -0.12; sfx.jump(); puff(S.camX + px0 + 8, 0, 5, '#e9b872', 50, 40, 0.35);
       } else if (p.airJumps > 0 && p.vy < PHYS.jumpVel * 0.6) {
         p.airJumps--; p.vy = PHYS.jumpVel * 0.9; p.buffer = 0; sfx.dbl();
-        puff(S.camX + PLAYER.x + 13, p.y, 8, '#ffffff', 60, -20, 0.35);
+        puff(S.camX + px0 + 13, p.y, 8, '#ffffff', 60, -20, 0.35);
       }
     }
     p.ducking = keys.down && p.grounded;
@@ -349,7 +356,7 @@ export async function createRunner(canvas, opts = {}) {
       p.vy -= g * dt; p.y += p.vy * dt;
       if (p.y <= 0) {
         p.y = 0; p.vy = 0; p.grounded = true; p.land = 0.1; p.squash = 0.18; S.combo = 0;
-        puff(S.camX + PLAYER.x + 13, 0, 6, '#e9b872', 70, 50, 0.4);
+        puff(S.camX + px0 + 13, 0, 6, '#e9b872', 70, 50, 0.4);
       }
     }
     p.land = Math.max(0, p.land - dt);
@@ -452,6 +459,7 @@ export async function createRunner(canvas, opts = {}) {
       return { f: hop > 5 ? an.look[2] : an.look[0], hop };
     }
     if (mode === 'ready') {
+      if (entranceK() < 1) return { f: loop('runA', 12) };
       const cyc = clock % 6;
       return cyc > 4.6 ? { f: loop('wave', 8) } : { f: loop('idle', 3) };
     }
@@ -475,7 +483,7 @@ export async function createRunner(canvas, opts = {}) {
     const { f, hop = 0 } = heroFrame();
     const [sx, sy0, w, h, ax] = A.heroMap.frames[f];
     const dw = w * upx, dh = h * upx;
-    const cx = PLAYER.x + PLAYER.w / 2;
+    const cx = px0 + PLAYER.w / 2 + entranceOffset();
     const y = S.p.y + hop;
     // squash & stretch around the feet
     const sq = reduced ? 0 : S.p.squash;
@@ -590,6 +598,7 @@ export async function createRunner(canvas, opts = {}) {
   }
 
   function text(str, x, y, size, color = '#fff6e8', align = 'center') {
+    size = Math.max(size, (size >= 14 ? 16 : 12) / scale); // never below 12 CSS px (16 for titles) on small screens
     ctx.font = `${size}px ${PIXEL_FONT}`; ctx.textAlign = align; ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = 'rgba(42,20,32,0.85)'; ctx.fillText(str, x + 1, y + 1);
     ctx.fillStyle = color; ctx.fillText(str, x, y);
@@ -598,11 +607,14 @@ export async function createRunner(canvas, opts = {}) {
   function drawHUD() {
     if (mini) return;
     const blink = S.milestoneT > 0 && Math.floor(S.milestoneT * 8) % 2 === 0;
-    if (!blink) text(pad5(S.score), viewW - 14, 24, 12, '#fff6e8', 'right');
-    if (hi) text(`HI ${pad5(hi)}`, viewW - 96, 24, 12, 'rgba(255,246,232,0.65)', 'right');
+    const right = viewW - 14 - edge.side * viewW, top = 24 + edge.top * viewH;
+    if (!blink) text(pad5(S.score), right, top, 12, '#fff6e8', 'right');
+    ctx.font = `${Math.max(12, 12 / scale)}px ${PIXEL_FONT}`;
+    const scoreW = ctx.measureText('00000').width;
+    if (hi) text(`HI ${pad5(hi)}`, right - scoreW * 1.4, top, 12, 'rgba(255,246,232,0.65)', 'right');
     // left: coins, lives, power-ups
-    let x = 14;
-    const iconY = 12;
+    let x = 14 + edge.side * viewW;
+    const iconY = 12 + edge.top * viewH;
     drawIcon('coin_0', x, iconY, 12); text(`${S.coins}`, x + 16, iconY + 11, 10, '#ffd84a', 'left'); x += 50;
     for (let i = 0; i < S.lives; i++) { drawIcon('heart', x, iconY, 12); x += 16; }
     if (S.shield) { x += 6; drawIcon('shield', x, iconY - 1, 14); x += 18; }
@@ -615,7 +627,7 @@ export async function createRunner(canvas, opts = {}) {
 
   function drawOverlay() {
     if (mini) return;
-    const cx = viewW / 2, cy = viewH * 0.36;
+    const cx = viewW / 2, cy = Math.max(viewH * 0.36, edge.top * viewH + 50);
     if (lookDown) return;
     if (mode === 'ready') {
       text('MAHER RUNNER', cx, cy - 8, 16, '#fff6e8');
