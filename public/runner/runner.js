@@ -117,7 +117,7 @@ export async function createRunner(canvas, opts = {}) {
     cssW = Math.max(1, r.width); cssH = Math.max(1, r.height);
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr);
-    scale = Math.min(cssH / baseViewH, cssW / minViewW);
+    scale = Math.min(cssH * (1 - edge.top * 0.6) / baseViewH, cssW / minViewW); // jump apex stays clear of the top fade
     viewH = cssH / scale; viewW = cssW / scale;
     px0 = PLAYER.x + edge.side * viewW;
   }
@@ -504,7 +504,6 @@ export async function createRunner(canvas, opts = {}) {
     ctx.beginPath(); ctx.ellipse(cx, sy(0) + 1, 16 * sh, 3 * sh, 0, 0, Math.PI * 2); ctx.fill();
     ctx.save();
     ctx.translate(cx, sy(y)); ctx.scale(sxk, syk);
-    if (night) { ctx.shadowColor = 'rgba(255,232,196,0.55)'; ctx.shadowBlur = 5 * scale * dpr; } // moonlit rim keeps him readable
     ctx.drawImage(A.hero, sx, sy0, w, h, -ax * upx, -dh, dw, dh);
     ctx.restore();
     if (S.shield > 0) {
@@ -539,7 +538,7 @@ export async function createRunner(canvas, opts = {}) {
     drawTiled(A.mesas, 0.22, mH, mini ? 2 : 4);
     // atmospheric haze pushes the mesas back so the hero and hazards read first
     const hz = ctx.createLinearGradient(0, sy(mH * 0.5), 0, sy(0));
-    if (night) { hz.addColorStop(0, 'rgba(70,40,110,0.30)'); hz.addColorStop(1, 'rgba(20,12,40,0.30)'); }
+    if (night) { hz.addColorStop(0, 'rgba(40,24,70,0.35)'); hz.addColorStop(1, 'rgba(14,10,24,0.55)'); }
     else { hz.addColorStop(0, 'rgba(255,140,110,0.38)'); hz.addColorStop(1, 'rgba(120,50,70,0.30)'); }
     ctx.fillStyle = hz; ctx.fillRect(0, sy(mH * 0.5), viewW, sy(0) - sy(mH * 0.5));
     // ground band
@@ -551,7 +550,8 @@ export async function createRunner(canvas, opts = {}) {
       const top = sy(mH * 0.62), full = sy(mH * 0.4); // fade in over the mesa tops so the sky keeps no seam
       const mg = ctx.createLinearGradient(0, top, 0, full);
       mg.addColorStop(0, 'rgba(110,96,150,0)'); mg.addColorStop(1, 'rgba(110,96,150,1)');
-      ctx.fillStyle = mg; ctx.fillRect(0, top, viewW, viewH - top);
+      ctx.fillStyle = mg; ctx.fillRect(0, top, viewW, sy(0) - top); // mesas only; the sand stays moonlit
+      ctx.fillStyle = 'rgba(150,140,190,0.35)'; ctx.fillRect(0, sy(0), viewW, viewH - sy(0));
       ctx.restore();
     }
     for (const s of S.scorches) {
@@ -588,9 +588,19 @@ export async function createRunner(canvas, opts = {}) {
     const cx = e.targetX + METEOR.blastW / 2 - S.camX;
     if (e.phase === 'warn' || e.phase === 'fall') {
       const urgency = clamp((S.t - e.warnAt) / METEOR.warn, 0, 1);
-      const blink = 0.55 + 0.45 * Math.sin(clock * (8 + urgency * 14));
-      // reticle grows from 60% to full blast width as impact nears (max ~2 flashes/s visually, WCAG 2.3.1 safe)
-      spr('reticle', cx, -4, 22 + urgency * 8, { alpha: blink });
+      // steady pulse at 2 Hz max, never below 70% (WCAG 2.3.1); still under reduced motion
+      const pulse = reduced ? 1 : 0.85 + 0.15 * Math.sin(clock * Math.PI * 4);
+      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      const gw = METEOR.blastW / 2;
+      const glow = ctx.createRadialGradient(cx, sy(0), 0, cx, sy(0), gw);
+      glow.addColorStop(0, `rgba(255,106,61,${(0.45 + 0.4 * urgency) * pulse})`); glow.addColorStop(1, 'rgba(255,106,61,0)');
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.ellipse(cx, sy(0), gw, 9, 0, 0, Math.PI * 2); ctx.fill();
+      // a faint column of light marks where it will land
+      const col = ctx.createLinearGradient(0, sy(viewH), 0, sy(0));
+      col.addColorStop(0, 'rgba(255,170,90,0)'); col.addColorStop(1, `rgba(255,140,80,${0.18 + 0.22 * urgency})`);
+      ctx.fillStyle = col; ctx.fillRect(cx - 3, 0, 6, sy(0));
+      ctx.restore();
+      spr('reticle', cx, -4, 26 + urgency * 10, { alpha: 0.7 + 0.3 * pulse });
     }
     if (e.phase === 'fall') {
       const m = meteorPos(e); const r = A.worldMap.meteor_l; const dh = e.def.drawH; const dw = r[2] * dh / r[3];
@@ -627,7 +637,7 @@ export async function createRunner(canvas, opts = {}) {
   }
 
   function drawHUD() {
-    if (mini) return;
+    if (mini || mode === 'ready') return;
     const blink = S.milestoneT > 0 && Math.floor(S.milestoneT * 8) % 2 === 0;
     const right = viewW - 14 - edge.side * viewW, top = 24 + edge.top * viewH;
     if (!blink) text(pad5(S.score), right, top, 12, '#fff6e8', 'right');
@@ -637,7 +647,8 @@ export async function createRunner(canvas, opts = {}) {
     // left: coins, lives, power-ups
     let x = 14 + edge.side * viewW;
     const iconY = 12 + edge.top * viewH;
-    drawIcon('coin_0', x, iconY, 12); text(`${S.coins}`, x + 16, iconY + 11, 10, '#ffd84a', 'left'); x += 50;
+    drawIcon('coin_0', x, iconY, 12); text(`${S.coins}`, x + 16, iconY + 11, 10, '#ffd84a', 'left');
+    x += 16 + ctx.measureText(String(S.coins)).width + 12;
     for (let i = 0; i < S.lives; i++) { drawIcon('heart', x, iconY, 12); x += 16; }
     if (S.shield) { x += 6; drawIcon('shield', x, iconY - 1, 14); x += 18; }
     if (S.boots > 0) { x += 6; drawIcon('boots', x, iconY - 1, 14); ctx.fillStyle = '#fff6e8'; ctx.fillRect(x, iconY + 16, 14 * (S.boots / 12), 2); x += 18; }
@@ -653,8 +664,9 @@ export async function createRunner(canvas, opts = {}) {
     if (lookDown) return;
     if (mode === 'ready') {
       text('MAHER RUNNER', cx, cy - 8, 16, '#fff6e8');
-      const pulse = Math.floor(clock * 2) % 2 === 0;
-      if (pulse || reduced) text(matchMedia('(pointer: coarse)').matches ? 'TAP TO PLAY' : 'PRESS SPACE TO PLAY', cx, cy + 18, 9, '#ffd84a');
+      ctx.globalAlpha = reduced ? 1 : 0.7 + 0.3 * Math.sin(clock * Math.PI * 2);
+      text(matchMedia('(pointer: coarse)').matches ? 'TAP TO PLAY' : 'PRESS SPACE TO PLAY', cx, cy + 18, 9, '#ffd84a');
+      ctx.globalAlpha = 1;
     } else if (mode === 'dead' && S.deadT > 0.4) {
       text('G A M E   O V E R', cx, cy - 4, 14, '#fff6e8');
       text(matchMedia('(pointer: coarse)').matches ? 'TAP TO RETRY' : 'SPACE TO RETRY', cx, cy + 20, 9, '#ffd84a');

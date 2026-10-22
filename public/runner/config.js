@@ -17,9 +17,9 @@ export const PHYS = {
 };
 
 export const SPEED = {
-  start: 380,           // u/s
-  max: 920,
-  accel: 7,             // u/s gained per second of play
+  start: 270,           // u/s: a gentle first run
+  max: 820,             // reached after about 100 s of play
+  accel: 5.5,           // u/s gained per second of play
 };
 
 // Player hitbox (forgiving: smaller than the sprite).
