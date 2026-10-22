@@ -110,7 +110,7 @@ function prepare(run) {
     if (!HAZARD_KINDS.has(def.kind)) continue;
     const h = {
       type: e.type, lane: e.lane, kind: def.kind, chunk: e.chunk, kSpawn: e.kSpawn,
-      x0: e.x, vx: def.vx || 0, w: def.w, h: def.h, y: 0,
+      x0: e.x, vx: def.vx || 0, w: def.w, h: def.h, y: 0, order: hz.length,
     };
     if (e.type === 'vulture') h.y = AIR_LANES[e.lane];
     if (e.type === 'meteor') {
@@ -154,8 +154,10 @@ function makeCollider(run, P) {
   const { hz, active } = P;
   const boxY = (h, k) =>
     h.type === 'tumbleweed'
-      ? SIM.tumbleBounceH * Math.abs(Math.sin((Math.PI * (k - h.kSpawn) * DT) / SIM.tumblePeriod))
-      : h.y;
+      ? SIM.tumbleBounceH * Math.abs(Math.sin(SIM.tumbleOmega * (k - h.kSpawn) * DT))
+      : h.type === 'vulture'
+        ? h.y + SIM.vultureBob * Math.sin(SIM.vultureOmega * (k - h.kSpawn) * DT)
+        : h.y;
   // Returns SAFE, DEAD, or the index of a bug being stomped.
   return function collide(k, y, ph, vy, prevY, killed) {
     const list = active[k];
@@ -179,7 +181,10 @@ function makeCollider(run, P) {
 /* -------------------------------------------------------- search bot -- */
 
 const HOLDS = [0, 6, 14, 24, 42];         // ticks the jump button is held (0 = tap)
-const STOMP_OPTS = [[false, 0], [true, 42], [true, 10]]; // [held, ticks] after a stomp
+const STOMP_OPTS = [[false, 0], [true, 1], [true, 10], [true, 42]]; // [held, ticks] after a stomp
+// runner.js: minJumpVel caps vy on every frame the button is up (not only on release).
+const capUp = (vy, held) => (!held && vy > PHYS.minJumpVel ? PHYS.minJumpVel : vy);
+const stompVel = (held) => (held ? SIM.heldStompVel : PHYS.stompBounce);
 const STEP = 2;                           // ground decisions every 1/60 s
 
 // Exhaustive forward search over ground states (tick, bugs killed, earliest next jump).
@@ -201,11 +206,9 @@ function solve(run, P, { stompOpts = STOMP_OPTS, holds = HOLDS, dwell = 0 } = {}
     for (;;) {
       k++;
       if (k > N) return add(N, killed, 0);
-      if (held && --rem < 0) {
-        held = false;
-        if (vy > PHYS.minJumpVel) vy = PHYS.minJumpVel; // early-release cap
-      }
+      if (held && --rem < 0) held = false;
       const g = held && vy > 0 ? PHYS.gravity : PHYS.gravityFall;
+      vy = capUp(vy, held);
       const prevY = y;
       vy -= g * DT;
       y += vy * DT;
@@ -216,7 +219,7 @@ function solve(run, P, { stompOpts = STOMP_OPTS, holds = HOLDS, dwell = 0 } = {}
       if (r === DEAD) return;
       if (r >= 0) {
         const k2 = killed.concat(r);
-        for (const [h2, t2] of stompOpts) fly(k, Math.max(y, 0), PHYS.stompBounce, h2, t2, k2);
+        for (const [h2, t2] of stompOpts) fly(k, Math.max(y, 0), stompVel(h2), h2, t2, k2);
         return;
       }
       if (landed) return add(k, killed, k + dwell);
@@ -239,7 +242,7 @@ function solve(run, P, { stompOpts = STOMP_OPTS, holds = HOLDS, dwell = 0 } = {}
       if (ok) add(k + STEP, killed, jumpAt);
       if (busy[k] && k >= jumpAt) {
         for (const hold of holds) {
-          fly(k, 0, hold > 0 ? PHYS.jumpVel : PHYS.minJumpVel, hold > 0, hold, killed);
+          fly(k, 0, PHYS.jumpVel, hold > 0, hold, killed);
         }
       }
     }
@@ -260,7 +263,7 @@ function simpleBot(run, P) {
   let first = 0;
   for (let k = 1; k <= N; k++) {
     if (grounded) {
-      const v = speedAt((k - 1) * DT);
+      const v = run.speedFn((k - 1) * DT);
       const px = cam[k - 1] + PLAYER.x;
       while (first < hz.length && hz[first].kOut < k - 1) first++;
       for (let i = first; i < hz.length && hz[i].kIn <= k + 240; i++) {
@@ -274,19 +277,89 @@ function simpleBot(run, P) {
       }
     }
     if (!grounded) {
-      if (held && --rem < 0) { held = false; if (vy > PHYS.minJumpVel) vy = PHYS.minJumpVel; }
+      if (held && --rem < 0) held = false;
       const g = held && vy > 0 ? PHYS.gravity : PHYS.gravityFall;
+      vy = capUp(vy, held);
       const prevY = y;
       vy -= g * DT;
       y += vy * DT;
       if (y <= 0) { y = 0; grounded = true; }
       const r = collide(k, y, PLAYER.h, vy, prevY, killed);
       if (r === DEAD) return { ok: false, k };
-      if (r >= 0) { killed.push(r); vy = PHYS.stompBounce; held = false; grounded = false; }
+      if (r >= 0) { killed.push(r); vy = stompVel(false); held = false; grounded = false; }
       if (grounded) vy = 0;
     } else if (collide(k, 0, PLAYER.h, 0, 0, killed) !== SAFE) return { ok: false, k };
   }
   return { ok: true };
+}
+
+// Port of runner.js botThink + player step (autoplay in mini and attract mode). It walks
+// entities in spawn order and acts on the first one not yet passed, like the original.
+// Returns the number of hits taken (mini never dies in runner.js; hits flash the player).
+function runnerBot(run, P) {
+  const collide = makeCollider(run, P);
+  const { cam } = run;
+  const order = P.hz.map((h, i) => i).sort((a, b) => P.hz[a].order - P.hz[b].order);
+  let y = 0, vy = 0, grounded = true, held = false, buffer = 0, coyote = 0, down = false;
+  let invuln = 0, hits = 0;
+  const killed = [];
+  const tApex = PHYS.jumpVel / PHYS.gravity;
+  let first = 0;
+  for (let k = 1; k <= N; k++) {
+    const speed = run.speedFn((k - 1) * DT);
+    const px = cam[k - 1] + PLAYER.x, pw = PLAYER.w;
+    let wantDuck = false;
+    while (first < order.length && P.hz[order[first]].kOut < k - 400) first++;
+    for (let j = first; j < order.length; j++) {
+      const i = order[j];
+      const h = P.hz[i];
+      if (h.kSpawn > k - 1) break;
+      if (killed.includes(i)) continue;
+      if (h.kind === 'meteor') {
+        if (k - 1 < h.kReticle || k - 1 > h.kEnd) continue;
+        const tImpact = (h.kImp - (k - 1)) * DT;
+        const pAt = px + speed * Math.max(0, tImpact);
+        const hitsThen = pAt + pw > h.x0 && pAt < h.x0 + h.w;
+        if (hitsThen && tImpact > 0 && tImpact < 0.3 && grounded) { buffer = PHYS.jumpBuffer; held = true; }
+        const dist = h.x0 - (px + pw);
+        if (k - 1 >= h.kImp && dist > 0 && dist < speed * 0.3 && grounded) { buffer = PHYS.jumpBuffer; held = true; }
+        continue;
+      }
+      const ex = h.x0 + h.vx * (k - 1 - h.kSpawn) * DT;
+      if (ex + h.w < px) continue;
+      const closing = speed - h.vx;
+      const dist = ex - (px + pw);
+      if (h.kind === 'air' && h.lane === 'high') continue;
+      if (h.kind === 'air' && h.lane === 'mid') { if (dist < closing * 0.35) wantDuck = true; continue; }
+      const lead = closing * tApex * 0.82 - h.w / 2;
+      if (dist <= lead && dist > -h.w && grounded) { buffer = PHYS.jumpBuffer; held = true; }
+      break;
+    }
+    if (grounded && vy <= 0 && buffer <= 0) held = false;
+    if (!grounded && vy < 0) held = false;
+    down = wantDuck;
+    // player step
+    coyote = grounded ? PHYS.coyoteTime : coyote - DT;
+    buffer -= DT;
+    if (buffer > 0 && coyote > 0) { vy = PHYS.jumpVel; grounded = false; coyote = 0; buffer = 0; }
+    const ducking = down && grounded;
+    let prevY = y;
+    if (!grounded) {
+      let g = vy > 0 && held ? PHYS.gravity : PHYS.gravityFall;
+      if (down) g = PHYS.fastFall;
+      vy = capUp(vy, held);
+      prevY = y;
+      vy -= g * DT;
+      y += vy * DT;
+      if (y <= 0) { y = 0; grounded = true; }
+    }
+    invuln = Math.max(0, invuln - DT);
+    const r = collide(k, y, ducking ? PLAYER.duckH : PLAYER.h, grounded ? 0 : vy, prevY, killed);
+    if (grounded) vy = 0;
+    if (r >= 0) { killed.push(r); vy = stompVel(held); grounded = false; }
+    else if (r === DEAD && invuln <= 0) { hits++; invuln = 0.8; }
+  }
+  return hits;
 }
 
 /* ------------------------------------------------------------- stats -- */
@@ -298,7 +371,7 @@ function newStats() {
   return {
     runs: 0, bandHaz: new Array(5).fill(0), bandTime: new Array(5).fill(0),
     patterns: new Map(), longestBreather: [], meteorEvents: 0, meteors: 0, powerups: 0,
-    coins: 0, firstSeen: new Map(), states: 0, meteorThreat: 0, meteorTotal: 0,
+    coins: 0, firstSeen: new Map(), states: 0, meteorThreat: [0, 0], meteorTotal: [0, 0],
     reticleLead: [],
   };
 }
@@ -337,8 +410,9 @@ function collect(st, run, P) {
   // reticle visible on screen before the player reaches it?
   for (const h of P.hz) {
     if (h.type !== 'meteor' || h.kIn > N) continue;
-    st.meteorTotal++;
-    if (h.kIn <= h.kEnd && h.kOut >= h.kImp) st.meteorThreat++;
+    const exact = run.eng.camStart === 0 ? 0 : 1; // camera estimate exact vs perturbed
+    st.meteorTotal[exact]++;
+    if (h.kIn <= h.kEnd && h.kOut >= h.kImp) st.meteorThreat[exact]++;
     let kVis = h.kReticle;
     while (kVis < h.kIn && h.x0 > run.cam[kVis] + run.eng.viewW) kVis++;
     st.reticleLead.push((h.kIn - kVis) * DT);
@@ -422,7 +496,7 @@ function botSanity() {
     const eng = { viewW: 600, lookahead: 200, passCamX: true, camStart: 0 };
     const cam = new Float64Array(N + 2);
     for (let k = 1; k <= N + 1; k++) cam[k] = cam[k - 1] + speedAt((k - 1) * DT) * DT;
-    const run = { seed: 'sanity', mini, eng, cam, chunks: [], gen: createLevelGen({ seed: 1 }),
+    const run = { seed: 'sanity', mini, eng, cam, chunks: [], gen: createLevelGen({ seed: 1 }), speedFn: speedAt,
       ents: ents.map((e) => ({ ...e, kSpawn: 0, chunk: 0 })) };
     return [run, prepare(run)];
   };
@@ -439,7 +513,7 @@ function botSanity() {
   // A 4-bug chain spaced one un-held bounce apart works with plain bounces (button not
   // held after a stomp), at low and top speed. With this PHYS two bugs one bounce apart
   // also fit under one full jump, so pair-jumping is an alternative (tighter) route.
-  const P0 = (2 * PHYS.stompBounce) / PHYS.gravityFall;
+  const P0 = (2 * Math.min(PHYS.stompBounce, PHYS.minJumpVel)) / PHYS.gravityFall;
   for (const at of [0, 120]) {
     const [cRun] = mk([]);
     const kSpawn = Math.round(at / DT);
@@ -457,13 +531,15 @@ function botSanity() {
       let y = 0, vy = PHYS.jumpVel, held = true, rem = 42;
       const killed = [];
       for (let k = k0 + 1; k < kc + 200; k++) {
-        if (held && --rem < 0) { held = false; if (vy > PHYS.minJumpVel) vy = PHYS.minJumpVel; }
+        if (held && --rem < 0) held = false;
+        const g = held && vy > 0 ? PHYS.gravity : PHYS.gravityFall;
+        vy = capUp(vy, held);
         const prevY = y;
-        vy -= (held && vy > 0 ? PHYS.gravity : PHYS.gravityFall) * DT;
+        vy -= g * DT;
         y += vy * DT;
         const r = collide(k, Math.max(0, y), PLAYER.h, vy, prevY, killed);
         if (r === DEAD) break;
-        if (r >= 0) { killed.push(r); vy = PHYS.stompBounce; held = false; }
+        if (r >= 0) { killed.push(r); vy = stompVel(false); held = false; }
         if (y <= 0) break;
       }
       if (killed.length === 4) rides++;
@@ -487,6 +563,7 @@ botSanity();
 const normal = newStats();
 const mini = newStats();
 let solved = 0, miniSolved = 0, humanSolved = 0;
+const runnerBotHits = [], normalBotHits = [], runnerBotHitsOff = [], normalBotHitsOff = [];
 const HUMAN_DWELL = Math.round(0.15 / DT);
 const deaths = [];
 
@@ -512,6 +589,9 @@ for (let s = 1; s <= SEEDS; s++) {
   const MP = prepare(mrun);
   collect(mini, mrun, MP);
   const mres = simpleBot(mrun, MP);
+  const rb = runnerBot(mrun, MP);
+  (mrun.eng.camStart === 0 ? runnerBotHits : runnerBotHitsOff).push(rb);
+  (run.eng.camStart === 0 ? normalBotHits : normalBotHitsOff).push(runnerBot(run, P));
   if (mres.ok) miniSolved++;
   else {
     const near = MP.hz.filter((h) => Math.abs(h.kIn - mres.k) < 120).map((h) => `${h.type}@${(h.kIn * DT).toFixed(2)}`);
@@ -539,8 +619,8 @@ function report(label, st) {
   const lb = st.longestBreather;
   console.log(`longest hazard-free stretch per run: mean ${avg(lb).toFixed(2)}s, max ${Math.max(...lb).toFixed(2)}s`);
   console.log(`meteor showers/run ${(st.meteorEvents / st.runs).toFixed(2)}, meteors/run ${(st.meteors / st.runs).toFixed(1)}, power-ups/run ${(st.powerups / st.runs).toFixed(2)}, coins/run ${(st.coins / st.runs).toFixed(0)}`);
-  if (st.meteorTotal) {
-    console.log(`meteors whose blast overlaps the player's path: ${fmtPct(st.meteorThreat, st.meteorTotal)}; reticle on screen before contact: min ${Math.min(...st.reticleLead).toFixed(2)}s, mean ${avg(st.reticleLead).toFixed(2)}s`);
+  if (st.meteorTotal[0] + st.meteorTotal[1]) {
+    console.log(`meteors whose blast overlaps the player's path: ${fmtPct(st.meteorThreat[0], st.meteorTotal[0])} (camera exact), ${fmtPct(st.meteorThreat[1], st.meteorTotal[1])} (camera off by up to 150u); reticle on screen before contact: min ${Math.min(...st.reticleLead).toFixed(2)}s, mean ${avg(st.reticleLead).toFixed(2)}s`);
   }
   const fs = [...st.firstSeen.entries()].map(([k, v]) => [k, avg(v), v.length]).sort((a, b) => a[1] - b[1]);
   console.log('first appearance (mean s, runs): ' + fs.map(([k, t, n]) => `${k} ${t.toFixed(1)} (${n})`).join(', '));
@@ -550,6 +630,11 @@ console.log(`search bot survived ${solved}/${SEEDS} (${(normal.states / SEEDS / 
 console.log(`reaction-limited bot (>=0.15 s ground time, medium/full jumps only, plain stomp bounces) survived ${humanSolved}/${SEEDS}`);
 report('mini', mini);
 console.log(`simple bot survived ${miniSolved}/${SEEDS}`);
+const hitRuns = (a) => a.filter((x) => x > 0).length;
+const botLine = (a) => `${a.length - hitRuns(a)}/${a.length} hit-free (mean hits ${avg(a).toFixed(2)})`;
+console.log('runner.js autoplay bot (ported, informational):');
+console.log(`  mini:   camera exact ${botLine(runnerBotHits)}; camera off ${botLine(runnerBotHitsOff)}`);
+console.log(`  normal: camera exact ${botLine(normalBotHits)}; camera off ${botLine(normalBotHitsOff)}`);
 console.log(`\n${((Date.now() - t0) / 1000).toFixed(1)}s`);
 
 if (failures.length) {

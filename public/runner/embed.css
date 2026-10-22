@@ -1,9 +1,16 @@
 /* Full-bleed runner scene that dissolves into the page (used on the 404 page and the demo). */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-.runner-bleed {
+.runner-wrap {
   --runner-side: 12%;   /* keep in sync with FRAME.side in embed.js */
   --runner-top: 26%;    /* keep in sync with FRAME.top in embed.js */
+  position: relative;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 900ms cubic-bezier(.2,.8,.2,1), transform 900ms cubic-bezier(.2,.8,.2,1);
+}
+.runner-wrap.is-ready { opacity: 1; transform: none; }
+.runner-bleed {
   position: relative;
   width: 100%; /* place it outside any max-width container */
   height: clamp(300px, 56vh, 600px);
@@ -16,11 +23,7 @@
     linear-gradient(to right, transparent 0, rgba(0,0,0,.35) calc(var(--runner-side) * .5), #000 var(--runner-side), #000 calc(100% - var(--runner-side)), rgba(0,0,0,.35) calc(100% - var(--runner-side) * .5), transparent 100%),
     linear-gradient(to bottom, transparent 0, rgba(0,0,0,.06) calc(var(--runner-top) * .25), rgba(0,0,0,.22) calc(var(--runner-top) * .5), rgba(0,0,0,.55) calc(var(--runner-top) * .75), #000 var(--runner-top), #000 86%, rgba(0,0,0,.5) 93%, transparent 100%);
   mask-composite: intersect;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 900ms cubic-bezier(.2,.8,.2,1), transform 900ms cubic-bezier(.2,.8,.2,1);
 }
-.runner-bleed.is-ready { opacity: 1; transform: none; }
 .runner-bleed canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: pointer; outline: none; }
 
 /* controls sit outside the mask so they never fade */
@@ -31,7 +34,37 @@
   color: #d6d3d1; /* stone-300 on stone-900: 11.6:1 */
   opacity: 0; transition: opacity 900ms 300ms ease;
 }
-.runner-bleed.is-ready + .runner-tools { opacity: 1; }
+.runner-wrap.is-ready + .runner-tools { opacity: 1; }
+
+/* analog stick: touch screens only, sits on the ground outside the faded mask */
+.runner-stick {
+  display: none;
+  position: absolute;
+  width: 104px; height: 104px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(28,25,23,.35), rgba(28,25,23,.6));
+  border: 2px solid rgba(245,245,244,.28);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,.4);
+  touch-action: none; -webkit-user-select: none; user-select: none;
+}
+.runner-stick::before, .runner-stick::after {
+  content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+  border: 7px solid transparent; opacity: .7;
+}
+.runner-stick::before { top: 8px; border-bottom-color: #f5f5f4; border-top-width: 0; }
+.runner-stick::after { bottom: 8px; border-top-color: #f5f5f4; border-bottom-width: 0; }
+.runner-knob {
+  position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 35% 30%, #ffd08a, #ff9f3a 60%, #d9702a);
+  box-shadow: 0 4px 12px rgba(0,0,0,.45), inset 0 -3px 0 rgba(0,0,0,.18);
+  transition: transform 90ms ease-out;
+}
+.runner-stick.is-active .runner-knob { transition: none; }
+@media (pointer: coarse) {
+  /* the stick gets its own strip under the scene so it never covers the hero or what's coming */
+  .runner-wrap { padding-bottom: 120px; }
+  .runner-stick { display: block; bottom: 8px; left: max(24px, env(safe-area-inset-left, 0px)); }
+}
 .runner-tools kbd {
   font: 500 14px/1 'Inter', system-ui, sans-serif;
   display: inline-block; min-width: 28px; padding: 5px 8px; margin-right: 6px;
@@ -49,9 +82,10 @@
 @media (hover: hover) { .runner-mute:hover { background: #44403c; } }
 
 @media (max-width: 640px) {
-  .runner-bleed { --runner-side: 6%; --runner-top: 22%; height: clamp(260px, 38vh, 340px); }
+  .runner-wrap { --runner-side: 6%; --runner-top: 22%; }
+  .runner-bleed { height: clamp(260px, 38vh, 340px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .runner-bleed { transform: none; transition: opacity 300ms linear; }
+  .runner-wrap { transform: none; transition: opacity 300ms linear; }
 }
 .runner-tools .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

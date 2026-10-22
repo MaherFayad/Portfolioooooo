@@ -1,78 +1,85 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Maher Runner</title>
-  <meta name="description" content="A tiny endless runner starring Maher's pixel avatar. Jump cacti, stomp bugs, dodge meteors." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./embed.css" />
-  <link rel="stylesheet" href="./runner.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Playground for the runner + site chat. Mirrors the 404 page; the same markup is published as the test artifact. -->
+<title>Maher Runner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap">
+<link rel="stylesheet" href="embed.css">
+<link rel="stylesheet" href="chat.css">
+<style>
+  /* The portfolio's 404 page: dark stone ground, Inter, the runner scene bleeding edge to edge. */
+  :root {
+    --ground: #1c1917;  /* stone-900 */
+    --ink: #f5f5f4;     /* stone-100 */
+    --ink-2: #d6d3d1;   /* stone-300 */
+    --chip: #e7e5e4;    /* stone-200 */
+    --chip-ink: #0c0a09;/* stone-950 */
+    --line: #44403c;    /* stone-700 */
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color-scheme: dark;
+  }
+  html, body { margin: 0; background: var(--ground); color: var(--ink); }
+  body { font: 400 16px/1.6 var(--font); min-height: 100%; padding-bottom: 120px; -webkit-tap-highlight-color: transparent; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .top { display: flex; align-items: center; justify-content: space-between; padding-block: 20px; }
+  .mark { font: 600 18px/1 var(--font); letter-spacing: -0.02em; color: var(--ink); text-decoration: none; }
+  .say { font: 500 14px/1 var(--font); color: var(--ink); text-decoration: none; padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; }
+  .copy { display: grid; gap: 24px; justify-items: start; padding-block: 40px 16px; }
+  .copy h1 { margin: 0; font: 500 48px/1.1 var(--font); letter-spacing: -0.025em; text-wrap: balance; }
+  .copy p { margin: 8px 0 0; font-size: 20px; color: var(--ink-2); max-width: 40ch; text-wrap: pretty; }
+  .home {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px;
+    background: var(--chip); color: var(--chip-ink); font: 500 16px/1 var(--font); text-decoration: none;
+  }
+  .home:focus-visible, .say:focus-visible { outline: 2px solid var(--chip); outline-offset: 3px; }
+  @media (hover: hover) { .home:hover { background: #d6d3d1; } }
+  #runner { margin-top: 8px; }
+  @media (max-width: 640px) {
+    .copy { padding-block: 24px 8px; gap: 20px; }
+    .copy h1 { font-size: 32px; }
+    .copy p { font-size: 17px; }
+  }
+</style>
 </head>
 <body>
-  <main class="page">
-    <header class="intro">
-      <h1>Outrun the meteors</h1>
-      <p class="lede">Jump the cacti, stomp the bugs, watch the sky.</p>
-    </header>
-  </main>
+<header class="wrap top">
+  <a class="mark" href="#top" aria-label="Maher Fayad, home">MF</a>
+  <a class="say" href="#top">Say hi</a>
+</header>
+
+<main id="top">
+  <section class="wrap copy">
+    <div>
+      <h1>You're on the wrong page</h1>
+      <p>This link is broken or the page has moved. Head back home, or stay and play a round.</p>
+    </div>
+    <a class="home" href="#top">Back home</a>
+  </section>
   <div id="runner"></div>
+</main>
 
-  <!-- AI chat dock: focusing it makes Maher look down at it -->
-  <aside class="chat" id="chat" aria-label="Chat with Maher's agent" data-ai-chat>
-    <div class="thread" id="thread" role="log" aria-live="polite"></div>
-    <form class="composer" id="composer" autocomplete="off">
-      <label class="sr-only" for="ask">Message</label>
-      <input id="ask" name="ask" type="text" placeholder="Ask about my work or availability" maxlength="400" />
-      <button class="send" type="submit" aria-label="Send message"><i data-lucide="arrow-up" aria-hidden="true"></i></button>
-    </form>
-  </aside>
+<script type="module">
+  import { mountRunner } from './embed.js';
+  import { mountChat } from './chat.js';
 
-  <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
-  <script type="module">
-    import { mountRunner } from './embed.js';
-    import { mountThinkingRunner } from './mini.js';
+  const game = await mountRunner(document.getElementById('runner'));
+  window.__runner = game;
 
-    window.lucide?.createIcons();
-    const params = new URLSearchParams(location.search);
-    const game = await mountRunner(document.getElementById('runner'), {
-      seed: params.has('seed') ? +params.get('seed') : undefined,
-      autoplay: params.has('autoplay'),
-    });
-    window.__runner = game; // for testing in the console
-    if (params.has('autoplay')) game.start();
-
-    const ask = document.getElementById('ask');
-    const thread = document.getElementById('thread');
-    const replies = [
-      'I design product experiences end to end: research, flows, UI and design systems. Recent work includes LFG and Sanarte.',
-      'Discovery comes first: interviews, analytics and a clear problem statement. Then flows and prototypes, tested with real users.',
-      'Yes, I am taking on new projects. The contact page is the fastest way to reach me.',
-    ];
-    let n = 0;
-    document.getElementById('composer').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const text = ask.value.trim();
-      if (!text) return;
-      ask.value = '';
-      addMsg('user', text);
-      const bubble = addMsg('agent', '');
-      const stop = await mountThinkingRunner(bubble, { label: 'Thinking' });
-      await new Promise((r) => setTimeout(r, params.has('slowreply') ? 600000 : 3200 + Math.random() * 1500));
-      stop();
-      bubble.textContent = replies[n++ % replies.length];
-      thread.scrollTop = thread.scrollHeight;
-    });
-    function addMsg(who, text) {
-      const el = document.createElement('div');
-      el.className = `msg ${who}`;
-      el.textContent = text;
-      thread.appendChild(el);
-      thread.scrollTop = thread.scrollHeight;
-      return el;
-    }
-  </script>
+  // Demo answers stand in for the real agent endpoint.
+  const replies = [
+    'I design product experiences end to end: research, flows, UI and design systems. Recent work includes LFG and Sanarte.',
+    'Discovery comes first: interviews, analytics and a clear problem statement. Then flows and prototypes, tested with real users.',
+    'Yes, I am taking on new projects. The contact page is the fastest way to reach me.',
+  ];
+  let n = 0;
+  mountChat({
+    note: 'Demo answers',
+    respond: () => new Promise((r) => setTimeout(() => r(replies[n++ % replies.length]), 4500 + Math.random() * 2000)),
+  });
+</script>
 </body>
 </html>

@@ -12,19 +12,22 @@ const ICON_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 
 export async function mountRunner(el, opts = {}) {
   const mobile = window.matchMedia('(max-width: 640px)').matches;
-  el.classList.add('runner-bleed');
-  el.innerHTML = '<canvas role="img" aria-label="Maher Runner. Press Space or tap to run and jump. Press Down to duck."></canvas>';
+  el.classList.add('runner-wrap');
+  el.innerHTML = `
+    <div class="runner-bleed"><canvas role="img" aria-label="Maher Runner. Press Space or tap to play. Up jumps, Down ducks."></canvas></div>
+    <div class="runner-stick" aria-hidden="true"><span class="runner-knob"></span></div>`;
   const tools = document.createElement('div');
   tools.className = 'runner-tools';
   tools.innerHTML = `
     <span class="key-only"><kbd>Space</kbd>Jump, hold to go higher</span>
     <span class="key-only"><kbd>↓</kbd>Duck</span>
-    <span class="touch-only">Tap to jump, swipe down to duck</span>
+    <span class="touch-only">Push the stick up to jump, down to duck</span>
     <button class="runner-mute" type="button"></button>
     <span class="sr-only" aria-live="polite"></span>`;
   el.after(tools);
 
   const game = await createRunner(el.querySelector('canvas'), { frame: mobile ? FRAME_MOBILE : FRAME, entrance: true, ...opts });
+  bindStick(el.querySelector('.runner-stick'), game);
 
   // fade in on the next frame, once the first render has happened
   requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('is-ready')));
@@ -38,7 +41,16 @@ export async function mountRunner(el, opts = {}) {
   };
   mute.addEventListener('click', () => { game.setMuted(!game.muted); syncMute(); });
   syncMute();
+  // Touch screens: a run takes over the bottom of the screen (scene + stick), the chat dock steps aside.
+  const touch = window.matchMedia('(pointer: coarse)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
   game.on((type, data) => {
+    if (touch && (type === 'start' || type === 'resume')) {
+      root.classList.add('runner-playing');
+      el.scrollIntoView({ block: 'end', behavior: reduced ? 'auto' : 'smooth' });
+    }
+    if (type === 'gameover' || type === 'pause') root.classList.remove('runner-playing');
     if (type === 'mute') syncMute();
     if (type === 'gameover') live.textContent = `Game over. Score ${data.score}. Best ${data.hi}. Press Space to retry.`;
   });
@@ -49,4 +61,37 @@ export async function mountRunner(el, opts = {}) {
   document.addEventListener('focusout', (e) => { if (isChat(e.target)) game.setLookDown(false); });
 
   return game;
+}
+
+// Touch analog stick: push up to jump (hold for a higher jump), pull down to duck.
+function bindStick(stick, game) {
+  const knob = stick.querySelector('.runner-knob');
+  const R = 34, DEAD = 14; // max knob travel and dead zone, in CSS px
+  let id = null, cy = 0, state = 0; // state: 1 up, -1 down, 0 neutral
+  const set = (next) => {
+    if (next === state) return;
+    if (state === 1) game.release();
+    if (state === -1) game.duck(false);
+    if (next === 1) game.jump();
+    if (next === -1) game.duck(true);
+    state = next;
+  };
+  const move = (y) => {
+    const dy = Math.max(-R, Math.min(R, y - cy));
+    knob.style.transform = `translate(-50%, calc(-50% + ${dy}px))`;
+    set(dy < -DEAD ? 1 : dy > DEAD ? -1 : 0);
+  };
+  stick.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); id = e.pointerId; stick.setPointerCapture(id);
+    const r = stick.getBoundingClientRect(); cy = r.top + r.height / 2;
+    stick.classList.add('is-active'); move(e.clientY);
+  });
+  stick.addEventListener('pointermove', (e) => { if (e.pointerId === id) move(e.clientY); });
+  const end = (e) => {
+    if (e.pointerId !== id) return;
+    id = null; stick.classList.remove('is-active');
+    knob.style.transform = ''; set(0);
+  };
+  stick.addEventListener('pointerup', end);
+  stick.addEventListener('pointercancel', end);
 }

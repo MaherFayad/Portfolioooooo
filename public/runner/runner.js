@@ -205,7 +205,7 @@ export async function createRunner(canvas, opts = {}) {
     emit('start');
   }
   function pause() { if (mode === 'playing') { mode = 'paused'; emit('pause'); } }
-  function resume() { if (mode === 'paused') { mode = 'countdown'; S.countdown = autoplay ? 0.01 : 1.5; } }
+  function resume() { if (mode === 'paused') { mode = 'countdown'; S.countdown = autoplay ? 0.01 : 1.5; emit('resume'); } }
   function togglePause() { mode === 'playing' ? pause() : resume(); }
   function die() {
     mode = 'dead'; S.deadT = 0; S.hitstop = 0.18; S.shake = reduced ? 0 : 10;
@@ -632,7 +632,7 @@ export async function createRunner(canvas, opts = {}) {
     if (mode === 'ready') {
       text('MAHER RUNNER', cx, cy - 8, 16, '#fff6e8');
       const pulse = Math.floor(clock * 2) % 2 === 0;
-      if (pulse || reduced) text(matchMedia('(pointer: coarse)').matches ? 'TAP TO RUN' : 'PRESS SPACE TO RUN', cx, cy + 18, 9, '#ffd84a');
+      if (pulse || reduced) text(matchMedia('(pointer: coarse)').matches ? 'TAP TO PLAY' : 'PRESS SPACE TO PLAY', cx, cy + 18, 9, '#ffd84a');
     } else if (mode === 'dead' && S.deadT > 0.4) {
       text('G A M E   O V E R', cx, cy - 4, 14, '#fff6e8');
       text(matchMedia('(pointer: coarse)').matches ? 'TAP TO RETRY' : 'SPACE TO RETRY', cx, cy + 20, 9, '#ffd84a');

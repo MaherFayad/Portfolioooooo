@@ -10,13 +10,17 @@
 //     take-off window for the next group;
 //   - moving entities are placed where they will be when the player meets them (their
 //     own vx is added on top of the scroll);
-//   - meteors are timed to hit just as the player reaches the reticle and are spaced
-//     like a 64u-wide ground obstacle, so "jump over every reticle" is always safe.
+//   - meteors are timed to hit when the player's front is 20% into the reticle (they must
+//     be airborne then; the fire lingers on the rest of it) and are spaced like
+//     a 64u-wide ground obstacle, so "jump over every reticle" is always safe whatever the
+//     exact impact time.
 //
 // API (see config.js for units):
 //   createLevelGen({ seed, mini }) -> { nextChunk({ worldX, speed, t, score, camX? }), difficulty(t, score) }
 //   `camX` is optional: when the engine passes its current camera x the generator uses it,
 //   otherwise it integrates `speed` over `t` assuming camX = 0 at t = 0.
+//   Entities come back in the order the player will reach them. Moving entities' x is
+//   their position at the moment nextChunk returns; they must start moving right away.
 
 import { PHYS, SPEED, PLAYER, ENTITIES, AIR_LANES, METEOR } from './config.js';
 
@@ -28,7 +32,6 @@ const ASSUME = {
   tumbleBounceH: 24,                 // max height a tumbleweed's hitbox bottom bounces up to
   vultureBob: 4,                     // vertical wobble of a vulture around its lane
   heldStompVel: 0.95 * PHYS.jumpVel, // bounce when jump is held during a stomp
-  impactLead: 0.05,                  // meteor lands this long before the player reaches it
   camErrorU: 100,                    // camera-estimate error (u) assumed when camX is not passed
 };
 
@@ -235,7 +238,7 @@ class Chunk {
     for (const p of parts) {
       base = Math.max(base, this.start - p.rel);
       // The reticle cannot appear before the chunk exists: delay = impact - warn >= 0.
-      if (p.type === 'meteor') base = Math.max(base, METEOR.warn + ASSUME.impactLead - p.rel);
+      if (p.type === 'meteor') base = Math.max(base, METEOR.warn - p.rel);
     }
     let jLate = Infinity;
     let jEarly = -Infinity;
@@ -333,7 +336,11 @@ class Chunk {
     if (p.type === 'meteor') {
       e.x = r2(m);
       e.targetX = r2(m);
-      e.delay = r2(Math.max(0, p.sIn - ASSUME.impactLead - METEOR.warn));
+      // Impact when the player's front is 20% into the blast zone: the fire then covers
+      // the rest of the crossing even if our camera estimate is a little off, and a bot
+      // that asks "will I be inside the zone at impact?" gets a yes.
+      const impact = this.clock.tauAt(m + 0.2 * METEOR.blastW);
+      e.delay = r2(Math.max(0, impact - METEOR.warn));
     } else {
       // Moving entities start (when the chunk is spawned) further right by u * time-to-meet.
       e.x = r2(m + p.s.u * p.sIn);
@@ -342,7 +349,7 @@ class Chunk {
       e.lane = p.lane;
       e.y = AIR_LANES[p.lane];
     }
-    this.entities.push(e);
+    this.entities.push({ e, at: p.sIn });
   }
 
   /* ---- pickups ---- */
@@ -352,7 +359,7 @@ class Chunk {
     if (tau < this.start) return;
     const def = ENTITIES[type];
     const x = this.clock.front(tau) - PLAYER.w / 2 - def.w / 2;
-    this.entities.push({ type, x: r2(x), y: r2(Math.max(0, yc - def.h / 2)) });
+    this.entities.push({ e: { type, x: r2(x), y: r2(Math.max(0, yc - def.h / 2)) }, at: tau });
   }
 
   /** Coins along the ideal full-jump arc over a jump group (teaches the arc). */
@@ -391,8 +398,10 @@ class Chunk {
   finish(name) {
     const end = this.clock.front(this.ready);
     const length = Math.max(80, end - this.worldX); // runner.js floors lengths at 80
-    this.entities.sort((a, b) => a.x - b.x);
-    return { length: r2(length), name, entities: this.entities };
+    // Listed in the order the player reaches them (not by spawn x: a moving entity spawns
+    // further right than where it is met), so "first entity not yet passed" is the next one.
+    const entities = this.entities.sort((a, b) => a.at - b.at).map((q) => q.e);
+    return { length: r2(length), name, entities };
   }
 }
 
@@ -495,7 +504,6 @@ const PATTERNS = {
     },
   },
   meteor_shower: {
-    event: true,
     build: (c) => {
       const n = 3 + Math.round(c.d * 3);
       c.rest(0.3);
@@ -741,9 +749,9 @@ export function createLevelGen({ seed = Date.now(), mini = false } = {}) {
 
   function difficulty(t, score) {
     // Time drives the curve (speed is time-based too). `score` is only a fallback for
-    // callers that cannot provide t (assumes ~1 point per 10u, i.e. ~40-90 points/s).
+    // callers that cannot provide t (runner.js scores 1 point per 40u, ~10-23 points/s).
     let time = Number(t);
-    if (!Number.isFinite(time)) time = Number.isFinite(Number(score)) ? Number(score) / 60 : 0;
+    if (!Number.isFinite(time)) time = Number.isFinite(Number(score)) ? Number(score) / 15 : 0;
     const d = piecewise(mini ? MINI_CURVE : CURVE, Math.max(0, time));
     return Math.max(0, Math.min(1, d));
   }
@@ -753,9 +761,10 @@ export function createLevelGen({ seed = Date.now(), mini = false } = {}) {
     let cam;
     if (Number.isFinite(camX)) cam = camX;
     else if (!prev) {
-      // First call: assume the camera started at 0 at t = 0 and followed the SPEED curve.
-      const tc = Math.min(t, Math.max(0, (SPEED.max - SPEED.start) / SPEED.accel));
-      cam = SPEED.start * tc + 0.5 * SPEED.accel * tc * tc + SPEED.max * Math.max(0, t - tc);
+      // First call: assume the camera started at 0 at t = 0 and ramped up to `speed` at
+      // SPEED.accel (works for any start speed, e.g. the slower mini curve).
+      const v0 = Math.max(0, speed - SPEED.accel * t);
+      cam = 0.5 * (v0 + speed) * t;
     } else cam = prev.camX + 0.5 * (prev.speed + speed) * Math.max(0, t - prev.t);
     if (prev && t - prev.t > 0.25) {
       S.accel = Math.max(0, Math.min(3 * SPEED.accel, (speed - prev.speed) / (t - prev.t)));
@@ -838,7 +847,7 @@ export function createLevelGen({ seed = Date.now(), mini = false } = {}) {
       S.sinceIntro = 0;
       if (p.intro === 'meteor') S.nextShowerT = t + 8 + rng() * 6;
     }
-    if (c.entities.some((e) => e.type === 'meteor')) S.lastMeteorT = t;
+    if (c.entities.some((q) => q.e.type === 'meteor')) S.lastMeteorT = t;
     S.last = name;
     return c.finish(name);
   }
