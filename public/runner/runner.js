@@ -140,7 +140,7 @@ export async function createRunner(canvas, opts = {}) {
 
   function reset() {
     S = {
-      t: 0, camX: 0, speed: SPEED.start, score: 0, coins: 0, combo: 0, stomps: 0,
+      t: 0, camX: 0, speed: SPEED.start, score: 0, coins: 0, coinsShown: 0, coinBump: -1, flyers: [], combo: 0, stomps: 0,
       lives: 1, shield: 0, boots: 0, invuln: 0,
       p: { y: 0, vy: 0, grounded: true, ducking: false, coyote: 0, buffer: 0, airJumps: 0, land: 0, squash: 0, jumpHeld: false },
       ents: [], parts: [], pops: [], scorches: [],
@@ -274,7 +274,12 @@ export async function createRunner(canvas, opts = {}) {
     e.alive = false;
     const cx = e.x + e.def.w / 2, cy = e.y + e.def.h / 2;
     switch (e.type) {
-      case 'coin': S.coins++; S.score += 10; sfx.coin(); puff(cx, cy, 6, '#ffd84a', 50, 80, 0.35); break;
+      case 'coin':
+        S.coins++; S.score += 10; sfx.coin();
+        // the coin flies up into the counter; the count ticks when it lands
+        if (mini || reduced) S.coinsShown++;
+        else S.flyers.push({ x: cx - S.camX, y: sy(cy), t0: clock });
+        break;
       case 'shield': S.shield = 1; sfx.power(); pop(cx, cy + 20, 'SHIELD', '#8fd3ff'); break;
       case 'boots': S.boots = 12; sfx.power(); pop(cx, cy + 20, 'DOUBLE JUMP', '#fff'); break;
       case 'heart': S.lives = Math.min(3, S.lives + 1); sfx.power(); pop(cx, cy + 20, '+1 LIFE', '#ff6b6b'); break;
@@ -671,11 +676,31 @@ export async function createRunner(canvas, opts = {}) {
     // left: coins, lives, power-ups
     let x = 14 + edge.side * viewW;
     const iconY = 12 + edge.top * viewH;
-    drawIcon('coin_0', x, iconY, 12); text(`${S.coins}`, x + 16, iconY + 11, 10, '#ffd84a', 'left');
-    x += 16 + ctx.measureText(String(S.coins)).width + 12;
+    drawCoinFlyers(x + 6, iconY + 6);
+    const bump = S.coinBump >= 0 ? clamp(1 - (clock - S.coinBump) / 0.22, 0, 1) : 0;
+    ctx.save(); ctx.translate(x + 6, iconY + 6); ctx.scale(1 + 0.45 * bump, 1 + 0.45 * bump);
+    drawIcon('coin_0', -6, -6, 12); ctx.restore();
+    text(`${S.coinsShown}`, x + 16, iconY + 11, 10, bump > 0 ? '#fff3b0' : '#ffd84a', 'left');
+    x += 16 + ctx.measureText(String(S.coinsShown)).width + 12;
     for (let i = 0; i < S.lives; i++) { drawIcon('heart', x, iconY, 12); x += 16; }
     if (S.shield) { x += 6; drawIcon('shield', x, iconY - 1, 14); x += 18; }
     if (S.boots > 0) { x += 6; drawIcon('boots', x, iconY - 1, 14); ctx.fillStyle = '#fff6e8'; ctx.fillRect(x, iconY + 16, 14 * (S.boots / 12), 2); x += 18; }
+  }
+  // coins picked up arc from where they were grabbed into the HUD counter
+  const FLY = 0.5;
+  function drawCoinFlyers(tx, ty) {
+    for (const f of S.flyers) {
+      const k = clamp((clock - f.t0) / FLY, 0, 1);
+      if (k >= 1) { f.done = true; S.coinsShown++; S.coinBump = clock; continue; }
+      const e = 1 - (1 - k) ** 3; // ease out
+      const cx = (f.x + tx) / 2, cy = Math.min(f.y, ty) - 40; // control point above both ends
+      const x = (1 - e) ** 2 * f.x + 2 * (1 - e) * e * cx + e * e * tx;
+      const y = (1 - e) ** 2 * f.y + 2 * (1 - e) * e * cy + e * e * ty;
+      const h = 20 - 8 * e;
+      const r = A.worldMap[`coin_${Math.floor((clock - f.t0) * 16) % 4}`]; const w = r[2] * h / r[3];
+      ctx.drawImage(A.world, r[0], r[1], r[2], r[3], x - w / 2, y - h / 2, w, h);
+    }
+    if (S.flyers.some((f) => f.done)) S.flyers = S.flyers.filter((f) => !f.done);
   }
   function drawIcon(name, x, y, h) {
     const r = A.worldMap[name]; const w = r[2] * h / r[3];
@@ -747,7 +772,7 @@ export async function createRunner(canvas, opts = {}) {
     get hi() { return hi; },
     on(fn) { listeners.add(fn); return () => listeners.delete(fn); },
     // read-only peek for tests and reviewers
-    debug() { return { mode, t: S.t, speed: S.speed, score: S.score, ents: S.ents.length, player: { ...S.p }, viewW, viewH }; },
+    debug() { return { mode, t: S.t, speed: S.speed, score: S.score, coins: S.coins, flyers: S.flyers.length, ents: S.ents.length, player: { ...S.p }, viewW, viewH }; },
     destroy() {
       running = false; cancelAnimationFrame(raf); ro.disconnect();
       window.removeEventListener('keydown', onKey); window.removeEventListener('keyup', onKey);
