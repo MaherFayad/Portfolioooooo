@@ -328,6 +328,12 @@ export async function createRunner(canvas, opts = {}) {
     if (mode === 'countdown') { S.countdown -= dt; if (S.countdown <= 0) mode = 'playing'; return; }
     if (mode === 'dead') {
       S.deadT += dt;
+      const p = S.p;
+      if (p.y > 0 || p.vy > 0) {
+        // hit in the air: keep falling, the knee-down plays once he lands
+        p.vy = Math.min(p.vy, 0) - PHYS.gravityFall * dt; p.y += p.vy * dt;
+        if (p.y <= 0) { p.y = 0; p.vy = 0; p.land = 0.1; puff(S.camX + px0 + 13, 0, 8, '#e9b872', 80, 50, 0.4); }
+      } else S.downT = (S.downT || 0) + dt;
       S.speed = Math.max(0, S.speed - 1400 * dt); S.camX += S.speed * dt;
       updateParticles(dt); return;
     }
@@ -473,7 +479,8 @@ export async function createRunner(canvas, opts = {}) {
       return cyc > 4.6 ? { f: loop('wave', 8) } : { f: loop('idle', 3) };
     }
     if (mode === 'dead') {
-      const i = Math.min(4, Math.floor(S.deadT * 10));
+      if (S.p.y > 0) return { f: an.jump[3] }; // still falling
+      const i = Math.min(4, Math.floor((S.downT || 0) * 10));
       return { f: an.failed[i] };
     }
     if (p.ducking) return { f: an.duck[0] };
