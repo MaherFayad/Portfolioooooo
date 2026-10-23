@@ -545,9 +545,16 @@ export async function createRunner(canvas, opts = {}) {
     drawTiled(A.mesas, 0.22, mH, mini ? 2 : 4);
     // atmospheric haze pushes the mesas back so the hero and hazards read first
     const hz = ctx.createLinearGradient(0, sy(mH * 0.5), 0, sy(0));
-    if (night) { hz.addColorStop(0, 'rgba(40,24,70,0.35)'); hz.addColorStop(1, 'rgba(14,10,24,0.55)'); }
-    else { hz.addColorStop(0, 'rgba(255,140,110,0.38)'); hz.addColorStop(1, 'rgba(120,50,70,0.30)'); }
-    ctx.fillStyle = hz; ctx.fillRect(0, sy(mH * 0.5), viewW, sy(0) - sy(mH * 0.5));
+    if (night) {
+      // multiply only darkens: the black sky between the mesas stays black, no band at the top edge
+      hz.addColorStop(0, 'rgba(70,56,110,0)'); hz.addColorStop(1, 'rgba(70,56,110,0.6)');
+      ctx.save(); ctx.globalCompositeOperation = 'multiply';
+      ctx.fillStyle = hz; ctx.fillRect(0, sy(mH * 0.5), viewW, sy(0) - sy(mH * 0.5));
+      ctx.restore();
+    } else {
+      hz.addColorStop(0, 'rgba(255,140,110,0.38)'); hz.addColorStop(1, 'rgba(120,50,70,0.30)');
+      ctx.fillStyle = hz; ctx.fillRect(0, sy(mH * 0.5), viewW, sy(0) - sy(mH * 0.5));
+    }
     // ground band
     const gH = groundY + 10;
     drawTiled(A.ground, 1, gH, -groundY);
