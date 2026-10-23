@@ -531,10 +531,20 @@ export async function createRunner(canvas, opts = {}) {
 
   function drawBackground() {
     // sky: cover the view, anchored to the bottom so the sun sits near the horizon
-    const sky = A.sky; const sk = Math.max((viewW + 44) / sky.width, (viewH - groundY + 30) / sky.height);
-    const sw = sky.width * sk, sh = sky.height * sk;
+    // sky: sized to the view height so the moon keeps its size on wide screens; mirrored copies fill the sides
+    const sky = A.sky; const sk = (viewH - groundY + 30) / sky.height;
+    const sw = sky.width * sk, sh = sky.height * sk, top = sy(-30) - sh;
     const drift = mini ? 0 : (S.camX * 0.01) % 20;
-    ctx.drawImage(sky, (viewW - sw) / 2 - drift + 10, sy(-30) - sh, sw, sh); // centred; 44u of slack covers the 20u drift
+    const x0 = (viewW - sw) / 2 - drift;
+    ctx.drawImage(sky, x0, top, sw, sh);
+    for (let i = 1; x0 - (i - 1) * sw > 0 || x0 + i * sw < viewW; i++) {
+      for (const side of [-1, 1]) {
+        const x = x0 + side * i * sw;
+        if (x > viewW || x + sw < 0) continue;
+        ctx.save(); ctx.translate(x + (i % 2 ? sw : 0), top); ctx.scale(i % 2 ? -1 : 1, 1);
+        ctx.drawImage(sky, 0, 0, sw + 0.5, sh); ctx.restore();
+      }
+    }
     // slow day/night cycle tint (dusk theme only; the night sky is already dark)
     if (!mini && !night) {
       const night = (Math.sin(S.t / 30 - Math.PI / 2) + 1) / 2 * 0.45;

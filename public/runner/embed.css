@@ -62,9 +62,10 @@
 }
 .runner-stick.is-active .runner-knob { transition: none; }
 @media (pointer: coarse) {
-  /* the stick gets its own strip under the scene so it never covers the hero or what's coming */
-  .runner-wrap { padding-bottom: 120px; }
-  .runner-stick { display: block; bottom: 8px; left: max(24px, env(safe-area-inset-left, 0px)); }
+  /* during a run the stick gets its own strip under the scene, so it never covers the hero or what's coming;
+     before a run the page keeps its normal layout (tap the scene to start) */
+  .runner-playing .runner-wrap { padding-bottom: 120px; }
+  .runner-playing .runner-stick { display: block; bottom: 8px; left: max(24px, env(safe-area-inset-left, 0px)); }
 }
 .runner-tools kbd {
   font: 500 14px/1 var(--runner-font, 'Inter', system-ui, sans-serif);
@@ -73,7 +74,7 @@
   background: var(--runner-panel, #292524); color: var(--runner-ink, #f5f5f4); text-align: center;
 }
 .runner-tools .touch-only { display: none; }
-@media (pointer: coarse) { .runner-tools .touch-only { display: inline; } .runner-tools .key-only { display: none; } }
+@media (pointer: coarse) { .runner-playing .runner-tools .touch-only { display: inline; } .runner-tools .key-only { display: none; } }
 .runner-mute {
   width: 44px; height: 44px; border-radius: 12px; display: inline-grid; place-items: center;
   border: 1px solid var(--runner-line, #44403c); background: var(--runner-panel, #292524); color: var(--runner-ink, #f5f5f4); cursor: pointer;
